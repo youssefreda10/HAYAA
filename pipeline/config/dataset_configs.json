@@ -1,0 +1,558 @@
+{
+    "L-HSAB": {
+        "raw_path": "data/raw/L-HSAB/repo/Dataset/L-HSAB",
+        "text_column": "Tweet",
+        "label_column": "Class",
+        "label_map": {
+            "normal": 0,
+            "abusive": 1,
+            "hate": 1
+        },
+        "dialect": "Levantine",
+        "encoding": "utf-8",
+        "separator": "\t"
+    },
+    "T-HSAB": {
+        "raw_path": "data/raw/T-HSAB/repo/T-HSAB Corpus/T-HSAB.xlsx",
+        "text_column": "Tweet",
+        "label_column": "Class",
+        "label_map": {
+            "normal": 0,
+            "abusive": 1,
+            "hate": 1
+        },
+        "dialect": "Tunisian",
+        "encoding": "utf-8",
+        "separator": ",",
+        "no_header": true
+    },
+    "OSACT4": {
+        "raw_path": "data/raw/OSACT4/combined.tsv",
+        "text_column": "text",
+        "label_column": [
+            "offensive",
+            "hate"
+        ],
+        "label_map": {
+            "NOT_OFF": 0,
+            "OFF": 1,
+            "NOT_HS": 0,
+            "HS": 1
+        },
+        "multi_label_mode": "any_positive",
+        "dialect": "MSA + mixed dialects",
+        "encoding": "utf-8",
+        "separator": "\t"
+    },
+    "OSACT5": {
+        "raw_path": "data/raw/OSACT5/combined.tsv",
+        "text_column": "text",
+        "label_column": [
+            "offensive",
+            "hate",
+            "vulgar",
+            "violence"
+        ],
+        "label_map": {
+            "NOT_OFF": 0,
+            "OFF": 1,
+            "NOT_HS": 0,
+            "HS1": 1,
+            "HS2": 1,
+            "HS3": 1,
+            "HS4": 1,
+            "HS5": 1,
+            "HS6": 1,
+            "NOT_VLG": 0,
+            "VLG": 1,
+            "NOT_VIO": 0,
+            "VIO": 1
+        },
+        "multi_label_mode": "any_positive",
+        "dialect": "MSA + mixed dialects",
+        "encoding": "utf-8",
+        "separator": "\t"
+    },
+    "MPOLD": {
+        "raw_path": "data/raw/MPOLD/repo/data/Arabic_offensive_comment_detection_annotation_4000_selected.xlsx",
+        "text_column": "Comment",
+        "label_column": "Majority_Label",
+        "label_map": {
+            "Non-Offensive": 0,
+            "Offensive": 1
+        },
+        "dialect": "Multi-dialect",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "ArMIS": {
+        "raw_path": "data/raw/ArMIS/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        },
+        "dialect": "MSA + dialects",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "Let-Mi": {
+        "raw_path": "data/raw/Let-Mi/let-mi_train_part.csv",
+        "text_column": "text",
+        "label_column": "misogyny",
+        "label_map": {
+            "none": 0,
+            "misogyny": 1
+        },
+        "dialect": "Levantine",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "OMCD": {
+        "raw_path": "data/raw/OMCD/combined.csv",
+        "text_column": "comment",
+        "label_column": "off",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        },
+        "dialect": "Moroccan",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "Moroccan_Darija_v2": {
+        "raw_path": "data/raw/Moroccan_Darija_v2/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        },
+        "dialect": "Moroccan",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "Arabic_Superset": {
+        "raw_path": "data/raw/Arabic_Superset/combined.csv",
+        "text_column": "text",
+        "label_column": "labels",
+        "label_map": {
+            "0.0": 0,
+            "1.0": 1
+        },
+        "dialect": "Multi-dialect",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "ArHateDataset": {
+        "raw_path": "data/raw/ArHateDataset/combined.csv",
+        "text_column": "Tweet",
+        "label_column": "Class",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        },
+        "dialect": "Multi-dialect",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "Mubarak_AlJazeera": {
+        "raw_path": "data/raw/Mubarak_AlJazeera/combined.xlsx",
+        "text_column": "body",
+        "label_column": "languagecomment",
+        "label_map": {
+            "0": 0,
+            "-1": 1,
+            "-2": 1
+        },
+        "dialect": "MSA/Mixed",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "HateDay": {
+        "raw_path": "data/raw/HateDay/combined.csv",
+        "text_column": "text",
+        "label_column": "class_clean",
+        "label_map": {
+            "0": 0,
+            "1": 1,
+            "2": 1
+        },
+        "dialect": "Multi-dialect",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "OffensEval2020_AR": {
+        "raw_path": "data/raw/OffensEval2020_AR/combined.tsv",
+        "text_column": "tweet",
+        "label_column": "subtask_a",
+        "label_map": {
+            "NOT": 0,
+            "OFF": 1
+        },
+        "dialect": "MSA/Mixed",
+        "encoding": "utf-8",
+        "separator": "\t"
+    },
+    "AdultContent": {
+        "raw_path": "data/raw/Adult_Content/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "label_map": {
+            "NOT_ADULT": 0,
+            "ADULT": 1
+        },
+        "dialect": "MSA/Mixed",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "Mubarak_Tweets": {
+        "raw_path": "data/raw/Mubarak_Tweets/combined.csv",
+        "text_column": "text",
+        "label_column": "aggregatedAnnotation",
+        "label_map": {
+            "0": 0,
+            "-1": 1,
+            "-2": 1
+        },
+        "dialect": "Egyptian/Mixed",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "ArMI": {
+        "raw_path": "data/raw/ArMI-2021/combined.csv",
+        "text_column": "text",
+        "label_column": "misogyny",
+        "label_map": {
+            "none": 0,
+            "misogyny": 1
+        },
+        "dialect": "Levantine/Mixed",
+        "encoding": "utf-8",
+        "separator": ","
+    },
+    "AraTox": {
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "raw_path": "data/raw/AraTox/AraTox_combined.csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "ArCybC": {
+        "raw_path": "data/raw/ArCybC/ArCybC_processed.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "HijabYT": {
+        "raw_path": "data/raw/Hijab YouTube comments dataset/Hijab_combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "FemaleSportHate": {
+        "raw_path": "data/raw/Dataset_processed.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "MLMA_Arabic": {
+        "raw_path": "data/raw/MLMA_HateSpeech/MLMA_processed.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "SaudiCodeMixing": {
+        "raw_path": "data/raw/SaudiCodeMixing/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "DziriOFN": {
+        "raw_path": "data/raw/DziriOFN/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "ArabicOffensive_Taxonomy": {
+        "raw_path": "data/raw/Natalia_Reannotation/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "Kaggle_HateSpeech": {
+        "raw_path": "data/raw/Kaggle_KhuzaimaAziz/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "Algerian_Offensive": {
+        "raw_path": "data/raw/Algerian_Offensive_10937445/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "MAOffens": {
+        "raw_path": "data/raw/MAOffens/combined.csv",
+        "text_column": "content",
+        "label_column": "decision",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "Egyptian_HateSpeech": {
+        "raw_path": "data/raw/Egyptian_HateSpeech/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "Neutral": 0,
+            "Offensive": 1,
+            "Racism": 1,
+            "Sexism": 1,
+            "Religious Discrimination": 1
+        }
+    },
+    "HateCheck_Arabic": {
+        "raw_path": "data/raw/HateCheck/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "MultiDialect_NabilBadri": {
+        "raw_path": "data/raw/NabilBadri/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "MLMA": {
+        "raw_path": "data/raw/MLMA/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "ArabicDangerous": {
+        "raw_path": "data/raw/ArabicDangerous/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "AbusiveAccounts": {
+        "raw_path": "data/raw/AbusiveAccounts/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "AntiFanatic": {
+        "raw_path": "data/raw/AntiFanatic/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "ArabicAbusiveCollection": {
+        "raw_path": "data/raw/ArabicAbusiveCollection/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "PolyGuardMix": {
+        "raw_path": "data/raw/PolyGuardMix/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "TextDetox": {
+        "raw_path": "data/raw/TextDetox/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "AfriHate": {
+        "raw_path": "data/raw/AfriHate/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "ArabicCyberbullying": {
+        "raw_path": "data/raw/ArabicCyberbullying/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "Fraiwan": {
+        "raw_path": "data/raw/Fraiwan/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "ObeidatCyberbullying": {
+        "raw_path": "data/raw/ObeidatCyberbullying/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "Prop2HateMeme": {
+        "raw_path": "data/raw/Prop2HateMeme_combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "OSACT2022": {
+        "raw_path": "data/raw/OSACT2022/combined.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "ArGuard-Task1": {
+        "raw_path": "data/raw/ArGuard-Task1.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "NUHA": {
+        "raw_path": "data/raw/NUHA/nuha_binary.csv",
+        "text_column": "comment_text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "Neutral": 0,
+            "Hate speech": 1
+        }
+    },
+    "KhairyCyberbullying": {
+        "raw_path": "data/raw/KhairyCyberbullying/Cyber_2021_fixed.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "HabashGraduation": {
+        "raw_path": "data/raw/HabashGraduation/task-a.csv",
+        "text_column": "text",
+        "label_column": "hate_speech",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    },
+    "AwaneArabizi": {
+        "raw_path": "data/raw/AwaneArabizi/dataset_fixed.csv",
+        "text_column": "text",
+        "label_column": "label",
+        "file_type": "csv",
+        "label_map": {
+            "0": 0,
+            "1": 1
+        }
+    }
+}

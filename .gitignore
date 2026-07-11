@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Raw downloaded datasets (too large for git)
+data/raw/
+
+# Standardized per-dataset files (intermediate)
+data/standardized/
+
+# Merged dataset (large parquet)
+data/merged/
+
+# Train/Val/Test splits (large parquet)
+data/splits/
+
+# Training checkpoints (huge)
+training/checkpoints/
+
+# Best model weights (624MB — too large for git, use HuggingFace Hub)
+training/best_model/
+
+# Training logs
+training/logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+*.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Claude Code
+.claude/

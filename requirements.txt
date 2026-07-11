@@ -1,0 +1,9 @@
+pandas>=2.0
+openpyxl
+pyarrow
+datasets
+kaggle
+gdown
+requests
+matplotlib
+seaborn

@@ -1,0 +1,11 @@
+{
+  "accuracy": 0.9252483933595657,
+  "f1_weighted": 0.9247578037299282,
+  "f1_toxic": 0.8200899550224887,
+  "f1_safe": 0.9528233891153075,
+  "precision_weighted": 0.9244097271729185,
+  "recall_weighted": 0.9252483933595657,
+  "total_errors": 7200,
+  "false_positives": 3244,
+  "false_negatives": 3956
+}

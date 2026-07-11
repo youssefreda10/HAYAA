@@ -1,0 +1,1087 @@
+{
+  "Egyptian_Profanity": {
+    "total": 49,
+    "correct": 20,
+    "accuracy": 40.8,
+    "missed": [
+      {
+        "text": "بضان",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "كلام بضان",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ده بضان اوي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "متياكة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا خول",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "خولات",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابن الخول",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا خولني",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا واطي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "واطي اوي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا واطية",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "شراميط",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ايه الزب ده",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.638
+      },
+      {
+        "text": "كلام زب",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.997
+      },
+      {
+        "text": "طظ فيك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "طظ في ابوك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابن الجزمة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "تحت الجزمة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا منيل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "منيلة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابن اللبوة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا لبوة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابن الحرام",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "روح في ستين داهية",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "في داهية",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا قليل الادب",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "قلة ادب",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا ابن الايه",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "هتك عرضه",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Egyptian_Insults": {
+    "total": 25,
+    "correct": 13,
+    "accuracy": 52.0,
+    "missed": [
+      {
+        "text": "يا عبيط",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "عبيطة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.998
+      },
+      {
+        "text": "يا معفن",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "انت فاشل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "فاشلة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا جبان",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "جبانة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا كداب",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "كدابة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "منافقة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9951
+      },
+      {
+        "text": "دمك تقيل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "دمها تقيل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Gulf_Profanity": {
+    "total": 24,
+    "correct": 8,
+    "accuracy": 33.3,
+    "missed": [
+      {
+        "text": "يا ثور",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ثيران",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9988
+      },
+      {
+        "text": "تيوس",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "سفالة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "بدعسك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا حثالة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "حثالة البشر",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "نذالة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.997
+      },
+      {
+        "text": "لا هنت",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا سفيه",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "طقه",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "بطقك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا رذيل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "رذالة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "انقلع",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.6728
+      },
+      {
+        "text": "ديايثة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Levantine_Profanity": {
+    "total": 22,
+    "correct": 16,
+    "accuracy": 72.7,
+    "missed": [
+      {
+        "text": "شلوط",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا زعران",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "روح انتاك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "انتيكي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا معفن",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "معفنة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Maghrebi_Profanity": {
+    "total": 19,
+    "correct": 6,
+    "accuracy": 31.6,
+    "missed": [
+      {
+        "text": "زوامل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "نعل بوك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9853
+      },
+      {
+        "text": "نعل ديك مك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9529
+      },
+      {
+        "text": "نعلة بوك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9722
+      },
+      {
+        "text": "بغال",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9989
+      },
+      {
+        "text": "سير تقود",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا لقيط",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.927
+      },
+      {
+        "text": "لقيطة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9953
+      },
+      {
+        "text": "حلوف",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا حلوف",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "سير فحالك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "تبون",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "نتا مريض",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Algerian_Profanity": {
+    "total": 9,
+    "correct": 2,
+    "accuracy": 22.2,
+    "missed": [
+      {
+        "text": "يا خامج",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "خامجة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "كلب افرانسا",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9989
+      },
+      {
+        "text": "يا حركي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ديقاج",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "زطلة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا بورورو",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Religion_Insults": {
+    "total": 20,
+    "correct": 10,
+    "accuracy": 50.0,
+    "missed": [
+      {
+        "text": "دين ابوك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "دين امك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9965
+      },
+      {
+        "text": "دين امك على دين ابوك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9987
+      },
+      {
+        "text": "عليا الطلاق دين امك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9993
+      },
+      {
+        "text": "والنبي دين ابوك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا ملحد",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا زنديق",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "بلا دين",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "عديم الدين",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "الدين ده كله كدب",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Obfuscation_Dots": {
+    "total": 5,
+    "correct": 0,
+    "accuracy": 0.0,
+    "missed": [
+      {
+        "text": "ي.ل.ع.ن ا.ب.و.ك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ك.س.م.ك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ش.ر.م.و.ط.ة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "م.ت.ن.ا.ك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يلعن د.ي.نك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.6488
+      }
+    ]
+  },
+  "Obfuscation_Spaces": {
+    "total": 4,
+    "correct": 0,
+    "accuracy": 0.0,
+    "missed": [
+      {
+        "text": "ي ل ع ن ا ب و ك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ك س م ك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ش ر م و ط ة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "م ت ن ا ك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Obfuscation_Repeated": {
+    "total": 6,
+    "correct": 1,
+    "accuracy": 16.7,
+    "missed": [
+      {
+        "text": "كسسسسمك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9962
+      },
+      {
+        "text": "شرررموطة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "غبببببي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يلعن الدييين",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.6923
+      },
+      {
+        "text": "خوووول",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Obfuscation_Substitution": {
+    "total": 4,
+    "correct": 1,
+    "accuracy": 25.0,
+    "missed": [
+      {
+        "text": "متياكة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابن التيت",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9958
+      },
+      {
+        "text": "عر ص",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Sexism": {
+    "total": 10,
+    "correct": 0,
+    "accuracy": 0.0,
+    "missed": [
+      {
+        "text": "المراة مكانها المطبخ",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9942
+      },
+      {
+        "text": "البنات مالهم بالكورة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ناقصات عقل ودين",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "المراة ما تصلح للقيادة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "روحي اطبخي احسن",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ما يصلح المراة تحكم",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "البنات ما يفهمون",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "حريم ما يعرفون شي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "مكان المراة البيت بس",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "البنت عورة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Racism": {
+    "total": 10,
+    "correct": 1,
+    "accuracy": 10.0,
+    "missed": [
+      {
+        "text": "يا زنجي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "زنوج",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا عبد",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "عبيد",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا خادم",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ما نبي اجانب",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ارجع بلدك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "السود مالهم حقوق",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "شغالة فلبينية",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Cyberbullying": {
+    "total": 14,
+    "correct": 4,
+    "accuracy": 28.6,
+    "missed": [
+      {
+        "text": "انت سمين اوي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "يا تخين",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "محدش بيحبك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "مكروه من الكل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "انت فاشل في حياتك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "روح انتحر",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "الدنيا احسن من غيرك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "انت عالة على المجتمع",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "لو تموت محدش هيزعل",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9962
+      },
+      {
+        "text": "انت اقل واحد",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Threats": {
+    "total": 15,
+    "correct": 4,
+    "accuracy": 26.7,
+    "missed": [
+      {
+        "text": "هقتلك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9978
+      },
+      {
+        "text": "هذبحك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9993
+      },
+      {
+        "text": "هكسر راسك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "بكسر وجهك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9943
+      },
+      {
+        "text": "هضربك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "مستني اشوفك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "تعال اوريك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "انت ميت",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ايامك معدودة",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "هحرقك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9317
+      },
+      {
+        "text": "بحرق بيتك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Sexual_Harassment": {
+    "total": 12,
+    "correct": 4,
+    "accuracy": 33.3,
+    "missed": [
+      {
+        "text": "تعالي عندي",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابغى اشوفك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "جسمك حلو",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "شكلك مثير",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابي اضاجعك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "مشتهية",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "تعال خاص",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      },
+      {
+        "text": "ابي اتعرف عليك",
+        "expected": 1,
+        "predicted": 0,
+        "confidence": 0.9994
+      }
+    ]
+  },
+  "Safe_EdgeCases": {
+    "total": 20,
+    "correct": 17,
+    "accuracy": 85.0,
+    "missed": [
+      {
+        "text": "الحمار ده غالي",
+        "expected": 0,
+        "predicted": 1,
+        "confidence": 0.9902
+      },
+      {
+        "text": "خنزير البحر",
+        "expected": 0,
+        "predicted": 1,
+        "confidence": 0.9877
+      },
+      {
+        "text": "كافر بالطاغوت",
+        "expected": 0,
+        "predicted": 1,
+        "confidence": 0.8532
+      }
+    ]
+  }
+}
