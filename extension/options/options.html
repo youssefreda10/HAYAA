@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>حياء — الإعدادات</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="../icons/icon48.png" alt="Hayā" class="logo">
+      <h1>إعدادات حيـاء</h1>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="general">عام</button>
+      <button class="tab" data-tab="words">القاموس</button>
+      <button class="tab" data-tab="allowlist">القائمة البيضاء</button>
+      <button class="tab" data-tab="domains">المواقع</button>
+      <button class="tab" data-tab="test">اختبار</button>
+    </nav>
+
+    <!-- عام -->
+    <section id="tab-general" class="tab-content active">
+      <div class="field">
+        <label>وضع الفلتر:</label>
+        <select id="optMode">
+          <option value="blur">تمويه</option>
+          <option value="hide">إخفاء</option>
+          <option value="highlight">تمييز</option>
+          <option value="off">إيقاف</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>حساسية الكشف: <span id="optThresholdVal">75%</span></label>
+        <input type="range" id="optThreshold" min="50" max="95" value="75">
+      </div>
+      <div class="field">
+        <label>
+          <input type="checkbox" id="optEnabled" checked>
+          تفعيل الإضافة
+        </label>
+      </div>
+      <button id="saveGeneral" class="btn-primary">حفظ</button>
+      <span id="generalSaved" class="saved-msg"></span>
+    </section>
+
+    <!-- القاموس -->
+    <section id="tab-words" class="tab-content">
+      <p class="hint">أضف كلمات مخصصة للفلتر (بالإضافة للقاموس المدمج)</p>
+      <div class="add-row">
+        <input type="text" id="newWord" placeholder="اكتب كلمة...">
+        <button id="addWord" class="btn-primary">إضافة</button>
+      </div>
+      <ul id="wordList" class="word-list"></ul>
+    </section>
+
+    <!-- القائمة البيضاء -->
+    <section id="tab-allowlist" class="tab-content">
+      <p class="hint">كلمات لن يتم فلترتها أبداً</p>
+      <div class="add-row">
+        <input type="text" id="newAllow" placeholder="اكتب كلمة...">
+        <button id="addAllow" class="btn-primary">إضافة</button>
+      </div>
+      <ul id="allowList" class="word-list"></ul>
+    </section>
+
+    <!-- المواقع -->
+    <section id="tab-domains" class="tab-content">
+      <p class="hint">المواقع المعطّل عليها الفلتر</p>
+      <div class="add-row">
+        <input type="text" id="newDomain" placeholder="example.com" dir="ltr">
+        <button id="addDomain" class="btn-primary">إضافة</button>
+      </div>
+      <ul id="domainList" class="word-list"></ul>
+    </section>
+
+    <!-- اختبار -->
+    <section id="tab-test" class="tab-content">
+      <p class="hint">اكتب نص وشوف نتيجة الفلترة</p>
+      <textarea id="testInput" rows="4" placeholder="اكتب نص عربي هنا..."></textarea>
+      <button id="testBtn" class="btn-primary">اختبار</button>
+      <div id="testResult" class="test-result"></div>
+    </section>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

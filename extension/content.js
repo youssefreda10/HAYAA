@@ -1,41 +1,40 @@
 /* ============================================================
    Hayā — Content Script
-   Extracts Arabic text from pages, classifies it, applies blur
+   Layer 1: Dictionary (instant) → Layer 2: AI Model (via background)
    ============================================================ */
 
 (() => {
-  const ARABIC_REGEX = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
-  const MIN_TEXT_LENGTH = 3;
-  const PROCESSED_ATTR = "data-haya-processed";
-  const SKIP_TAGS = new Set([
+  var ARABIC_REGEX = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
+  var MIN_TEXT_LENGTH = 3;
+  var PROCESSED_ATTR = "data-haya-processed";
+  var SKIP_TAGS = new Set([
     "SCRIPT", "STYLE", "NOSCRIPT", "SVG", "MATH", "CODE", "PRE",
     "INPUT", "TEXTAREA", "SELECT", "BUTTON", "IFRAME",
   ]);
 
-  let settings = { enabled: true, mode: "blur", threshold: 0.75 };
-  let toxicCount = 0;
-  let pendingTexts = [];
-  let pendingElements = [];
-  let batchTimer = null;
+  var settings = { enabled: true, mode: "blur", threshold: 0.75 };
+  var toxicCount = 0;
+  var pendingTexts = [];
+  var pendingElements = [];
+  var batchTimer = null;
+  var dictWords = new Set();
+  var allowlist = new Set();
 
   async function init() {
-    console.log("[Hayā] Content script loaded");
     settings = await getSettings();
-    console.log("[Hayā] Settings:", JSON.stringify(settings));
+    if (!settings.enabled) return;
 
-    if (!settings.enabled) { console.log("[Hayā] Disabled"); return; }
+    var domain = window.location.hostname;
+    if (settings.disabledDomains && settings.disabledDomains.indexOf(domain) !== -1) return;
 
-    const domain = window.location.hostname;
-    if (settings.disabledDomains?.includes(domain)) { console.log("[Hayā] Domain disabled:", domain); return; }
-
-    console.log("[Hayā] Scanning page...");
+    await loadWordLists();
     scanPage();
     observeMutations();
   }
 
   function getSettings() {
-    return new Promise((resolve) => {
-      chrome.runtime.sendMessage({ type: "getSettings" }, (response) => {
+    return new Promise(function (resolve) {
+      chrome.runtime.sendMessage({ type: "getSettings" }, function (response) {
         if (chrome.runtime.lastError) {
           resolve({ enabled: true, mode: "blur", threshold: 0.75 });
           return;
@@ -45,16 +44,38 @@
     });
   }
 
+  function loadWordLists() {
+    return new Promise(function (resolve) {
+      chrome.storage.local.get(["customWords", "allowlist"], function (data) {
+        var custom = data.customWords || [];
+        var allow = data.allowlist || [];
+
+        dictWords = new Set(HayaDictionary.words);
+        for (var i = 0; i < custom.length; i++) dictWords.add(custom[i]);
+
+        allowlist = new Set(allow);
+        var allowIter = allowlist.values();
+        var entry = allowIter.next();
+        while (!entry.done) {
+          dictWords.delete(entry.value);
+          entry = allowIter.next();
+        }
+
+        resolve();
+      });
+    });
+  }
+
   // ============================================================
   // DOM Scanning
   // ============================================================
 
   function scanPage() {
-    const walker = document.createTreeWalker(
+    var walker = document.createTreeWalker(
       document.body,
       NodeFilter.SHOW_ELEMENT,
       {
-        acceptNode(node) {
+        acceptNode: function (node) {
           if (SKIP_TAGS.has(node.tagName)) return NodeFilter.FILTER_REJECT;
           if (node.closest("[" + PROCESSED_ATTR + "]")) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
@@ -62,7 +83,7 @@
       }
     );
 
-    let node;
+    var node;
     while ((node = walker.nextNode())) {
       processElement(node);
     }
@@ -73,33 +94,45 @@
   function processElement(element) {
     if (element.getAttribute(PROCESSED_ATTR)) return;
 
-    const text = getDirectText(element);
+    var text = getDirectText(element);
     if (!text || text.length < MIN_TEXT_LENGTH) return;
     if (!hasArabic(text)) return;
 
     element.setAttribute(PROCESSED_ATTR, "1");
+
+    // Layer 1: Dictionary check (instant, no network)
+    var normalized = HayaNormalizer.normalize(text);
+    if (normalized && HayaMatcher.check(normalized, dictWords)) {
+      applyFilter(element);
+      toxicCount++;
+      chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
+      chrome.runtime.sendMessage({ type: "incrementStats", count: 1 });
+      return;
+    }
+
+    // Layer 2: Queue for AI model (via background.js)
     queueForClassification(text, element);
   }
 
   function getDirectText(element) {
-    let text = "";
-    for (const child of element.childNodes) {
-      if (child.nodeType === Node.TEXT_NODE) {
-        text += child.textContent;
+    var text = "";
+    for (var i = 0; i < element.childNodes.length; i++) {
+      if (element.childNodes[i].nodeType === Node.TEXT_NODE) {
+        text += element.childNodes[i].textContent;
       }
     }
     return text.trim();
   }
 
   function hasArabic(text) {
-    const arabicChars = (text.match(new RegExp(ARABIC_REGEX.source, "g")) || []).length;
-    const totalAlpha = (text.match(/[a-zA-Z؀-ۿ]/g) || []).length;
+    var arabicChars = (text.match(new RegExp(ARABIC_REGEX.source, "g")) || []).length;
+    var totalAlpha = (text.match(/[a-zA-Z؀-ۿ]/g) || []).length;
     if (totalAlpha === 0) return false;
     return arabicChars / totalAlpha >= 0.5;
   }
 
   // ============================================================
-  // Batching & Classification
+  // Batching & Classification (Layer 2 — via background.js)
   // ============================================================
 
   function queueForClassification(text, element) {
@@ -114,64 +147,23 @@
     }
   }
 
-  async function flushBatch() {
+  function flushBatch() {
     if (pendingTexts.length === 0) return;
 
-    const texts = [...pendingTexts];
-    const elements = [...pendingElements];
+    var texts = pendingTexts.slice();
+    var elements = pendingElements.slice();
     pendingTexts = [];
     pendingElements = [];
 
-    console.log(`[Hayā] Sending ${texts.length} texts to API`);
-
-    // Call API directly from content script (avoids service worker fetch issues)
-      // Removed API key check since Modal backend handles authentication
-
-      try {
-        const response = await fetch("https://youssefreda9004--haya-text-classifier-fastapi-app.modal.run", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ inputs: texts }),
-        });
-
-        console.log(`[Hayā] API status: ${response.status}`);
-
-        if (response.status === 503) {
-          console.log("[Hayā] Model loading... retrying in 20s");
-          setTimeout(() => {
-            pendingTexts.push(...texts);
-            pendingElements.push(...elements);
-            flushBatch();
-          }, 20000);
-          return;
-        }
-
-        if (!response.ok) {
-          console.error(`[Hayā] API error: ${response.status} ${await response.text()}`);
-          return;
-        }
-
-        const responseData = await response.json();
-        console.log(`[Hayā] API response:`, responseData.slice(0, 2));
-
-        const results = responseData.map((result) => {
-          if (Array.isArray(result)) {
-            const toxic = result.find((r) => r.label === "Toxic" || r.label === "LABEL_1");
-            const safe = result.find((r) => r.label === "Safe" || r.label === "LABEL_0");
-            return {
-              label: toxic && toxic.score > (safe?.score || 0) ? "TOXIC" : "SAFE",
-              score: toxic?.score || 0,
-            };
-          }
-          return { label: "SAFE", score: 0 };
-        });
-
+    chrome.runtime.sendMessage({ type: "classify", texts: texts }, function (results) {
+      if (chrome.runtime.lastError) {
+        console.error("[Hayā]", chrome.runtime.lastError.message);
+        return;
+      }
+      if (results) {
         applyResults(results, elements);
-    } catch (error) {
-      console.error("[Hayā] Fetch error:", error.message);
-    }
+      }
+    });
   }
 
   // ============================================================
@@ -179,11 +171,11 @@
   // ============================================================
 
   function applyResults(results, elements) {
-    let newToxic = 0;
+    var newToxic = 0;
 
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      const element = elements[i];
+    for (var i = 0; i < results.length; i++) {
+      var result = results[i];
+      var element = elements[i];
 
       if (!element || !result) continue;
 
@@ -201,7 +193,7 @@
   }
 
   function applyFilter(element) {
-    const mode = settings.mode || "blur";
+    var mode = settings.mode || "blur";
 
     switch (mode) {
       case "blur":
@@ -218,7 +210,7 @@
   }
 
   function revealElement(event) {
-    const el = event.currentTarget;
+    var el = event.currentTarget;
     el.classList.remove("haya-blur");
     el.classList.add("haya-revealed");
   }
@@ -228,12 +220,13 @@
   // ============================================================
 
   function observeMutations() {
-    const observer = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
-          if (node.nodeType === Node.ELEMENT_NODE) {
-            processElement(node);
-            const children = node.querySelectorAll("*");
+    var observer = new MutationObserver(function (mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        var addedNodes = mutations[i].addedNodes;
+        for (var j = 0; j < addedNodes.length; j++) {
+          if (addedNodes[j].nodeType === Node.ELEMENT_NODE) {
+            processElement(addedNodes[j]);
+            var children = addedNodes[j].querySelectorAll("*");
             children.forEach(processElement);
           }
         }

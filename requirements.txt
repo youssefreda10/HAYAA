@@ -7,3 +7,8 @@ gdown
 requests
 matplotlib
 seaborn
+torch
+transformers
+scikit-learn
+accelerate
+modal

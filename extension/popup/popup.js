@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const thresholdValue = document.getElementById("thresholdValue");
 
   // Load settings
+  chrome.storage.local.get(
     ["enabled", "mode", "threshold", "totalFiltered", "disabledDomains"],
     (data) => {
       enableToggle.checked = data.enabled !== false;
