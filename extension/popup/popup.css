@@ -8,8 +8,8 @@ body {
   width: 320px;
   font-family: "Segoe UI", Tahoma, Arial, sans-serif;
   font-size: 14px;
-  background: #1a1a2e;
-  color: #eee;
+  background: #0c0c2e;
+  color: #ffffff;
   direction: rtl;
 }
 
@@ -20,21 +20,31 @@ body {
 .header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #333;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px; /* Optional, depending on logo design */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.header .separator {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 2px;
 }
 
 .header h1 {
-  font-size: 20px;
-  color: #e74c3c;
+  font-size: 22px;
   font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
 /* Toggle */
@@ -42,7 +52,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  background: #12123a;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .switch {
@@ -58,7 +72,7 @@ body {
   position: absolute;
   cursor: pointer;
   inset: 0;
-  background: #444;
+  background: #252554;
   border-radius: 24px;
   transition: 0.3s;
 }
@@ -70,12 +84,13 @@ body {
   width: 18px;
   right: 3px;
   bottom: 3px;
-  background: white;
+  background: #ffffff;
   border-radius: 50%;
   transition: 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-input:checked + .slider { background: #2ecc71; }
+input:checked + .slider { background: #3b82f6; }
 input:checked + .slider::before { transform: translateX(-20px); }
 
 /* Mode */
@@ -83,104 +98,180 @@ input:checked + .slider::before { transform: translateX(-20px); }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  background: #12123a;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .mode-row select {
-  background: #2a2a4a;
-  color: #eee;
-  border: 1px solid #444;
-  padding: 4px 8px;
-  border-radius: 4px;
+  background: #1c1c4a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 10px;
+  border-radius: 6px;
   font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
+
+.mode-row select:focus {
+  border-color: #3b82f6;
 }
 
 /* Stats */
 .stats-row {
   display: flex;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .stat {
   flex: 1;
   text-align: center;
-  background: #2a2a4a;
-  padding: 10px;
+  background: #12123a;
+  padding: 14px 10px;
   border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .stat-number {
   display: block;
-  font-size: 24px;
-  font-weight: 700;
-  color: #e74c3c;
+  font-size: 26px;
+  font-weight: 800;
+  color: #3b82f6;
+  margin-bottom: 2px;
 }
 
 .stat-label {
   font-size: 11px;
-  color: #999;
+  color: #a0a0c0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-
-/* API Key */
-.api-row {
-  margin-bottom: 12px;
-}
-
-.api-row label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  color: #999;
-}
-
-.api-row input {
-  width: 100%;
-  padding: 6px 8px;
-  background: #2a2a4a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  color: #eee;
-  font-size: 12px;
-  margin-bottom: 6px;
-  direction: ltr;
-}
-
-.api-row button {
-  width: 100%;
-  padding: 6px;
-  background: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.api-row button:hover { background: #c0392b; }
 
 /* Threshold */
 .threshold-row {
-  margin-bottom: 14px;
+  background: #12123a;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 16px;
 }
 
 .threshold-row label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  color: #999;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #e0e0e0;
+}
+
+#thresholdValue {
+  color: #3b82f6;
+  font-weight: bold;
 }
 
 .threshold-row input[type="range"] {
   width: 100%;
-  accent-color: #e74c3c;
+  accent-color: #3b82f6;
+  cursor: pointer;
 }
 
 /* Footer */
 .footer {
-  text-align: center;
-  font-size: 11px;
-  color: #555;
-  padding-top: 8px;
-  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #707090;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Summary */
+.summary-section {
+  margin-bottom: 16px;
+}
+
+.summary-label {
+  display: block;
+  font-size: 12px;
+  color: #a0a0c0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-list {
+  list-style: none;
+  max-height: 130px;
+  overflow-y: auto;
+}
+
+.summary-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.summary-list::-webkit-scrollbar-thumb {
+  background: #252554;
+  border-radius: 4px;
+}
+
+.summary-item {
+  font-size: 12px;
+  background: #12123a;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.summary-text {
+  flex: 1;
+  filter: blur(4px);
+  transition: filter 0.2s;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.summary-item:hover .summary-text {
+  filter: none;
+}
+
+.source-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.source-badge.dict {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+}
+
+.source-badge.api {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
 }

@@ -5,7 +5,8 @@
   "description": "AI-powered Arabic toxic content detection. Protects you from hate speech, profanity, and offensive language in Arabic.",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "host_permissions": [
     "https://youssefreda9004--haya-text-classifier-fastapi-app.modal.run/*"

@@ -8,6 +8,7 @@
   <div class="container">
     <div class="header">
       <img src="../icons/icon48.png" alt="Hayā" class="logo">
+      <span class="separator">|</span>
       <h1>حيـاء</h1>
     </div>
 
@@ -40,6 +41,11 @@
       </div>
     </div>
 
+    <div class="summary-section" id="summarySection" style="display:none">
+      <label class="summary-label">النصوص المفلترة (مرر للكشف):</label>
+      <ul class="summary-list" id="summaryList"></ul>
+    </div>
+
     <!-- API key input removed as Modal backend handles authentication -->
 
     <div class="threshold-row">
@@ -48,6 +54,7 @@
     </div>
 
     <div class="footer">
+      <a href="#" id="openOptions">الإعدادات المتقدمة</a>
       <span>Hayā v1.0.0</span>
     </div>
   </div>

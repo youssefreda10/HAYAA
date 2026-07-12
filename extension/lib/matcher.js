@@ -17,44 +17,57 @@ var HayaMatcher = (function () {
     return text.replace(SEP_RE, "");
   }
 
-  function check(normalizedText, words) {
-    if (!normalizedText || !words || words.size === 0) return false;
+  function matchesAny(text, exact, partial, regex) {
+    var words = text.split(/\s+/);
 
-    var textWords = normalizedText.split(/\s+/);
-
-    // Exact word match
-    for (var i = 0; i < textWords.length; i++) {
-      if (words.has(textWords[i])) return true;
+    for (var i = 0; i < words.length; i++) {
+      if (exact.has(words[i])) return true;
     }
 
-    // Phrase / substring match (for multi-word dictionary entries)
-    var iter = words.values();
-    var entry = iter.next();
-    while (!entry.done) {
-      var w = entry.value;
-      if (w.length >= 3 && w.indexOf(" ") !== -1 && normalizedText.indexOf(w) !== -1) {
-        return true;
-      }
-      entry = iter.next();
+    var eIter = exact.values();
+    var e = eIter.next();
+    while (!e.done) {
+      if (e.value.indexOf(" ") !== -1 && text.indexOf(e.value) !== -1) return true;
+      e = eIter.next();
     }
 
-    // Separator-stripped match ("ع-ر-ص" → "عرص")
+    var pIter = partial.values();
+    var p = pIter.next();
+    while (!p.done) {
+      if (p.value.length >= 2 && text.indexOf(p.value) !== -1) return true;
+      p = pIter.next();
+    }
+
+    for (var r = 0; r < regex.length; r++) {
+      try { if (regex[r].test(text)) return true; } catch (err) {}
+    }
+
+    return false;
+  }
+
+  function check(normalizedText, wordGroups) {
+    if (!normalizedText) return false;
+
+    var exact, partial, regex;
+    if (wordGroups instanceof Set) {
+      exact = wordGroups;
+      partial = new Set();
+      regex = [];
+    } else {
+      exact = wordGroups.exact || new Set();
+      partial = wordGroups.partial || new Set();
+      regex = wordGroups.regex || [];
+    }
+
+    if (exact.size === 0 && partial.size === 0 && regex.length === 0) return false;
+
+    if (matchesAny(normalizedText, exact, partial, regex)) return true;
+
     var stripped = stripSeparators(normalizedText);
-    if (stripped !== normalizedText) {
-      var strippedWords = stripped.split(/\s+/);
-      for (var j = 0; j < strippedWords.length; j++) {
-        if (words.has(strippedWords[j])) return true;
-      }
-    }
+    if (stripped !== normalizedText && matchesAny(stripped, exact, partial, regex)) return true;
 
-    // Repeat-compressed match ("خوووول" after normalizer → "خوول" → compressed → "خول")
     var compressed = compressRepeats(normalizedText);
-    if (compressed !== normalizedText) {
-      var compWords = compressed.split(/\s+/);
-      for (var k = 0; k < compWords.length; k++) {
-        if (words.has(compWords[k])) return true;
-      }
-    }
+    if (compressed !== normalizedText && matchesAny(compressed, exact, partial, regex)) return true;
 
     return false;
   }

@@ -21,9 +21,9 @@
   filter: none;
   cursor: default;
   user-select: auto;
-  border-left: 3px solid #e74c3c;
+  border-left: 3px solid #ef4444;
   padding-left: 4px;
-  background-color: rgba(231, 76, 60, 0.05);
+  background-color: rgba(239, 68, 68, 0.05);
 }
 
 /* Hide mode */
@@ -33,21 +33,21 @@
 
 /* Highlight mode */
 .haya-highlight {
-  border: 2px solid #e74c3c;
-  border-radius: 3px;
+  border: 2px solid #ef4444;
+  border-radius: 4px;
   padding: 1px 3px;
-  background-color: rgba(231, 76, 60, 0.08);
+  background-color: rgba(239, 68, 68, 0.08);
 }
 
 /* Tooltip on hover */
 .haya-blur::after {
-  content: "🔒 Click to reveal";
+  content: "اضغط للكشف 🔒";
   position: absolute;
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
+  background: rgba(12, 12, 46, 0.95);
+  color: #ffffff;
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
@@ -56,6 +56,8 @@
   pointer-events: none;
   transition: opacity 0.2s ease;
   z-index: 999999;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .haya-blur:hover::after {

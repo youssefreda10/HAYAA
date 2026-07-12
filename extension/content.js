@@ -17,17 +17,34 @@
   var pendingTexts = [];
   var pendingElements = [];
   var batchTimer = null;
-  var dictWords = new Set();
+  var wordGroups = { exact: new Set(), partial: new Set(), regex: [] };
   var allowlist = new Set();
+  var filteredTexts = [];
+  var MAX_FILTERED_LOG = 50;
 
   async function init() {
+    console.log("[Hayā] Content script loaded");
     settings = await getSettings();
-    if (!settings.enabled) return;
+    console.log("[Hayā] Settings:", JSON.stringify(settings));
+
+    if (!settings.enabled) { console.log("[Hayā] Disabled"); return; }
 
     var domain = window.location.hostname;
-    if (settings.disabledDomains && settings.disabledDomains.indexOf(domain) !== -1) return;
+    if (settings.domainMode === "minimal") {
+      if (!settings.enabledDomains || settings.enabledDomains.indexOf(domain) === -1) {
+        console.log("[Hayā] Minimal mode — domain not enabled:", domain);
+        return;
+      }
+    } else {
+      if (settings.disabledDomains && settings.disabledDomains.indexOf(domain) !== -1) {
+        console.log("[Hayā] Domain disabled:", domain);
+        return;
+      }
+    }
 
     await loadWordLists();
+    console.log("[Hayā] Dictionary:", dictWords.size, "words loaded");
+    chrome.runtime.sendMessage({ type: "pageScanned" });
     scanPage();
     observeMutations();
   }
@@ -47,24 +64,50 @@
   function loadWordLists() {
     return new Promise(function (resolve) {
       chrome.storage.local.get(["customWords", "allowlist"], function (data) {
-        var custom = data.customWords || [];
+        var customArr = data.customWords || [];
         var allow = data.allowlist || [];
 
-        dictWords = new Set(HayaDictionary.words);
-        for (var i = 0; i < custom.length; i++) dictWords.add(custom[i]);
+        var exactWords = new Set(HayaDictionary.words);
+        var partialWords = new Set();
+        var regexPatterns = [];
+
+        for (var i = 0; i < customArr.length; i++) {
+          var entry = customArr[i];
+          var word, method;
+          if (typeof entry === "string") {
+            word = entry; method = "exact";
+          } else {
+            word = entry.word; method = entry.method || "exact";
+          }
+          if (method === "partial") {
+            partialWords.add(word);
+          } else if (method === "regex") {
+            try { regexPatterns.push(new RegExp(word)); } catch (e) {}
+          } else {
+            exactWords.add(word);
+          }
+        }
 
         allowlist = new Set(allow);
         var allowIter = allowlist.values();
-        var entry = allowIter.next();
-        while (!entry.done) {
-          dictWords.delete(entry.value);
-          entry = allowIter.next();
+        var ae = allowIter.next();
+        while (!ae.done) {
+          exactWords.delete(ae.value);
+          partialWords.delete(ae.value);
+          ae = allowIter.next();
         }
 
+        wordGroups = { exact: exactWords, partial: partialWords, regex: regexPatterns };
         resolve();
       });
     });
   }
+
+  chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
+    if (msg.type === "getFilteredTexts") {
+      sendResponse(filteredTexts);
+    }
+  });
 
   // ============================================================
   // DOM Scanning
@@ -102,11 +145,13 @@
 
     // Layer 1: Dictionary check (instant, no network)
     var normalized = HayaNormalizer.normalize(text);
-    if (normalized && HayaMatcher.check(normalized, dictWords)) {
+    if (normalized && HayaMatcher.check(normalized, wordGroups)) {
+      console.log("[Hayā] Dictionary match (Layer 1):", text.substring(0, 50));
       applyFilter(element);
+      logFiltered(text, "dictionary");
       toxicCount++;
       chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
-      chrome.runtime.sendMessage({ type: "incrementStats", count: 1 });
+      chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "dictionary" });
       return;
     }
 
@@ -155,13 +200,15 @@
     pendingTexts = [];
     pendingElements = [];
 
+    console.log("[Hayā] Sending", texts.length, "texts to API (Layer 2)");
+
     chrome.runtime.sendMessage({ type: "classify", texts: texts }, function (results) {
       if (chrome.runtime.lastError) {
         console.error("[Hayā]", chrome.runtime.lastError.message);
         return;
       }
       if (results) {
-        applyResults(results, elements);
+        applyResults(results, elements, texts);
       }
     });
   }
@@ -170,7 +217,7 @@
   // Applying Results
   // ============================================================
 
-  function applyResults(results, elements) {
+  function applyResults(results, elements, texts) {
     var newToxic = 0;
 
     for (var i = 0; i < results.length; i++) {
@@ -181,6 +228,7 @@
 
       if (result.label === "TOXIC" && result.score >= settings.threshold) {
         applyFilter(element);
+        logFiltered(texts[i] || "", "api");
         newToxic++;
       }
     }
@@ -188,7 +236,7 @@
     if (newToxic > 0) {
       toxicCount += newToxic;
       chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
-      chrome.runtime.sendMessage({ type: "incrementStats", count: newToxic });
+      chrome.runtime.sendMessage({ type: "incrementStats", count: newToxic, source: "api" });
     }
   }
 
@@ -213,6 +261,11 @@
     var el = event.currentTarget;
     el.classList.remove("haya-blur");
     el.classList.add("haya-revealed");
+  }
+
+  function logFiltered(text, source) {
+    filteredTexts.push({ text: text.substring(0, 80), source: source });
+    if (filteredTexts.length > MAX_FILTERED_LOG) filteredTexts.shift();
   }
 
   // ============================================================
