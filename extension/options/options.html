@@ -18,31 +18,28 @@
       <button class="tab" data-tab="words">القاموس</button>
       <button class="tab" data-tab="allowlist">القائمة البيضاء</button>
       <button class="tab" data-tab="domains">المواقع</button>
-      <button class="tab" data-tab="stats">الإحصائيات</button>
-      <button class="tab" data-tab="test">اختبار</button>
-      <button class="tab" data-tab="config">إعدادات متقدمة</button>
     </nav>
 
     <!-- عام -->
     <section id="tab-general" class="tab-content active">
+      <div class="toggle-row">
+        <span>تفعيل الإضافة</span>
+        <label class="switch">
+          <input type="checkbox" id="optEnabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
       <div class="field">
         <label>وضع الفلتر:</label>
         <select id="optMode">
           <option value="blur">تمويه</option>
           <option value="hide">إخفاء</option>
           <option value="highlight">تمييز</option>
-          <option value="off">إيقاف</option>
         </select>
       </div>
       <div class="field">
         <label>حساسية الكشف: <span id="optThresholdVal">75%</span></label>
         <input type="range" id="optThreshold" min="50" max="95" value="75">
-      </div>
-      <div class="field">
-        <label>
-          <input type="checkbox" id="optEnabled" checked>
-          تفعيل الإضافة
-        </label>
       </div>
       <button id="saveGeneral" class="btn-primary">حفظ</button>
       <span id="generalSaved" class="saved-msg"></span>
@@ -50,14 +47,9 @@
 
     <!-- القاموس -->
     <section id="tab-words" class="tab-content">
-      <p class="hint">أضف كلمات مخصصة للفلتر (بالإضافة للقاموس المدمج)</p>
+      <p class="hint">أضف كلمات مخصصة للفلتر</p>
       <div class="add-row">
         <input type="text" id="newWord" placeholder="اكتب كلمة...">
-        <select id="wordMethod" class="method-select">
-          <option value="exact">مطابقة تامة</option>
-          <option value="partial">مطابقة جزئية</option>
-          <option value="regex">regex نمط</option>
-        </select>
         <button id="addWord" class="btn-primary">إضافة</button>
       </div>
       <ul id="wordList" class="word-list"></ul>
@@ -101,83 +93,6 @@
         <ul id="enabledDomainList" class="word-list"></ul>
       </div>
     </section>
-
-    <!-- اختبار -->
-    <section id="tab-test" class="tab-content">
-      <p class="hint">اكتب نص وشوف نتيجة الفلترة</p>
-      <textarea id="testInput" rows="4" placeholder="اكتب نص عربي هنا..."></textarea>
-      <button id="testBtn" class="btn-primary">اختبار</button>
-      <div id="testResult" class="test-result"></div>
-    </section>
-
-    <!-- الإحصائيات -->
-    <section id="tab-stats" class="tab-content">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="stat-card-number" id="statTotal">0</span>
-          <span class="stat-card-label">إجمالي المحتوى المفلتر</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-card-number" id="statDict">0</span>
-          <span class="stat-card-label">القاموس المحلي</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-card-number" id="statApi">0</span>
-          <span class="stat-card-label">الذكاء الاصطناعي</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-card-number" id="statPages">0</span>
-          <span class="stat-card-label">صفحات تم فحصها</span>
-        </div>
-      </div>
-      <div class="stats-bar-section">
-        <p class="hint">نسبة الكشف</p>
-        <div class="stats-bar-container">
-          <div class="stats-bar-fill dict-bar" id="dictBar"></div>
-          <div class="stats-bar-fill api-bar" id="apiBar"></div>
-        </div>
-        <div class="stats-bar-legend">
-          <span class="legend-item"><span class="legend-dot dict-dot"></span>القاموس</span>
-          <span class="legend-item"><span class="legend-dot api-dot"></span>الذكاء الاصطناعي</span>
-        </div>
-      </div>
-      <button id="resetStats" class="btn-danger">إعادة تعيين الإحصائيات</button>
-    </section>
-
-    <!-- إعدادات متقدمة -->
-    <section id="tab-config" class="tab-content">
-      <h3 class="section-title">حماية بكلمة مرور</h3>
-      <p class="hint">قفل الإعدادات بكلمة مرور (مفيد للرقابة الأبوية)</p>
-      <div class="field" id="setPasswordSection">
-        <input type="password" id="newPassword" placeholder="كلمة مرور جديدة...">
-        <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور..." style="margin-top:8px">
-        <button id="setPassword" class="btn-primary" style="margin-top:10px">تعيين كلمة المرور</button>
-        <button id="removePassword" class="btn-secondary" style="margin-top:10px;display:none">إزالة كلمة المرور</button>
-        <span id="passwordMsg" class="saved-msg"></span>
-      </div>
-
-      <h3 class="section-title" style="margin-top:28px">تصدير / استيراد الإعدادات</h3>
-      <p class="hint">نسخة احتياطية من كل إعداداتك وقوائمك</p>
-      <div class="config-buttons">
-        <button id="exportBtn" class="btn-primary">تصدير الإعدادات</button>
-        <label class="btn-secondary import-label">
-          استيراد الإعدادات
-          <input type="file" id="importFile" accept=".json" hidden>
-        </label>
-      </div>
-      <span id="configMsg" class="saved-msg"></span>
-    </section>
-  </div>
-
-  <!-- Password lock overlay -->
-  <div id="lockOverlay" class="lock-overlay" style="display:none">
-    <div class="lock-box">
-      <img src="../icons/icon48.png" alt="Hayā" class="lock-logo">
-      <h2>الإعدادات محمية</h2>
-      <input type="password" id="unlockPassword" placeholder="أدخل كلمة المرور...">
-      <button id="unlockBtn" class="btn-primary">فتح</button>
-      <span id="unlockMsg" class="error-msg"></span>
-    </div>
   </div>
 
   <script src="options.js"></script>

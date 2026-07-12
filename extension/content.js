@@ -43,7 +43,7 @@
     }
 
     await loadWordLists();
-    console.log("[Hayā] Dictionary:", dictWords.size, "words loaded");
+    console.log("[Hayā] Dictionary:", wordGroups.exact.size, "exact +", wordGroups.partial.size, "partial +", wordGroups.regex.length, "regex");
     chrome.runtime.sendMessage({ type: "pageScanned" });
     scanPage();
     observeMutations();
