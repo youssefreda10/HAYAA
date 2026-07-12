@@ -1,0 +1,67 @@
+/* ============================================================
+   Hayā — Overlay Styles
+   Blur / Hide / Highlight modes
+   ============================================================ */
+
+/* Blur mode (default) */
+.haya-blur {
+  filter: blur(5px);
+  cursor: pointer;
+  transition: filter 0.3s ease;
+  user-select: none;
+  position: relative;
+}
+
+.haya-blur:hover {
+  filter: blur(3px);
+}
+
+/* Revealed state */
+.haya-blur.haya-revealed {
+  filter: none;
+  cursor: default;
+  user-select: auto;
+  border-left: 3px solid #e74c3c;
+  padding-left: 4px;
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+/* Hide mode */
+.haya-hide {
+  display: none !important;
+}
+
+/* Highlight mode */
+.haya-highlight {
+  border: 2px solid #e74c3c;
+  border-radius: 3px;
+  padding: 1px 3px;
+  background-color: rgba(231, 76, 60, 0.08);
+}
+
+/* Tooltip on hover */
+.haya-blur::after {
+  content: "🔒 Click to reveal";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 999999;
+}
+
+.haya-blur:hover::after {
+  opacity: 1;
+}
+
+.haya-blur.haya-revealed::after {
+  display: none;
+}
