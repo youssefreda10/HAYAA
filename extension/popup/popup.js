@@ -33,18 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
       modeSelect.value = data.mode || "blur";
 
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs[0]) {
-          const url = new URL(tabs[0].url);
-          const domain = url.hostname;
-          const domainMode = data.domainMode || "normal";
+        if (tabs[0] && tabs[0].url && tabs[0].url.startsWith("http")) {
+          try {
+            const url = new URL(tabs[0].url);
+            const domain = url.hostname;
+            const domainMode = data.domainMode || "normal";
 
-          if (domainMode === "minimal") {
-            const enabled = data.enabledDomains || [];
-            enableToggle.checked = enabled.includes(domain);
-          } else {
-            const disabled = data.disabledDomains || [];
-            enableToggle.checked = !disabled.includes(domain);
-          }
+            if (domainMode === "minimal") {
+              const enabled = data.enabledDomains || [];
+              enableToggle.checked = enabled.includes(domain);
+            } else {
+              const disabled = data.disabledDomains || [];
+              enableToggle.checked = !disabled.includes(domain);
+            }
+          } catch (e) {}
         }
       });
 
@@ -102,9 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ─── Toggle (guarded) ───
   enableToggle.addEventListener("change", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (!tabs[0]) return;
-      const url = new URL(tabs[0].url);
-      const domain = url.hostname;
+      if (!tabs[0] || !tabs[0].url || !tabs[0].url.startsWith("http")) return;
+      var url, domain;
+      try { url = new URL(tabs[0].url); domain = url.hostname; } catch (e) { return; }
 
       chrome.storage.sync.get(["disabledDomains", "enabledDomains", "domainMode"], (data) => {
         const domainMode = data.domainMode || "normal";
