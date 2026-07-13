@@ -46,8 +46,26 @@ class Classifier:
 
     @modal.method()
     def classify(self, texts: List[str]):
-        # The pipeline accepts a list of strings directly
-        return self.classifier(texts)
+        # Filter out empty strings which might cause errors
+        valid_texts = [t for t in texts if t.strip()]
+        if not valid_texts:
+            return []
+            
+        # The pipeline accepts a list of strings directly.
+        # truncation=True ensures long texts don't crash the model
+        results = self.classifier(valid_texts, truncation=True, max_length=512)
+        
+        # Re-map results back to original texts list (put empty results for empty strings)
+        final_results = []
+        valid_idx = 0
+        for t in texts:
+            if t.strip():
+                final_results.append(results[valid_idx])
+                valid_idx += 1
+            else:
+                final_results.append([{"label": "Safe", "score": 1.0}])
+                
+        return final_results
 
 # Define the endpoint route
 @web_app.post("/")
