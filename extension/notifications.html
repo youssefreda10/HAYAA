@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>حياء — سجل الأحداث</title>
+  <style>
+    :root {
+      --gradient: linear-gradient(135deg, #6C9FE8, #B47FDA);
+      --bg: #07071a;
+      --bg-card: rgba(18, 18, 58, 0.6);
+      --bg-input: rgba(12, 12, 40, 0.8);
+      --text: #f0f0ff;
+      --text-muted: #8888bb;
+      --border: rgba(108, 159, 232, 0.12);
+      --border-glow: rgba(180, 127, 218, 0.25);
+      --glow-blue: rgba(108, 159, 232, 0.35);
+      --danger: #ef4444;
+      --success: #10b981;
+      --glass-blur: blur(12px);
+      --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid;
+      border-image: var(--gradient) 1;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px var(--glow-blue);
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex: 1;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .tab {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: 0.3s;
+      font-family: inherit;
+      font-weight: 600;
+    }
+
+    .tab:hover { color: var(--text); }
+    .tab.active {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      border-image: var(--gradient) 1;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .event-list {
+      list-style: none;
+      max-height: 500px;
+      overflow-y: auto;
+      -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    }
+
+    .event-list::-webkit-scrollbar { width: 4px; }
+    .event-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .event-item {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+      box-shadow: var(--glass-inner);
+    }
+
+    .event-item:hover {
+      border-color: var(--border-glow);
+      box-shadow: var(--glass-inner), 0 0 14px var(--glow-blue);
+    }
+
+    .event-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .event-badge {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .badge-report {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+    }
+
+    .badge-filter {
+      background: rgba(108, 159, 232, 0.15);
+      color: #6C9FE8;
+    }
+
+    .badge-dict {
+      background: rgba(180, 127, 218, 0.15);
+      color: #B47FDA;
+    }
+
+    .event-time {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .event-text {
+      font-size: 13px;
+      color: var(--text);
+      filter: blur(4px);
+      transition: filter 0.2s;
+      cursor: pointer;
+    }
+
+    .event-text:hover { filter: none; }
+
+    .event-domain {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      color: var(--text-muted);
+    }
+
+    .empty-state svg { opacity: 0.3; margin-bottom: 16px; }
+    .empty-state p { font-size: 14px; }
+
+    .clear-btn {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 16px;
+    }
+
+    .clear-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--danger);
+    }
+
+    .stats-summary {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stats-summary .stat-box {
+      flex: 1;
+      text-align: center;
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: var(--glass-inner);
+    }
+
+    .stat-box .num {
+      display: block;
+      font-size: 28px;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-box .lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="icons/icon48.png" alt="Hayā" class="logo">
+      <h1>سجل الأحداث</h1>
+    </header>
+
+    <div class="stats-summary">
+      <div class="stat-box">
+        <span class="num" id="totalCount">0</span>
+        <span class="lbl">إجمالي الفلترة</span>
+      </div>
+      <div class="stat-box">
+        <span class="num" id="reportCount">0</span>
+        <span class="lbl">بلاغات</span>
+      </div>
+      <div class="stat-box">
+        <span class="num" id="pagesCount">0</span>
+        <span class="lbl">صفحات</span>
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="reports">البلاغات</button>
+      <button class="tab" data-tab="activity">النشاط</button>
+    </nav>
+
+    <div class="tab-content active" id="tab-reports">
+      <ul class="event-list" id="reportList"></ul>
+    </div>
+
+    <div class="tab-content" id="tab-activity">
+      <ul class="event-list" id="activityList"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Tabs
+    document.querySelectorAll(".tab").forEach(function(tab) {
+      tab.addEventListener("click", function() {
+        document.querySelectorAll(".tab").forEach(function(t) { t.classList.remove("active"); });
+        document.querySelectorAll(".tab-content").forEach(function(c) { c.classList.remove("active"); });
+        tab.classList.add("active");
+        document.getElementById("tab-" + tab.dataset.tab).classList.add("active");
+      });
+    });
+
+    var emptyHTML = '<div class="empty-state"><svg viewBox="0 0 80 80" width="60" height="60" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" transform="translate(25,20) scale(1.8)"/><path d="M13.73 21a2 2 0 0 1-3.46 0" transform="translate(25,20) scale(1.8)"/></svg><p>لا توجد أحداث بعد</p></div>';
+
+    function formatTime(iso) {
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString("ar-EG") + " " + d.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+      } catch (e) { return iso; }
+    }
+
+    // Load stats
+    chrome.storage.local.get(["totalFiltered", "reports", "pagesScanned"], function(data) {
+      document.getElementById("totalCount").textContent = (data.totalFiltered || 0).toLocaleString("ar-EG");
+      document.getElementById("pagesCount").textContent = (data.pagesScanned || 0).toLocaleString("ar-EG");
+
+      var reports = data.reports || [];
+      document.getElementById("reportCount").textContent = reports.length.toLocaleString("ar-EG");
+
+      var reportList = document.getElementById("reportList");
+      if (reports.length === 0) {
+        reportList.innerHTML = emptyHTML.replace("لا توجد أحداث بعد", "لا توجد بلاغات بعد");
+      } else {
+        reports.slice().reverse().forEach(function(r) {
+          var li = document.createElement("li");
+          li.className = "event-item";
+          li.innerHTML =
+            '<div class="event-top"><span class="event-badge badge-report">بلاغ خطأ</span><span class="event-time">' + formatTime(r.timestamp) + '</span></div>' +
+            '<div class="event-text">' + escapeHtml(r.text) + '</div>' +
+            (r.domain ? '<div class="event-domain">' + escapeHtml(r.domain) + '</div>' : '');
+          reportList.appendChild(li);
+        });
+
+        var clearBtn = document.createElement("button");
+        clearBtn.className = "clear-btn";
+        clearBtn.textContent = "مسح كل البلاغات";
+        clearBtn.addEventListener("click", function() {
+          if (!confirm("مسح كل البلاغات؟")) return;
+          chrome.storage.local.set({ reports: [] }, function() {
+            reportList.innerHTML = emptyHTML.replace("لا توجد أحداث بعد", "لا توجد بلاغات بعد");
+            document.getElementById("reportCount").textContent = "٠";
+          });
+        });
+        reportList.parentNode.appendChild(clearBtn);
+      }
+    });
+
+    // Activity — recent filtered texts from active tab
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      var activityList = document.getElementById("activityList");
+      if (!tabs[0]) { activityList.innerHTML = emptyHTML; return; }
+
+      chrome.tabs.sendMessage(tabs[0].id, { type: "getFilteredTexts" }, function(items) {
+        if (chrome.runtime.lastError || !items || items.length === 0) {
+          activityList.innerHTML = emptyHTML;
+          return;
+        }
+
+        items.slice().reverse().forEach(function(item) {
+          var li = document.createElement("li");
+          li.className = "event-item";
+          var badgeClass = item.source === "dictionary" ? "badge-dict" : "badge-filter";
+          var badgeText = item.source === "dictionary" ? "قاموس" : "AI";
+          li.innerHTML =
+            '<div class="event-top"><span class="event-badge ' + badgeClass + '">' + badgeText + '</span></div>' +
+            '<div class="event-text">' + escapeHtml(item.text) + '</div>';
+          activityList.appendChild(li);
+        });
+      });
+    });
+
+    function escapeHtml(str) {
+      var div = document.createElement("div");
+      div.textContent = str || "";
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

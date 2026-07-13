@@ -1,19 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
   const enableToggle = document.getElementById("enableToggle");
   const modeSelect = document.getElementById("modeSelect");
-  const pageCount = document.getElementById("pageCount");
-  const totalCount = document.getElementById("totalCount");
-  const thresholdSlider = document.getElementById("thresholdSlider");
-  const thresholdValue = document.getElementById("thresholdValue");
+  var parentalUnlocked = false;
 
-  // Load settings
-  chrome.storage.local.get(
-    ["enabled", "mode", "threshold", "totalFiltered", "disabledDomains", "enabledDomains", "domainMode"],
+  // ─── Theme ───
+  chrome.storage.sync.get(["theme"], (data) => {
+    applyTheme(data.theme || "dark");
+  });
+
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    var isLight = document.body.classList.contains("light");
+    var newTheme = isLight ? "dark" : "light";
+    chrome.storage.sync.set({ theme: newTheme });
+    applyTheme(newTheme);
+  });
+
+  function applyTheme(theme) {
+    var icon = document.getElementById("themeIcon");
+    if (theme === "light") {
+      document.body.classList.add("light");
+      icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+    } else {
+      document.body.classList.remove("light");
+      icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+    }
+  }
+
+  // ─── Load settings + Parental Lock check ───
+  chrome.storage.sync.get(
+    ["enabled", "mode", "disabledDomains", "enabledDomains", "domainMode", "parentalPin"],
     (data) => {
       modeSelect.value = data.mode || "blur";
-      thresholdSlider.value = (data.threshold || 0.75) * 100;
-      thresholdValue.textContent = thresholdSlider.value + "%";
-      totalCount.textContent = data.totalFiltered || 0;
 
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0]) {
@@ -30,44 +47,66 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       });
+
+      // Parental lock: if PIN is set, lock controls
+      if (data.parentalPin) {
+        document.getElementById("lockActiveView").style.display = "block";
+        document.getElementById("lockSetupView").style.display = "none";
+        lockControls();
+      } else {
+        document.getElementById("lockActiveView").style.display = "none";
+        document.getElementById("lockSetupView").style.display = "block";
+      }
+
+      // Hide skeleton, show content
+      document.getElementById("skeleton").style.display = "none";
+      document.getElementById("mainContent").style.display = "block";
     }
   );
 
-  // Get page count from badge
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs[0]) {
-      chrome.action.getBadgeText({ tabId: tabs[0].id }, (text) => {
-        pageCount.textContent = text || "0";
-      });
+  // ─── Lock/Unlock Controls ───
+  function lockControls() {
+    if (parentalUnlocked) return;
+    document.getElementById("lockedOverlay").style.display = "flex";
+    enableToggle.disabled = true;
+    modeSelect.disabled = true;
+  }
 
-      // Get filtered texts summary from content script
-      chrome.tabs.sendMessage(tabs[0].id, { type: "getFilteredTexts" }, (items) => {
-        if (chrome.runtime.lastError || !items || items.length === 0) return;
-        var section = document.getElementById("summarySection");
-        var list = document.getElementById("summaryList");
-        section.style.display = "block";
+  function unlockControls() {
+    parentalUnlocked = true;
+    document.getElementById("lockedOverlay").style.display = "none";
+    enableToggle.disabled = false;
+    modeSelect.disabled = false;
+  }
 
-        items.forEach((item) => {
-          var li = document.createElement("li");
-          li.className = "summary-item";
-          var sourceLabel = item.source === "dictionary" ? "قاموس" : "AI";
-          var sourceClass = item.source === "dictionary" ? "dict" : "api";
-          li.innerHTML = '<span class="summary-text">' + escapeHtml(item.text) + '</span>' +
-            '<span class="source-badge ' + sourceClass + '">' + sourceLabel + '</span>';
-          list.appendChild(li);
-        });
-      });
-    }
+  // Unlock PIN form
+  document.getElementById("unlockPinBtn").addEventListener("click", () => {
+    var pin = document.getElementById("unlockPinInput").value;
+    var msg = document.getElementById("unlockPinMsg");
+    if (!pin) return;
+
+    chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, (res) => {
+      if (res && res.success) {
+        unlockControls();
+      } else {
+        msg.textContent = "رمز PIN غير صحيح";
+        document.getElementById("unlockPinInput").value = "";
+      }
+    });
   });
 
-  // Toggle enable/disable for current domain
+  document.getElementById("unlockPinInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("unlockPinBtn").click();
+  });
+
+  // ─── Toggle (guarded) ───
   enableToggle.addEventListener("change", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (!tabs[0]) return;
       const url = new URL(tabs[0].url);
       const domain = url.hostname;
 
-      chrome.storage.local.get(["disabledDomains", "enabledDomains", "domainMode"], (data) => {
+      chrome.storage.sync.get(["disabledDomains", "enabledDomains", "domainMode"], (data) => {
         const domainMode = data.domainMode || "normal";
 
         if (domainMode === "minimal") {
@@ -77,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             enabled = enabled.filter((d) => d !== domain);
           }
-          chrome.storage.local.set({ enabledDomains: enabled });
+          chrome.storage.sync.set({ enabledDomains: enabled });
         } else {
           let disabled = data.disabledDomains || [];
           if (enableToggle.checked) {
@@ -85,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             if (!disabled.includes(domain)) disabled.push(domain);
           }
-          chrome.storage.local.set({ disabledDomains: disabled });
+          chrome.storage.sync.set({ disabledDomains: disabled });
         }
 
         chrome.tabs.reload(tabs[0].id);
@@ -93,31 +132,118 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Mode change
+  // Mode change (guarded)
   modeSelect.addEventListener("change", () => {
-    chrome.storage.local.set({ mode: modeSelect.value });
+    chrome.storage.sync.set({ mode: modeSelect.value });
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]) chrome.tabs.reload(tabs[0].id);
     });
   });
-  // Threshold slider
-  thresholdSlider.addEventListener("input", () => {
-    thresholdValue.textContent = thresholdSlider.value + "%";
-  });
 
-  thresholdSlider.addEventListener("change", () => {
-    chrome.storage.local.set({ threshold: thresholdSlider.value / 100 });
-  });
-
-  // Open options page
+  // Open options (guarded — if PIN set and not unlocked, ask for PIN first)
   document.getElementById("openOptions").addEventListener("click", (e) => {
     e.preventDefault();
-    chrome.runtime.openOptionsPage();
+    chrome.storage.sync.get(["parentalPin"], (data) => {
+      if (data.parentalPin && !parentalUnlocked) {
+        document.getElementById("lockedOverlay").style.display = "flex";
+        document.getElementById("unlockPinInput").focus();
+      } else {
+        chrome.runtime.openOptionsPage();
+      }
+    });
   });
 
-  function escapeHtml(str) {
-    var div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-  }
+  // Open notification center
+  document.getElementById("openNotifications").addEventListener("click", (e) => {
+    e.preventDefault();
+    chrome.tabs.create({ url: "notifications.html" });
+  });
+
+  // ─── Set PIN ───
+  document.getElementById("setPinBtn").addEventListener("click", () => {
+    var pin = document.getElementById("newPin").value.trim();
+    var msg = document.getElementById("setPinMsg");
+    if (!pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+      msg.textContent = "أدخل 4 أرقام";
+      return;
+    }
+    msg.textContent = "";
+    chrome.runtime.sendMessage({ type: "setPin", pin: pin }, () => {
+      document.getElementById("newPin").value = "";
+      document.getElementById("lockActiveView").style.display = "block";
+      document.getElementById("lockSetupView").style.display = "none";
+      parentalUnlocked = true; // parent just set it, they're authenticated
+    });
+  });
+
+  document.getElementById("newPin").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("setPinBtn").click();
+  });
+
+  // ─── Lock Reveal ───
+  document.getElementById("lockBtn").addEventListener("click", () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]) {
+        chrome.tabs.sendMessage(tabs[0].id, { type: "lockReveals" });
+        document.getElementById("lockText").textContent = "وضع حماية الأطفال مفعّل";
+      }
+    });
+  });
+
+  // ─── Remove PIN ───
+  document.getElementById("removePinBtn").addEventListener("click", () => {
+    var form = document.getElementById("removePinForm");
+    form.style.display = form.style.display === "none" ? "block" : "none";
+    document.getElementById("removePinInput").value = "";
+    document.getElementById("removePinMsg").textContent = "";
+  });
+
+  document.getElementById("removePinConfirm").addEventListener("click", () => {
+    var pin = document.getElementById("removePinInput").value;
+    var msg = document.getElementById("removePinMsg");
+    if (!pin) { msg.textContent = "أدخل الرمز"; return; }
+
+    chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, (res) => {
+      if (res && res.success) {
+        chrome.runtime.sendMessage({ type: "removePin" }, () => {
+          document.getElementById("lockActiveView").style.display = "none";
+          document.getElementById("lockSetupView").style.display = "block";
+          document.getElementById("removePinForm").style.display = "none";
+          unlockControls();
+          chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs[0]) chrome.tabs.sendMessage(tabs[0].id, { type: "unlockReveals" });
+          });
+        });
+      } else {
+        msg.textContent = "رمز PIN غير صحيح";
+      }
+    });
+  });
+
+  document.getElementById("removePinInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("removePinConfirm").click();
+  });
+
+  // ─── Achievements ───
+  var ACHIEVEMENTS = [
+    { threshold: 10, icon: "🛡️", title: "حارس مبتدئ", desc: "فلترت أول 10 عناصر" },
+    { threshold: 50, icon: "⚔️", title: "محارب", desc: "فلترت 50 عنصر سام" },
+    { threshold: 100, icon: "🏅", title: "بطل", desc: "فلترت 100 عنصر سام" },
+    { threshold: 500, icon: "👑", title: "أسطورة", desc: "فلترت 500 عنصر سام" },
+    { threshold: 1000, icon: "💎", title: "حيـاء ماسي", desc: "فلترت 1000 عنصر — مبروك!" },
+  ];
+
+  chrome.storage.local.get(["totalFiltered"], (data) => {
+    var total = data.totalFiltered || 0;
+    var current = null;
+    for (var i = ACHIEVEMENTS.length - 1; i >= 0; i--) {
+      if (total >= ACHIEVEMENTS[i].threshold) { current = ACHIEVEMENTS[i]; break; }
+    }
+    if (current) {
+      document.getElementById("achievementCard").style.display = "block";
+      document.getElementById("achievementIcon").textContent = current.icon;
+      document.getElementById("achievementTitle").textContent = current.title;
+      document.getElementById("achievementDesc").textContent = current.desc + " (" + total + " إجمالي)";
+    }
+  });
 });

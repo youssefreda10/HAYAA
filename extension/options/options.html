@@ -9,8 +9,12 @@
   <div class="container">
     <header>
       <img src="../icons/icon48.png" alt="Hayā" class="logo">
-      <span class="separator">|</span>
       <h1>إعدادات حيـاء</h1>
+      <button class="theme-btn" id="themeToggle" title="تبديل السمة">
+        <svg class="theme-icon" id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
     </header>
 
     <nav class="tabs">
@@ -22,27 +26,71 @@
 
     <!-- عام -->
     <section id="tab-general" class="tab-content active">
-      <div class="toggle-row">
+      <div class="glass-card toggle-row">
         <span>تفعيل الإضافة</span>
         <label class="switch">
           <input type="checkbox" id="optEnabled" checked>
           <span class="slider"></span>
         </label>
       </div>
-      <div class="field">
-        <label>وضع الفلتر:</label>
-        <select id="optMode">
-          <option value="blur">تمويه</option>
-          <option value="hide">إخفاء</option>
-          <option value="highlight">تمييز</option>
-        </select>
+
+      <div class="glass-card">
+        <div class="field" style="margin-bottom:0">
+          <label>وضع الفلتر</label>
+          <select id="optMode">
+            <option value="blur">تمويه</option>
+            <option value="hide">إخفاء</option>
+            <option value="highlight">تمييز</option>
+          </select>
+        </div>
       </div>
-      <div class="field">
-        <label>حساسية الكشف: <span id="optThresholdVal">75%</span></label>
-        <input type="range" id="optThreshold" min="50" max="95" value="75">
+
+      <div style="margin-top:14px">
+        <button id="saveGeneral" class="btn-primary">حفظ</button>
+        <span id="generalSaved" class="saved-msg"></span>
       </div>
-      <button id="saveGeneral" class="btn-primary">حفظ</button>
-      <span id="generalSaved" class="saved-msg"></span>
+
+      <div class="lock-section" style="margin-top:20px">
+        <div id="optLockActiveView" style="display:none">
+          <div class="lock-status">
+            <svg class="lock-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span id="optLockText">وضع حماية الأطفال مفعّل</span>
+          </div>
+          <div class="lock-actions">
+            <button id="optLockBtn" class="lock-btn">قفل الكشف</button>
+            <button id="optRemovePwBtn" class="lock-btn lock-btn-danger">إزالة PIN</button>
+          </div>
+          <div id="optRemovePwForm" style="display:none;margin-top:10px">
+            <div class="lock-setup-row">
+              <input type="password" id="optRemovePwInput" maxlength="4" inputmode="numeric" placeholder="أدخل PIN الحالي">
+              <button id="optRemovePwConfirm" class="lock-btn-set">تأكيد الإزالة</button>
+            </div>
+            <span id="optRemovePwMsg" class="error-msg"></span>
+          </div>
+        </div>
+        <div id="optLockSetupView">
+          <span class="lock-setup-label">وضع حماية الأطفال — رمز PIN (4 أرقام)</span>
+          <div class="lock-setup-row">
+            <input type="password" id="optNewRevealPw" maxlength="4" inputmode="numeric" placeholder="4 أرقام...">
+            <button id="optSetRevealPwBtn" class="lock-btn-set">تعيين</button>
+          </div>
+          <span id="optSetPwMsg" class="error-msg"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- التصدير والاستيراد والمشاركة -->
+    <section class="export-import-section">
+      <div class="config-buttons">
+        <button id="exportBtn" class="btn-secondary">تصدير</button>
+        <label class="btn-secondary import-label">
+          استيراد
+          <input type="file" id="importFile" accept=".json" hidden>
+        </label>
+        <button id="shareListBtn" class="btn-secondary">مشاركة القوائم</button>
+        <button id="importShareBtn" class="btn-secondary">استيراد رمز</button>
+      </div>
+      <span id="configMsg" class="saved-msg"></span>
     </section>
 
     <!-- القاموس -->
@@ -67,12 +115,14 @@
 
     <!-- المواقع -->
     <section id="tab-domains" class="tab-content">
-      <div class="field">
-        <label>وضع المواقع:</label>
-        <select id="domainModeSelect">
-          <option value="normal">عادي — فلتر في كل مكان (عطّل مواقع محددة)</option>
-          <option value="minimal">محدود — فلتر على مواقع محددة فقط</option>
-        </select>
+      <div class="glass-card">
+        <div class="field" style="margin-bottom:0">
+          <label>وضع المواقع</label>
+          <select id="domainModeSelect">
+            <option value="normal">عادي — فلتر في كل مكان</option>
+            <option value="minimal">محدود — مواقع محددة فقط</option>
+          </select>
+        </div>
       </div>
 
       <div id="normalModeSection">

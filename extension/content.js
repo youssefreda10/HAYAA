@@ -1,6 +1,7 @@
 /* ============================================================
    Hayā — Content Script
    Layer 1: Dictionary (instant) → Layer 2: AI Model (via background)
+   Features: Cache, Lazy Viewport Scan, Toast Notifications
    ============================================================ */
 
 (() => {
@@ -21,6 +22,14 @@
   var allowlist = new Set();
   var filteredTexts = [];
   var MAX_FILTERED_LOG = 50;
+  var revealLocked = false;
+
+  // API result cache (text → {label, score})
+  var apiCache = new Map();
+  var MAX_CACHE = 500;
+
+  // Deferred elements (outside viewport)
+  var viewportObserver = null;
 
   async function init() {
     console.log("[Hayā] Content script loaded");
@@ -42,9 +51,17 @@
       }
     }
 
+    chrome.storage.sync.get(["parentalPin"], function (data) {
+      if (data.parentalPin) {
+        revealLocked = true;
+        console.log("[Hayā] Reveal locked (parental PIN set)");
+      }
+    });
+
     await loadWordLists();
     console.log("[Hayā] Dictionary:", wordGroups.exact.size, "exact +", wordGroups.partial.size, "partial +", wordGroups.regex.length, "regex");
     chrome.runtime.sendMessage({ type: "pageScanned" });
+    setupViewportObserver();
     scanPage();
     observeMutations();
   }
@@ -63,7 +80,7 @@
 
   function loadWordLists() {
     return new Promise(function (resolve) {
-      chrome.storage.local.get(["customWords", "allowlist"], function (data) {
+      chrome.storage.sync.get(["customWords", "allowlist"], function (data) {
         var customArr = data.customWords || [];
         var allow = data.allowlist || [];
 
@@ -97,17 +114,65 @@
           ae = allowIter.next();
         }
 
-        wordGroups = { exact: exactWords, partial: partialWords, regex: regexPatterns };
+        wordGroups = {
+          exact: exactWords,
+          partial: partialWords,
+          regex: regexPatterns.concat(HayaDictionary.patterns || []),
+        };
         resolve();
       });
     });
   }
 
+  // ============================================================
+  // Message Handling
+  // ============================================================
+
   chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     if (msg.type === "getFilteredTexts") {
       sendResponse(filteredTexts);
     }
+    if (msg.type === "lockReveals") {
+      revealLocked = true;
+      reblurAll();
+    }
+    if (msg.type === "unlockReveals") {
+      revealLocked = false;
+    }
+    if (msg.type === "showToast") {
+      showToast(msg.message);
+    }
   });
+
+  // ============================================================
+  // Lazy Viewport Scanning (IntersectionObserver)
+  // ============================================================
+
+  function setupViewportObserver() {
+    if (!window.IntersectionObserver) return;
+
+    viewportObserver = new IntersectionObserver(function (entries) {
+      var toProcess = [];
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          toProcess.push(entries[i].target);
+          viewportObserver.unobserve(entries[i].target);
+        }
+      }
+      if (toProcess.length > 0) {
+        for (var j = 0; j < toProcess.length; j++) {
+          processElement(toProcess[j]);
+        }
+        flushBatch();
+      }
+    }, { rootMargin: "200px" });
+  }
+
+  function isInViewport(element) {
+    var rect = element.getBoundingClientRect();
+    var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    return rect.top < windowHeight + 200 && rect.bottom > -200;
+  }
 
   // ============================================================
   // DOM Scanning
@@ -121,6 +186,10 @@
         acceptNode: function (node) {
           if (SKIP_TAGS.has(node.tagName)) return NodeFilter.FILTER_REJECT;
           if (node.closest("[" + PROCESSED_ATTR + "]")) return NodeFilter.FILTER_REJECT;
+          if (node.classList && (node.classList.contains("haya-wrapper") ||
+              node.classList.contains("haya-reveal-btn") ||
+              node.classList.contains("haya-password-overlay") ||
+              node.classList.contains("haya-toast"))) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
         },
       }
@@ -128,7 +197,13 @@
 
     var node;
     while ((node = walker.nextNode())) {
-      processElement(node);
+      if (viewportObserver && !isInViewport(node)) {
+        if (!node.getAttribute(PROCESSED_ATTR) && getDirectText(node) && hasArabic(getDirectText(node))) {
+          viewportObserver.observe(node);
+        }
+      } else {
+        processElement(node);
+      }
     }
 
     flushBatch();
@@ -152,6 +227,18 @@
       toxicCount++;
       chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
       chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "dictionary" });
+      return;
+    }
+
+    // Check cache before queuing for API
+    var cached = apiCache.get(normalized || text);
+    if (cached) {
+      if (cached.label === "TOXIC" && cached.score >= settings.threshold) {
+        applyFilter(element);
+        logFiltered(text, "api-cache");
+        toxicCount++;
+        chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
+      }
       return;
     }
 
@@ -226,6 +313,14 @@
 
       if (!element || !result) continue;
 
+      // Cache the result
+      var normalized = HayaNormalizer.normalize(texts[i]) || texts[i];
+      if (apiCache.size >= MAX_CACHE) {
+        var firstKey = apiCache.keys().next().value;
+        apiCache.delete(firstKey);
+      }
+      apiCache.set(normalized, result);
+
       if (result.label === "TOXIC" && result.score >= settings.threshold) {
         applyFilter(element);
         logFiltered(texts[i] || "", "api");
@@ -242,11 +337,43 @@
 
   function applyFilter(element) {
     var mode = settings.mode || "blur";
+    var text = getDirectText(element) || "";
 
     switch (mode) {
       case "blur":
+        var wrapper = document.createElement("span");
+        wrapper.className = "haya-wrapper";
+        element.parentNode.insertBefore(wrapper, element);
+        wrapper.appendChild(element);
         element.classList.add("haya-blur");
-        element.addEventListener("click", revealElement, { once: true });
+
+        var btn = document.createElement("button");
+        btn.className = "haya-reveal-btn";
+        btn.textContent = "🔒 اكشف";
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+          handleRevealClick(element, btn, wrapper);
+        });
+        wrapper.appendChild(btn);
+
+        var reportBtn = document.createElement("button");
+        reportBtn.className = "haya-report-btn";
+        reportBtn.textContent = "⚑";
+        reportBtn.title = "بلاغ: ده مش سام";
+        reportBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+          chrome.runtime.sendMessage({
+            type: "reportFalsePositive",
+            text: text.substring(0, 200),
+            domain: window.location.hostname,
+          });
+          reportBtn.textContent = "✓";
+          reportBtn.disabled = true;
+          showToast("شكراً — تم إرسال البلاغ");
+        });
+        wrapper.appendChild(reportBtn);
         break;
       case "hide":
         element.classList.add("haya-hide");
@@ -257,10 +384,120 @@
     }
   }
 
-  function revealElement(event) {
-    var el = event.currentTarget;
-    el.classList.remove("haya-blur");
-    el.classList.add("haya-revealed");
+  // ============================================================
+  // Reveal / Re-blur Toggle + Password Protection
+  // ============================================================
+
+  function handleRevealClick(element, btn, wrapper) {
+    if (revealLocked) {
+      showPasswordPrompt(function () {
+        toggleBlur(element, btn, wrapper);
+      });
+    } else {
+      toggleBlur(element, btn, wrapper);
+    }
+  }
+
+  function toggleBlur(element, btn, wrapper) {
+    if (element.classList.contains("haya-blur")) {
+      element.classList.remove("haya-blur");
+      element.classList.add("haya-revealed");
+      wrapper.classList.add("haya-revealed-state");
+      btn.textContent = "🔓 أخفِ";
+    } else {
+      element.classList.remove("haya-revealed");
+      element.classList.add("haya-blur");
+      wrapper.classList.remove("haya-revealed-state");
+      btn.textContent = "🔒 اكشف";
+    }
+  }
+
+  function reblurAll() {
+    var revealed = document.querySelectorAll(".haya-revealed");
+    for (var i = 0; i < revealed.length; i++) {
+      revealed[i].classList.remove("haya-revealed");
+      revealed[i].classList.add("haya-blur");
+    }
+    var wrappers = document.querySelectorAll(".haya-wrapper.haya-revealed-state");
+    for (var j = 0; j < wrappers.length; j++) {
+      wrappers[j].classList.remove("haya-revealed-state");
+      var btn = wrappers[j].querySelector(".haya-reveal-btn");
+      if (btn) btn.textContent = "🔒 اكشف";
+    }
+  }
+
+  function showPasswordPrompt(onSuccess) {
+    if (document.querySelector(".haya-password-overlay")) return;
+
+    var overlay = document.createElement("div");
+    overlay.className = "haya-password-overlay";
+    overlay.innerHTML =
+      '<div class="haya-password-box">' +
+        '<h3>🔒 الكشف محمي</h3>' +
+        '<p>أدخل كلمة المرور للكشف عن المحتوى المخفي</p>' +
+        '<input type="password" class="haya-pw-input" placeholder="كلمة المرور..." autofocus>' +
+        '<div class="haya-pw-btns">' +
+          '<button class="haya-pw-submit">فتح</button>' +
+          '<button class="haya-pw-cancel">إلغاء</button>' +
+        '</div>' +
+        '<div class="haya-pw-error"></div>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+
+    var input = overlay.querySelector(".haya-pw-input");
+    var errorEl = overlay.querySelector(".haya-pw-error");
+
+    function tryUnlock() {
+      var pw = input.value;
+      if (!pw) return;
+
+      chrome.runtime.sendMessage({ type: "verifyRevealPassword", password: pw }, function (res) {
+        if (res && res.success) {
+          revealLocked = false;
+          overlay.remove();
+          onSuccess();
+        } else {
+          errorEl.textContent = "كلمة المرور غير صحيحة";
+          input.value = "";
+          input.focus();
+        }
+      });
+    }
+
+    overlay.querySelector(".haya-pw-submit").addEventListener("click", tryUnlock);
+    overlay.querySelector(".haya-pw-cancel").addEventListener("click", function () {
+      overlay.remove();
+    });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") tryUnlock();
+      if (e.key === "Escape") overlay.remove();
+    });
+
+    setTimeout(function () { input.focus(); }, 100);
+  }
+
+  // ============================================================
+  // Toast Notifications
+  // ============================================================
+
+  function showToast(message) {
+    var existing = document.querySelectorAll(".haya-toast");
+    if (existing.length >= 3) existing[0].remove();
+
+    var toast = document.createElement("div");
+    toast.className = "haya-toast";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(function () {
+      toast.classList.add("haya-toast-show");
+    });
+
+    setTimeout(function () {
+      toast.classList.remove("haya-toast-show");
+      setTimeout(function () { toast.remove(); }, 300);
+    }, 3000);
   }
 
   function logFiltered(text, source) {
@@ -278,6 +515,11 @@
         var addedNodes = mutations[i].addedNodes;
         for (var j = 0; j < addedNodes.length; j++) {
           if (addedNodes[j].nodeType === Node.ELEMENT_NODE) {
+            if (addedNodes[j].classList &&
+                (addedNodes[j].classList.contains("haya-wrapper") ||
+                 addedNodes[j].classList.contains("haya-reveal-btn") ||
+                 addedNodes[j].classList.contains("haya-password-overlay") ||
+                 addedNodes[j].classList.contains("haya-toast"))) continue;
             processElement(addedNodes[j]);
             var children = addedNodes[j].querySelectorAll("*");
             children.forEach(processElement);

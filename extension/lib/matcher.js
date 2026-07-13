@@ -22,6 +22,11 @@ var HayaMatcher = (function () {
 
     for (var i = 0; i < words.length; i++) {
       if (exact.has(words[i])) return true;
+      // Strip definite article ال
+      if (words[i].length > 3 && words[i].substring(0, 2) === "ال") {
+        var bare = words[i].substring(2);
+        if (exact.has(bare)) return true;
+      }
     }
 
     var eIter = exact.values();
@@ -38,8 +43,14 @@ var HayaMatcher = (function () {
       p = pIter.next();
     }
 
+    // Regex: test full text AND individual words
     for (var r = 0; r < regex.length; r++) {
-      try { if (regex[r].test(text)) return true; } catch (err) {}
+      try {
+        if (regex[r].test(text)) return true;
+        for (var w = 0; w < words.length; w++) {
+          if (regex[r].test(words[w])) return true;
+        }
+      } catch (err) {}
     }
 
     return false;

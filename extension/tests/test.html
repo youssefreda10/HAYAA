@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Hayā — Test Suite</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Segoe UI", Tahoma, sans-serif; background: #0c0c2e; color: #fff; padding: 24px; direction: ltr; }
+    h1 { font-size: 22px; margin-bottom: 8px; }
+    .summary { margin-bottom: 20px; font-size: 15px; color: #a0a0c0; }
+    .summary b { color: #fff; }
+    .summary .pass { color: #10b981; } .summary .fail { color: #ef4444; }
+    .category { margin-top: 28px; margin-bottom: 8px; }
+    .category h2 { font-size: 17px; color: #3b82f6; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; display: flex; justify-content: space-between; }
+    .category h2 .score { font-size: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 4px; }
+    th { text-align: left; background: #12123a; padding: 6px 10px; color: #a0a0c0; font-weight: 600; }
+    td { padding: 5px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .pass-row td { background: rgba(16,185,129,0.06); }
+    .fail-row td { background: rgba(239,68,68,0.08); }
+    .badge { font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+    .b-pass { background: rgba(16,185,129,0.2); color: #10b981; }
+    .b-fail { background: rgba(239,68,68,0.2); color: #ef4444; }
+    .b-dict { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .b-miss { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .arabic { direction: rtl; font-family: "Segoe UI", Tahoma, "Arial", sans-serif; }
+    .gap-section { margin-top: 32px; background: #12123a; padding: 20px; border-radius: 10px; }
+    .gap-section h2 { color: #ef4444; margin-bottom: 12px; }
+    .gap-list { list-style: none; }
+    .gap-list li { padding: 4px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .gap-list .cat { color: #3b82f6; font-weight: 600; min-width: 180px; display: inline-block; }
+    .filter-bar { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn { background: #12123a; color: #a0a0c0; border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    .filter-btn.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  </style>
+</head>
+<body>
+  <h1>Hayā — Comprehensive Test Suite</h1>
+  <div class="summary" id="summary"></div>
+  <div class="filter-bar" id="filterBar"></div>
+  <div id="results"></div>
+  <div class="gap-section" id="gapSection" style="display:none">
+    <h2>Gap Analysis — Missing Coverage</h2>
+    <ul class="gap-list" id="gapList"></ul>
+  </div>
+
+  <script src="../lib/normalizer.js"></script>
+  <script src="../lib/dictionary.js"></script>
+  <script src="../lib/matcher.js"></script>
+  <script>
+    var wordGroups = { exact: HayaDictionary.words, partial: new Set(), regex: [] };
+
+    function test(text) {
+      var normalized = HayaNormalizer.normalize(text);
+      var matched = normalized && HayaMatcher.check(normalized, wordGroups);
+      return { normalized: normalized, matched: matched };
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // TEST CASES
+    // ═══════════════════════════════════════════════════════
+
+    var TESTS = {
+
+      // ─── 1. PROFANITY: EGYPTIAN ───
+      "Profanity — Egyptian": [
+        { input: "كسمك", expect: true, desc: "Direct profanity" },
+        { input: "كسمه", expect: true, desc: "3rd person" },
+        { input: "عرص", expect: true, desc: "Common insult" },
+        { input: "عرصه", expect: true, desc: "With haa" },
+        { input: "خول", expect: true, desc: "Slur" },
+        { input: "شرموطة", expect: true, desc: "Profanity" },
+        { input: "متناكة", expect: true, desc: "Profanity" },
+        { input: "يا ابن الشرموطة", expect: true, desc: "Phrase with يا" },
+        { input: "ابن المتناكة", expect: true, desc: "Family insult" },
+        { input: "احا", expect: true, desc: "Exclamation profanity" },
+        { input: "بضان", expect: true, desc: "Vulgar" },
+        { input: "يا خولات", expect: true, desc: "Plural slur" },
+        { input: "كسامك", expect: true, desc: "Variant" },
+        { input: "يلعن ابوك", expect: true, desc: "Curse" },
+        { input: "يلعن امك", expect: true, desc: "Curse" },
+        { input: "يلعن دينك", expect: true, desc: "Religious curse" },
+      ],
+
+      // ─── 2. PROFANITY: GULF ───
+      "Profanity — Gulf": [
+        { input: "كشخة", expect: true, desc: "Gulf insult" },
+        { input: "قواد", expect: true, desc: "Pimp" },
+        { input: "قوادة", expect: true, desc: "Feminine" },
+        { input: "ديوث", expect: true, desc: "Cuckold" },
+        { input: "تفو", expect: true, desc: "Spit" },
+        { input: "معرص", expect: true, desc: "Gulf variant" },
+        { input: "يا تيس", expect: true, desc: "Animal insult" },
+        { input: "حقير", expect: true, desc: "Despicable" },
+        { input: "خايس", expect: true, desc: "Rotten/bad" },
+        { input: "طز فيك", expect: true, desc: "Dismissive vulgarity" },
+        { input: "يا قذر", expect: true, desc: "Filthy" },
+        { input: "ام سافلة", expect: true, desc: "Lowly" },
+      ],
+
+      // ─── 3. PROFANITY: LEVANTINE ───
+      "Profanity — Levantine": [
+        { input: "كس اختك", expect: true, desc: "Syrian/Lebanese curse" },
+        { input: "كس امك", expect: true, desc: "Levantine curse" },
+        { input: "يلعن ربك", expect: true, desc: "Blasphemous curse" },
+        { input: "منيوكة", expect: true, desc: "Insult" },
+        { input: "شرموط", expect: true, desc: "Masc form" },
+        { input: "ابن الحرام", expect: true, desc: "Illegitimate" },
+        { input: "يا حيوان", expect: true, desc: "Animal insult" },
+        { input: "يا كلب", expect: true, desc: "Dog insult" },
+        { input: "زبالة", expect: true, desc: "Trash" },
+        { input: "مقرف", expect: true, desc: "Disgusting person" },
+        { input: "بدي فشخك", expect: true, desc: "Threatening vulgar" },
+        { input: "لك يا حمار", expect: true, desc: "Donkey insult" },
+      ],
+
+      // ─── 4. PROFANITY: MAGHREBI ───
+      "Profanity — Maghrebi": [
+        { input: "قحبة", expect: true, desc: "North African profanity" },
+        { input: "قحاب", expect: true, desc: "Plural" },
+        { input: "نيك موك", expect: true, desc: "Algerian curse" },
+        { input: "ولد الحرام", expect: true, desc: "Bastard" },
+        { input: "زعطوط", expect: true, desc: "Moroccan insult" },
+        { input: "بوزلوف", expect: true, desc: "Moroccan animal insult" },
+        { input: "يا مخنث", expect: true, desc: "Slur" },
+        { input: "تبون امك", expect: true, desc: "Algerian curse" },
+        { input: "كحبة", expect: true, desc: "Tunisian spelling" },
+        { input: "يا حشايشي", expect: true, desc: "Drug user insult" },
+      ],
+
+      // ─── 5. SEXUAL EXPLICIT ───
+      "Sexual Explicit": [
+        { input: "كس", expect: true, desc: "Genital term" },
+        { input: "زب", expect: true, desc: "Genital term" },
+        { input: "زبر", expect: true, desc: "Variant" },
+        { input: "طيز", expect: true, desc: "Body part" },
+        { input: "نيك", expect: true, desc: "Sexual verb" },
+        { input: "ينيك", expect: true, desc: "Conjugated" },
+        { input: "انيك", expect: true, desc: "First person" },
+        { input: "نايك", expect: true, desc: "Active participle" },
+        { input: "نياك", expect: true, desc: "Intensive form" },
+        { input: "عير", expect: true, desc: "Genital" },
+        { input: "زاني", expect: true, desc: "Fornicator" },
+        { input: "زانية", expect: true, desc: "Feminine" },
+        { input: "لبوة", expect: true, desc: "Sexualized insult" },
+        { input: "مزز", expect: true, desc: "Objectifying" },
+        { input: "عيرك", expect: true, desc: "With pronoun" },
+        { input: "طيزك", expect: true, desc: "With pronoun" },
+      ],
+
+      // ─── 6. INSULTS ───
+      "Insults": [
+        { input: "يا حمار", expect: true, desc: "Donkey" },
+        { input: "يا غبي", expect: true, desc: "Stupid" },
+        { input: "يا اهبل", expect: true, desc: "Idiot" },
+        { input: "يا تافه", expect: true, desc: "Insignificant" },
+        { input: "يا جبان", expect: true, desc: "Coward" },
+        { input: "يا كذاب", expect: true, desc: "Liar" },
+        { input: "يا حقير", expect: true, desc: "Despicable" },
+        { input: "يا وسخ", expect: true, desc: "Dirty" },
+        { input: "يا فاشل", expect: true, desc: "Loser/failure" },
+        { input: "يا منافق", expect: true, desc: "Hypocrite" },
+        { input: "يا عبيط", expect: true, desc: "Egyptian: stupid" },
+        { input: "يا معفن", expect: true, desc: "Rotten person" },
+        { input: "يا قذر", expect: true, desc: "Filthy" },
+        { input: "يا نذل", expect: true, desc: "Scoundrel" },
+        { input: "يا وطي", expect: true, desc: "Lowly" },
+        { input: "يا جحش", expect: true, desc: "Young donkey" },
+        { input: "ابن الكلب", expect: true, desc: "Son of a dog" },
+        { input: "يا ابن الحرام", expect: true, desc: "Illegitimate" },
+      ],
+
+      // ─── 7. HARASSMENT ───
+      "Harassment": [
+        { input: "هفضحك", expect: true, desc: "Threatening to expose" },
+        { input: "هدمرك", expect: true, desc: "Threatening destruction" },
+        { input: "مش هسيبك", expect: true, desc: "Stalking threat" },
+        { input: "هلاحقك في كل مكان", expect: true, desc: "Stalking" },
+        { input: "هخلي حياتك جحيم", expect: true, desc: "Life threat" },
+        { input: "انا عارف بيتك فين", expect: true, desc: "Doxxing threat" },
+        { input: "وريني صورتك", expect: true, desc: "Image solicitation" },
+        { input: "مفيش حد هيصدقك", expect: true, desc: "Gaslighting" },
+      ],
+
+      // ─── 8. CYBERBULLYING ───
+      "Cyberbullying": [
+        { input: "روح انتحر", expect: true, desc: "Suicide incitement" },
+        { input: "الدنيا احسن من غيرك", expect: true, desc: "Death wish" },
+        { input: "محدش بيحبك", expect: true, desc: "Social exclusion" },
+        { input: "يا خسارة فيك الاكل", expect: true, desc: "Body shaming" },
+        { input: "شكلك مقرف", expect: true, desc: "Appearance attack" },
+        { input: "مكانك الزبالة", expect: true, desc: "Dehumanizing" },
+        { input: "يا فاشل يا ابن الفاشل", expect: true, desc: "Double insult" },
+        { input: "اتمنى تموت", expect: true, desc: "Death wish" },
+      ],
+
+      // ─── 9. RACISM ───
+      "Racism": [
+        { input: "يا عبد", expect: true, desc: "Racial slur" },
+        { input: "يا زنجي", expect: true, desc: "N-word equivalent" },
+        { input: "ارجع لبلدك", expect: true, desc: "Xenophobia" },
+        { input: "يا خادم", expect: true, desc: "Servant slur" },
+        { input: "العبيد دول", expect: true, desc: "Dehumanizing racial" },
+        { input: "انتو بهائم", expect: true, desc: "Animal comparison" },
+        { input: "الاجانب دول وسخين", expect: true, desc: "Xenophobic" },
+        { input: "يا هندي", expect: true, desc: "Ethnic slur" },
+      ],
+
+      // ─── 10. RELIGIOUS HATE ───
+      "Religious Hate": [
+        { input: "يلعن دينك", expect: true, desc: "Cursing religion" },
+        { input: "يلعن ربك", expect: true, desc: "Cursing God" },
+        { input: "كفار", expect: true, desc: "Takfiri" },
+        { input: "يا كافر", expect: true, desc: "Calling infidel" },
+        { input: "يا مشرك", expect: true, desc: "Calling polytheist" },
+        { input: "يا مرتد", expect: true, desc: "Calling apostate" },
+        { input: "يا يهودي", expect: true, desc: "Used as slur" },
+        { input: "النصارى اعداء الله", expect: true, desc: "Anti-Christian" },
+        { input: "الشيعة انجاس", expect: true, desc: "Anti-Shia" },
+        { input: "السنة خوارج", expect: true, desc: "Anti-Sunni" },
+      ],
+
+      // ─── 11. SEXISM ───
+      "Sexism": [
+        { input: "مكانك المطبخ", expect: true, desc: "Kitchen sexism" },
+        { input: "البنات ناقصات عقل", expect: true, desc: "Cognitive sexism" },
+        { input: "النسوان مبيفهموش", expect: true, desc: "Women can't understand" },
+        { input: "استاهلت لانها لابسة كده", expect: true, desc: "Victim blaming" },
+        { input: "بنت والا ولد", expect: true, desc: "Gender devaluation" },
+        { input: "يا ست اقعدي ساكتة", expect: true, desc: "Silencing" },
+        { input: "المراة مخلوقة ضعيفة", expect: true, desc: "Inferiority claim" },
+        { input: "البنت لازم تسمع كلام", expect: true, desc: "Submission demand" },
+      ],
+
+      // ─── 12. THREATS ───
+      "Threats": [
+        { input: "هقتلك", expect: true, desc: "Death threat" },
+        { input: "هذبحك", expect: true, desc: "Slaughter threat" },
+        { input: "هكسرك", expect: true, desc: "Physical threat" },
+        { input: "مستنيك على الباب", expect: true, desc: "Stalking threat" },
+        { input: "هضربك ضرب", expect: true, desc: "Beating threat" },
+        { input: "والله لاوريك", expect: true, desc: "Vague threat" },
+        { input: "دمك على رقبتي", expect: true, desc: "Blood oath" },
+        { input: "انت ميت ميت", expect: true, desc: "Death declaration" },
+      ],
+
+      // ─── 13. OBFUSCATION: SEPARATORS ───
+      "Obfuscation — Separators": [
+        { input: "ع-ر-ص", expect: true, desc: "Dashes" },
+        { input: "ع.ر.ص", expect: true, desc: "Dots" },
+        { input: "ك_س_م_ك", expect: true, desc: "Underscores" },
+        { input: "ش/ر/م/و/ط/ة", expect: true, desc: "Slashes" },
+        { input: "خ-و-ل", expect: true, desc: "Dashes" },
+        { input: "ن.ي.ك", expect: true, desc: "Dots" },
+        { input: "م-ت-ن-ا-ك", expect: true, desc: "Dashes" },
+        { input: "ق.ح.ب.ة", expect: true, desc: "Dots" },
+      ],
+
+      // ─── 14. OBFUSCATION: REPEATED CHARS ───
+      "Obfuscation — Repeated Chars": [
+        { input: "عررررص", expect: true, desc: "Repeated ر" },
+        { input: "خووووول", expect: true, desc: "Repeated و" },
+        { input: "شرمووووطة", expect: true, desc: "Repeated و" },
+        { input: "كسسسسمك", expect: true, desc: "Repeated س" },
+        { input: "نيييييك", expect: true, desc: "Repeated ي" },
+        { input: "متنااااك", expect: true, desc: "Repeated ا" },
+        { input: "حقيييير", expect: true, desc: "Repeated ي" },
+        { input: "وسسسسخ", expect: true, desc: "Repeated س" },
+      ],
+
+      // ─── 15. OBFUSCATION: SPACED LETTERS ───
+      "Obfuscation — Spaced Letters": [
+        { input: "ع ر ص", expect: true, desc: "Fully spaced" },
+        { input: "ك س م ك", expect: true, desc: "Fully spaced" },
+        { input: "خ و ل", expect: true, desc: "Fully spaced" },
+        { input: "ن ي ك", expect: true, desc: "Fully spaced" },
+        { input: "ش ر م و ط ة", expect: true, desc: "Fully spaced" },
+        { input: "ق ح ب ة", expect: true, desc: "Fully spaced" },
+      ],
+
+      // ─── 16. OBFUSCATION: DIACRITICS ───
+      "Obfuscation — Diacritics": [
+        { input: "عَرَص", expect: true, desc: "With fatha" },
+        { input: "كُسْمَك", expect: true, desc: "With damma + sukun" },
+        { input: "شَرْمُوطَة", expect: true, desc: "Full tashkeel" },
+        { input: "خَوَلْ", expect: true, desc: "With diacritics" },
+        { input: "نِيكْ", expect: true, desc: "With kasra" },
+        { input: "مُتَنَاك", expect: true, desc: "Full diacritics" },
+      ],
+
+      // ─── 17. OBFUSCATION: TATWEEL (KASHIDA) ───
+      "Obfuscation — Tatweel": [
+        { input: "عـــرص", expect: true, desc: "Kashida stretch" },
+        { input: "خـول", expect: true, desc: "Kashida" },
+        { input: "شـرمـوطـة", expect: true, desc: "Multiple kashida" },
+        { input: "كـسـمـك", expect: true, desc: "Multiple kashida" },
+      ],
+
+      // ─── 18. OBFUSCATION: ALEF VARIANTS ───
+      "Obfuscation — Alef Variants": [
+        { input: "إبن الشرموطة", expect: true, desc: "إ instead of ا" },
+        { input: "أبن القحبة", expect: true, desc: "أ instead of ا" },
+        { input: "آبن الكلب", expect: true, desc: "آ instead of ا" },
+        { input: "إحا", expect: true, desc: "إ variant" },
+      ],
+
+      // ─── 19. MORPHOLOGICAL COMPLEXITY ───
+      "Morphological Complexity": [
+        { input: "عراصة", expect: true, desc: "Noun form of عرص" },
+        { input: "خولنة", expect: true, desc: "Masdar of خول" },
+        { input: "شراميط", expect: true, desc: "Broken plural" },
+        { input: "منايك", expect: true, desc: "Broken plural" },
+        { input: "قحاب", expect: true, desc: "Broken plural" },
+        { input: "عواهر", expect: true, desc: "Broken plural" },
+        { input: "يتناك", expect: true, desc: "Passive verb form" },
+        { input: "اتعرص", expect: true, desc: "Form V/VIII" },
+        { input: "متعرص", expect: true, desc: "Participle" },
+        { input: "بتنيك", expect: true, desc: "Egyptian present" },
+        { input: "هتنيك", expect: true, desc: "Egyptian future" },
+        { input: "نكت", expect: true, desc: "Past tense" },
+        { input: "تنيك", expect: true, desc: "Imperfect" },
+      ],
+
+      // ─── 20. CONTEXT-DEPENDENT ───
+      "Context-Dependent": [
+        { input: "يا بن الحلال اسكت", expect: false, desc: "Polite — not insult" },
+        { input: "الكلب بتاعي مريض", expect: false, desc: "Literal dog" },
+        { input: "الحمار ده لطيف", expect: false, desc: "Literal donkey" },
+        { input: "هو وسخ الهدوم", expect: false, desc: "Literal dirty clothes" },
+        { input: "الحق عليك انت واطي اوي", expect: true, desc: "Insult in context" },
+        { input: "يا ابن الستين في ستين", expect: true, desc: "Euphemistic curse" },
+        { input: "الله يسامحك يا حبيبي", expect: false, desc: "Forgiving — safe" },
+      ],
+
+      // ─── 21. CODE-SWITCHING ───
+      "Code-Switching": [
+        { input: "انت trash اصلا", expect: true, desc: "Arabic + English insult" },
+        { input: "you are عرص", expect: true, desc: "English + Arabic profanity" },
+        { input: "يا loser يا فاشل", expect: true, desc: "Mixed insult" },
+        { input: "this guy كلب", expect: true, desc: "Mixed animal insult" },
+      ],
+
+      // ─── 22. DIFFERENT SPELLINGS ───
+      "Different Spellings": [
+        { input: "قحبه", expect: true, desc: "هاء instead of تاء مربوطة" },
+        { input: "شرموطه", expect: true, desc: "هاء variant" },
+        { input: "عاهره", expect: true, desc: "هاء variant" },
+        { input: "وسخه", expect: true, desc: "هاء variant" },
+        { input: "حقيره", expect: true, desc: "هاء variant" },
+        { input: "ساقطه", expect: true, desc: "هاء variant" },
+        { input: "نجسه", expect: true, desc: "هاء variant" },
+        { input: "ملعونه", expect: true, desc: "هاء variant" },
+      ],
+
+      // ─── 23. SAFE TEXT (FALSE POSITIVE CHECK) ───
+      "Safe Text — False Positives": [
+        { input: "عرس جميل", expect: false, desc: "Wedding not عرص" },
+        { input: "كسر الزجاج", expect: false, desc: "Break not كس" },
+        { input: "حقيقة مهمة", expect: false, desc: "Truth not حقير" },
+        { input: "يا سلام عليك", expect: false, desc: "Praise expression" },
+        { input: "الله يبارك فيك", expect: false, desc: "Blessing" },
+        { input: "شكرا جزيلا لك", expect: false, desc: "Thank you" },
+        { input: "احسنت يا بطل", expect: false, desc: "Well done" },
+        { input: "ماشاء الله تبارك الله", expect: false, desc: "Religious praise" },
+        { input: "ربنا يحفظك", expect: false, desc: "Protection prayer" },
+        { input: "كل سنة وانت طيب", expect: false, desc: "Birthday wish" },
+        { input: "مبروك عليك", expect: false, desc: "Congratulations" },
+        { input: "تحياتي لحضرتك", expect: false, desc: "Formal greeting" },
+        { input: "الزبدة والجبنة", expect: false, desc: "Food — butter/cheese" },
+        { input: "طيز الخروف", expect: true, desc: "Vulgar body part" },
+        { input: "انا عايز اسال سوال", expect: false, desc: "Question" },
+        { input: "الجو حلو اليوم", expect: false, desc: "Weather chat" },
+      ],
+    };
+
+    // ═══════════════════════════════════════════════════════
+    // RUN TESTS
+    // ═══════════════════════════════════════════════════════
+
+    var totalPass = 0, totalFail = 0, totalTests = 0;
+    var results = {};
+    var gaps = [];
+
+    for (var cat in TESTS) {
+      var cases = TESTS[cat];
+      var catPass = 0, catFail = 0;
+      results[cat] = [];
+
+      for (var i = 0; i < cases.length; i++) {
+        var tc = cases[i];
+        var r = test(tc.input);
+        var passed = r.matched === tc.expect;
+
+        if (passed) { catPass++; totalPass++; }
+        else { catFail++; totalFail++; gaps.push({ cat: cat, input: tc.input, desc: tc.desc, expected: tc.expect, got: r.matched, normalized: r.normalized }); }
+
+        totalTests++;
+        results[cat].push({ input: tc.input, desc: tc.desc, expected: tc.expect, got: r.matched, normalized: r.normalized, passed: passed });
+      }
+
+      results[cat].pass = catPass;
+      results[cat].fail = catFail;
+      results[cat].total = cases.length;
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // RENDER
+    // ═══════════════════════════════════════════════════════
+
+    var passRate = totalTests > 0 ? Math.round(totalPass / totalTests * 100) : 0;
+    document.getElementById("summary").innerHTML =
+      "Total: <b>" + totalTests + "</b> tests — " +
+      '<span class="pass">✓ ' + totalPass + " passed</span> — " +
+      '<span class="fail">✗ ' + totalFail + " failed</span> — " +
+      "Pass rate: <b>" + passRate + "%</b>";
+
+    var filterBar = document.getElementById("filterBar");
+    var allBtn = document.createElement("button");
+    allBtn.className = "filter-btn active";
+    allBtn.textContent = "All (" + totalTests + ")";
+    allBtn.onclick = function () { filterResults("all"); };
+    filterBar.appendChild(allBtn);
+
+    var failBtn = document.createElement("button");
+    failBtn.className = "filter-btn";
+    failBtn.textContent = "Failed Only (" + totalFail + ")";
+    failBtn.onclick = function () { filterResults("fail"); };
+    filterBar.appendChild(failBtn);
+
+    var passBtn = document.createElement("button");
+    passBtn.className = "filter-btn";
+    passBtn.textContent = "Passed Only (" + totalPass + ")";
+    passBtn.onclick = function () { filterResults("pass"); };
+    filterBar.appendChild(passBtn);
+
+    var container = document.getElementById("results");
+
+    for (var cat in results) {
+      var items = results[cat];
+      var div = document.createElement("div");
+      div.className = "category";
+      div.dataset.cat = cat;
+
+      var scoreColor = items.fail > 0 ? "#ef4444" : "#10b981";
+      var pct = Math.round(items.pass / items.total * 100);
+      div.innerHTML = '<h2>' + cat + ' <span class="score" style="color:' + scoreColor + '">' + items.pass + '/' + items.total + ' (' + pct + '%)</span></h2>';
+
+      var table = '<table><tr><th>#</th><th>Input</th><th>Description</th><th>Normalized</th><th>Expected</th><th>Got</th><th>Result</th></tr>';
+      for (var j = 0; j < items.length; j++) {
+        var r = items[j];
+        var rowClass = r.passed ? "pass-row" : "fail-row";
+        var badge = r.passed ? '<span class="badge b-pass">PASS</span>' : '<span class="badge b-fail">FAIL</span>';
+        var expLabel = r.expected ? "TOXIC" : "SAFE";
+        var gotLabel = r.got ? "TOXIC" : "SAFE";
+        table += '<tr class="' + rowClass + '" data-status="' + (r.passed ? "pass" : "fail") + '"><td>' + (j + 1) + '</td><td class="arabic">' + escHtml(r.input) + '</td><td>' + r.desc + '</td><td class="arabic">' + escHtml(r.normalized) + '</td><td>' + expLabel + '</td><td>' + gotLabel + '</td><td>' + badge + '</td></tr>';
+      }
+      table += '</table>';
+      div.innerHTML += table;
+      container.appendChild(div);
+    }
+
+    // Gap analysis
+    if (gaps.length > 0) {
+      var gapSection = document.getElementById("gapSection");
+      gapSection.style.display = "block";
+      var gapList = document.getElementById("gapList");
+
+      for (var g = 0; g < gaps.length; g++) {
+        var gap = gaps[g];
+        var label = gap.expected ? "MISSED (should catch)" : "FALSE POSITIVE (should skip)";
+        var li = document.createElement("li");
+        li.innerHTML = '<span class="cat">' + gap.cat + '</span> ' +
+          '<span class="arabic">' + escHtml(gap.input) + '</span> — ' +
+          gap.desc + ' — <span class="badge b-fail">' + label + '</span>';
+        gapList.appendChild(li);
+      }
+    }
+
+    function filterResults(mode) {
+      document.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+      event.target.classList.add("active");
+
+      document.querySelectorAll("table tr[data-status]").forEach(function (row) {
+        if (mode === "all") row.style.display = "";
+        else if (mode === "fail") row.style.display = row.dataset.status === "fail" ? "" : "none";
+        else row.style.display = row.dataset.status === "pass" ? "" : "none";
+      });
+    }
+
+    function escHtml(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+  </script>
+</body>
+</html>
