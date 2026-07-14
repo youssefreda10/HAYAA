@@ -46,7 +46,7 @@ var HayaArabiziTransliterator = (function () {
     // Common Arabizi profanity WITHOUT a number signal — these are otherwise
     // pure-Latin and would be rejected here, then stripped to "" by the Arabic
     // normalizer ("nik"/"teez" vanished entirely). Detect them explicitly.
-    var arabiziProfanity = /\b(nik|neek|nayek|teez|tez|teezy|sharmout[a]?|sharmoota|manyook[a]?|taboun|kahba|qa?7ba|9a?hba|kharrat|zanim|kosom[m]?ak|zamla|7alouf|n3al|3abeed|3ars[a]?|q7ba|zeby|zb|5ara|5ra|man[iy]ak)\b/i;
+    var arabiziProfanity = /\b(nik|neek|nayek|teez|tez|teezy|sharmout[a]?|sharmoota|manyook[a]?|taboun|kahba|qa?7ba|9a?hba|kharrat|zanim|kosom[m]?ak|zamla|7alouf|n3al|3abeed|3ars[a]?|q7ba|zeby|zb|5ara|5ra|man[iy]ak|metnaka?|manyak|louti|lo[uw]ti|dayooth|ga[yw]aad|sa7a[gq]|s[oa]7a[gq]i[ya]?|da3ara|bazza?z|3anteel|m[ao]m[eo]ss?|fa[gj]er|5ali[3e]|5ali[3e]a|shloo?[gq]a?n[ea]?|5a[s]i)\b/i;
     if (arabiziProfanity.test(cleaned)) return true;
 
     return false;
@@ -254,6 +254,20 @@ var HayaArabiziTransliterator = (function () {
     "zanga": "\u0632\u0646\u062C\u064A",           // زنجي (racism)
     "zanji": "\u0632\u0646\u062C\u064A",           // زنجي
     "3abeed": "\u0639\u0628\u064A\u062F",          // عبيد
+
+    // Sexual explicit
+    "bazaz": "بزاز",            // بزاز
+    "baz": "بز",                          // بز
+    "3anteel": "عنتيل",    // عنتيل
+    "liwat": "لواط",            // لواط
+    "da3ra": "داعرة",      // داعرة
+    "da3ara": "دعارة",     // دعارة
+    "shaz": "شاذ",                   // شاذ
+    "maboon": "مبون",           // مبون
+    "louti": "لوطي",            // لوطي
+    "lowti": "لوطي",
+    "momess": "مومس",           // مومس
+    "5ali3": "خليع",            // خليع
   };
 
   function transliterateWord(word) {

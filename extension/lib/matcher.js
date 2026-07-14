@@ -86,7 +86,7 @@ var HayaMatcher = (function () {
   // A name is exempt everywhere, exactly like an allowlisted word. This is
   // a genuine homograph: the slur خول never takes a trailing ه, so treating
   // خوله as the name is the correct disambiguation. Kept deliberately small.
-  var NAME_EXCEPTIONS = new Set(["خوله", "خولة", "الخولي", "خولي"]);
+  var NAME_EXCEPTIONS = new Set(["خوله", "خولة", "الخولي", "خولي", "شركه", "شركة"]);
 
   function compressRepeats(text) {
     return text.replace(/(.)\1+/g, "$1");
