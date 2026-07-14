@@ -6,7 +6,20 @@
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
-  <div class="container">
+  <!-- Parental PIN gate — blocks the whole page until the PIN is entered -->
+  <div class="page-lock" id="pageLock" style="display:none">
+    <div class="page-lock-box">
+      <img src="../icons/icon48.png" alt="Hayā" class="page-lock-logo">
+      <svg class="lock-icon-big" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <h2>الإعدادات محمية</h2>
+      <p>أدخل رمز PIN للمتابعة</p>
+      <input type="password" id="pageLockInput" class="pin-input" maxlength="4" inputmode="numeric" dir="ltr" placeholder="PIN">
+      <button id="pageLockBtn" class="pin-submit-btn">فتح</button>
+      <span id="pageLockMsg" class="error-msg"></span>
+    </div>
+  </div>
+
+  <div class="container" id="optionsContent" style="display:none">
     <header>
       <img src="../icons/icon48.png" alt="Hayā" class="logo">
       <h1>إعدادات حيـاء</h1>
@@ -62,7 +75,7 @@
           </div>
           <div id="optRemovePwForm" style="display:none;margin-top:10px">
             <div class="lock-setup-row">
-              <input type="password" id="optRemovePwInput" maxlength="4" inputmode="numeric" placeholder="أدخل PIN الحالي">
+              <input type="password" id="optRemovePwInput" maxlength="4" inputmode="numeric" dir="ltr" placeholder="PIN">
               <button id="optRemovePwConfirm" class="lock-btn-set">تأكيد الإزالة</button>
             </div>
             <span id="optRemovePwMsg" class="error-msg"></span>
@@ -71,7 +84,7 @@
         <div id="optLockSetupView">
           <span class="lock-setup-label">وضع حماية الأطفال — رمز PIN (4 أرقام)</span>
           <div class="lock-setup-row">
-            <input type="password" id="optNewRevealPw" maxlength="4" inputmode="numeric" placeholder="4 أرقام...">
+            <input type="password" id="optNewRevealPw" maxlength="4" inputmode="numeric" dir="ltr" placeholder="PIN">
             <button id="optSetRevealPwBtn" class="lock-btn-set">تعيين</button>
           </div>
           <span id="optSetPwMsg" class="error-msg"></span>

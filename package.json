@@ -1,0 +1,17 @@
+{
+  "name": "haya",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node tests/run_tests.js && node tests/run_suite.js",
+    "test:precision": "node tests/safe_corpus.js && node tests/run_precision.js",
+    "test:dom": "node tests/block_dom.test.js",
+    "test:stress": "node tests/generate_stress_suite.js && node tests/run_stress_full.py",
+    "train": "python training/train.py",
+    "evaluate": "python training/evaluate.py",
+    "deploy": "modal deploy modal_api.py"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

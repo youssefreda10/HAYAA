@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Theme
+  chrome.storage.sync.get(["theme"], function (data) {
+    if (data.theme === "light") document.body.classList.add("light");
+  });
+
   // Tabs
   document.querySelectorAll(".tab").forEach(function (tab) {
     tab.addEventListener("click", function () {
@@ -54,33 +59,53 @@ document.addEventListener("DOMContentLoaded", function () {
         chrome.storage.local.set({ reports: [] }, function () {
           reportList.innerHTML = emptyHTML.replace("لا توجد أحداث بعد", "لا توجد بلاغات بعد");
           document.getElementById("reportCount").textContent = "٠";
+          clearBtn.remove();
         });
       });
       reportList.parentNode.appendChild(clearBtn);
     }
   });
 
-  // Activity
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  // Activity — this page is a chrome-extension:// tab, so the "active tab" is
+  // this page itself. Query all http(s) tabs and collect activity from each.
+  chrome.tabs.query({ url: ["http://*/*", "https://*/*"] }, function (tabs) {
     var activityList = document.getElementById("activityList");
-    if (!tabs[0]) { activityList.innerHTML = emptyHTML; return; }
+    if (!tabs || tabs.length === 0) { activityList.innerHTML = emptyHTML; return; }
 
-    chrome.tabs.sendMessage(tabs[0].id, { type: "getFilteredTexts" }, function (items) {
-      if (chrome.runtime.lastError || !items || items.length === 0) {
+    var pending = tabs.length;
+    var allItems = [];
+
+    tabs.forEach(function (tab) {
+      chrome.tabs.sendMessage(tab.id, { type: "getFilteredTexts" }, function (items) {
+        // Swallow errors from tabs without the content script
+        void chrome.runtime.lastError;
+        if (items && items.length) {
+          allItems = allItems.concat(items);
+        }
+        pending--;
+        if (pending === 0) renderActivity(allItems);
+      });
+    });
+
+    function renderActivity(items) {
+      if (items.length === 0) {
         activityList.innerHTML = emptyHTML;
         return;
       }
-
+      // Rule-based layers (dictionary, obfuscation resolver, emoji) are all
+      // instant local matches — only the model layer (api / api-cache) is AI.
+      var RULE_SOURCES = { dictionary: 1, deobfuscated: 1, emoji: 1 };
       items.slice().reverse().forEach(function (item) {
         var li = document.createElement("li");
         li.className = "event-item";
-        var badgeClass = item.source === "dictionary" ? "badge-dict" : "badge-filter";
-        var badgeText = item.source === "dictionary" ? "قاموس" : "AI";
+        var isRule = RULE_SOURCES[item.source];
+        var badgeClass = isRule ? "badge-dict" : "badge-filter";
+        var badgeText = isRule ? "قاموس" : "AI";
         li.innerHTML =
           '<div class="event-top"><span class="event-badge ' + badgeClass + '">' + badgeText + '</span></div>' +
           '<div class="event-text">' + escapeHtml(item.text) + '</div>';
         activityList.appendChild(li);
       });
-    });
+    }
   });
 });

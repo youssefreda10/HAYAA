@@ -20,6 +20,18 @@
       --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
+    body.light {
+      --bg: #f0f2f8;
+      --bg-card: rgba(255, 255, 255, 0.75);
+      --bg-input: rgba(240, 242, 248, 0.9);
+      --text: #1a1a2e;
+      --text-muted: #6b7290;
+      --border: rgba(108, 159, 232, 0.18);
+      --border-glow: rgba(180, 127, 218, 0.3);
+      --glow-blue: rgba(108, 159, 232, 0.2);
+      --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -163,6 +175,8 @@
       filter: blur(4px);
       transition: filter 0.2s;
       cursor: pointer;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .event-text:hover { filter: none; }
@@ -228,6 +242,9 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .stat-box .lbl {

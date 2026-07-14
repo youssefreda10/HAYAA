@@ -1,6 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
   var undoStack = [];
 
+  // ─── Parental PIN gate — must pass before the page is usable ───
+  // The options page can be opened directly (right-click icon → Options,
+  // chrome://extensions), so it needs its own gate, not just the popup's.
+  chrome.storage.sync.get(["parentalPin"], (data) => {
+    if (data.parentalPin) {
+      document.getElementById("pageLock").style.display = "flex";
+      document.getElementById("optionsContent").style.display = "none";
+      setTimeout(() => { document.getElementById("pageLockInput").focus(); }, 100);
+    } else {
+      document.getElementById("pageLock").style.display = "none";
+      document.getElementById("optionsContent").style.display = "block";
+    }
+  });
+
+  document.getElementById("pageLockBtn").addEventListener("click", () => {
+    var pin = document.getElementById("pageLockInput").value;
+    var msg = document.getElementById("pageLockMsg");
+    if (!pin) { msg.textContent = "أدخل الرمز"; return; }
+
+    chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, (res) => {
+      if (res && res.success) {
+        document.getElementById("pageLock").style.display = "none";
+        document.getElementById("optionsContent").style.display = "block";
+      } else {
+        msg.textContent = pinErrorText(res);
+        document.getElementById("pageLockInput").value = "";
+        document.getElementById("pageLockInput").focus();
+      }
+    });
+  });
+
+  // Shared wording for a rejected PIN (wrong, or temporarily locked out)
+  function pinErrorText(res) {
+    if (res && res.lockedFor) {
+      return "محاولات كثيرة — انتظر " + res.lockedFor + " ثانية";
+    }
+    if (res && res.remaining) {
+      return "رمز PIN غير صحيح — متبقي " + res.remaining + " محاولات";
+    }
+    return "رمز PIN غير صحيح";
+  }
+
+  document.getElementById("pageLockInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("pageLockBtn").click();
+  });
+
   // ─── Theme ───
   chrome.storage.sync.get(["theme"], (data) => {
     applyTheme(data.theme || "dark");
@@ -87,12 +133,18 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.storage.sync.get(["customWords"], (data) => {
       var arr = data.customWords || [];
       var added = 0;
+      pushUndo("customWords", data.customWords);
       items.forEach((item) => {
         var exists = arr.some((x) => (typeof x === "string" ? x : x.word) === item);
         if (!exists) { arr.push(item); added++; }
       });
       if (added > 0) {
         chrome.storage.sync.set({ customWords: arr }, () => {
+          // storage.sync caps items at ~8KB; a big bulk paste can exceed it.
+          if (chrome.runtime.lastError) {
+            showErr("generalSaved", "القائمة كبيرة جداً — لم يتم الحفظ");
+            return;
+          }
           renderWords(arr);
           wordInput.value = "";
           showMsg("generalSaved", "تمت إضافة " + added + " كلمة");
@@ -139,11 +191,16 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.storage.sync.get(["allowlist"], (data) => {
       var arr = data.allowlist || [];
       var added = 0;
+      pushUndo("allowlist", data.allowlist);
       items.forEach((item) => {
         if (!arr.includes(item)) { arr.push(item); added++; }
       });
       if (added > 0) {
         chrome.storage.sync.set({ allowlist: arr }, () => {
+          if (chrome.runtime.lastError) {
+            showErr("generalSaved", "القائمة كبيرة جداً — لم يتم الحفظ");
+            return;
+          }
           renderAllowlist(arr);
           allowInput.value = "";
           showMsg("generalSaved", "تمت إضافة " + added + " كلمة");
@@ -191,6 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
       var li = document.createElement("li");
       li.innerHTML = '<span dir="ltr">' + escapeHtml(d) + '</span><button class="remove-btn" title="حذف">&times;</button>';
       li.querySelector(".remove-btn").addEventListener("click", () => {
+        if (!confirmDelete("حذف \"" + d + "\" من قائمة المواقع؟")) return;
         chrome.storage.sync.get(["disabledDomains"], (data) => {
           var arr = (data.disabledDomains || []).filter((x) => x !== d);
           chrome.storage.sync.set({ disabledDomains: arr }, () => renderDomains(arr));
@@ -226,6 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
       var li = document.createElement("li");
       li.innerHTML = '<span dir="ltr">' + escapeHtml(d) + '</span><button class="remove-btn" title="حذف">&times;</button>';
       li.querySelector(".remove-btn").addEventListener("click", () => {
+        if (!confirmDelete("حذف \"" + d + "\" من قائمة المواقع؟")) return;
         chrome.storage.sync.get(["enabledDomains"], (data) => {
           var arr = (data.enabledDomains || []).filter((x) => x !== d);
           chrome.storage.sync.set({ enabledDomains: arr }, () => renderEnabledDomains(arr));
@@ -291,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
       } else {
-        msg.textContent = "رمز PIN غير صحيح";
+        msg.textContent = pinErrorText(res);
       }
     });
   });
@@ -339,7 +398,6 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.storage.sync.get(["customWords", "allowlist"], (data) => {
       var shareData = { customWords: data.customWords || [], allowlist: data.allowlist || [] };
       var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(shareData))));
-      var url = "data:text/plain;base64," + encoded;
       navigator.clipboard.writeText(encoded).then(() => {
         showMsg("configMsg", "تم نسخ رمز المشاركة — شاركه مع أي شخص");
       }).catch(() => {
@@ -425,8 +483,16 @@ document.addEventListener("DOMContentLoaded", () => {
     var el = document.getElementById(id);
     if (!el) return;
     el.textContent = text;
-    el.style.color = "#10b981";
+    el.style.color = "var(--success)";
     setTimeout(() => { el.textContent = ""; }, 3000);
+  }
+
+  function showErr(id, text) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = text;
+    el.style.color = "var(--danger)";
+    setTimeout(() => { el.textContent = ""; }, 4000);
   }
 
   function escapeHtml(str) {

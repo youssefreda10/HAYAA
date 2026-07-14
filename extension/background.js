@@ -10,26 +10,29 @@ var RETRY_DELAY = 20000;
 var MAX_RETRIES = 3;
 
 chrome.runtime.onInstalled.addListener(function (details) {
-  // Settings → sync (cross-device)
-  chrome.storage.sync.set({
-    enabled: true,
-    mode: "blur",
-    threshold: DEFAULT_THRESHOLD,
-    disabledDomains: [],
-    enabledDomains: [],
-    domainMode: "normal",
-    customWords: [],
-    allowlist: [],
-  });
+  if (details.reason === "install") {
+    // Settings → sync (cross-device) — only on first install
+    chrome.storage.sync.set({
+      enabled: true,
+      mode: "blur",
+      threshold: DEFAULT_THRESHOLD,
+      disabledDomains: [],
+      enabledDomains: [],
+      domainMode: "normal",
+      customWords: [],
+      allowlist: [],
+    });
 
-  // Stats → local (per-device)
-  chrome.storage.local.set({
-    totalFiltered: 0,
-    dictionaryHits: 0,
-    apiHits: 0,
-    pagesScanned: 0,
-  });
+    // Stats → local (per-device)
+    chrome.storage.local.set({
+      totalFiltered: 0,
+      pagesScanned: 0,
+    });
 
+    chrome.tabs.create({ url: "onboarding.html" });
+  }
+
+  // Context menus — recreate on every install/update
   chrome.contextMenus.create({
     id: "haya-add-word",
     title: "حياء: أضف \"%s\" للفلتر",
@@ -41,12 +44,23 @@ chrome.runtime.onInstalled.addListener(function (details) {
     title: "حياء: أضف \"%s\" للقائمة البيضاء",
     contexts: ["selection"],
   });
-
-  // Show onboarding on first install
-  if (details.reason === "install") {
-    chrome.tabs.create({ url: "onboarding.html" });
-  }
 });
+
+// Reload the tab to apply the new word list, then toast once it has settled.
+// (Toasting before the reload is pointless — the reload destroys the toast.)
+function reloadAndToast(tabId, message) {
+  function onUpdated(updatedTabId, changeInfo) {
+    if (updatedTabId !== tabId || changeInfo.status !== "complete") return;
+    chrome.tabs.onUpdated.removeListener(onUpdated);
+    // Content script runs at document_idle; give it a moment to attach.
+    setTimeout(function () {
+      chrome.tabs.sendMessage(tabId, { type: "showToast", message: message })
+        .catch(function () {});
+    }, 400);
+  }
+  chrome.tabs.onUpdated.addListener(onUpdated);
+  chrome.tabs.reload(tabId);
+}
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
   var word = (info.selectionText || "").trim();
@@ -59,10 +73,8 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
       if (!exists) {
         arr.push(word);
         chrome.storage.sync.set({ customWords: arr }, function () {
-          console.log("[Hayā] Added to filter:", word);
           if (tab && tab.id) {
-            chrome.tabs.sendMessage(tab.id, { type: "showToast", message: "تمت إضافة \"" + word + "\" للفلتر" });
-            chrome.tabs.reload(tab.id);
+            reloadAndToast(tab.id, "تمت إضافة \"" + word + "\" للفلتر");
           }
         });
       }
@@ -75,10 +87,8 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
       if (arr.indexOf(word) === -1) {
         arr.push(word);
         chrome.storage.sync.set({ allowlist: arr }, function () {
-          console.log("[Hayā] Added to allowlist:", word);
           if (tab && tab.id) {
-            chrome.tabs.sendMessage(tab.id, { type: "showToast", message: "تمت إضافة \"" + word + "\" للقائمة البيضاء" });
-            chrome.tabs.reload(tab.id);
+            reloadAndToast(tab.id, "تمت إضافة \"" + word + "\" للقائمة البيضاء");
           }
         });
       }
@@ -90,8 +100,9 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 chrome.commands.onCommand.addListener(function (command) {
   if (command !== "toggle-extension") return;
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    if (!tabs[0]) return;
-    var domain = new URL(tabs[0].url).hostname;
+    if (!tabs[0] || !tabs[0].url || !tabs[0].url.startsWith("http")) return;
+    var domain;
+    try { domain = new URL(tabs[0].url).hostname; } catch (e) { return; }
 
     chrome.storage.sync.get(["disabledDomains", "enabledDomains", "domainMode"], function (data) {
       var domainMode = data.domainMode || "normal";
@@ -147,14 +158,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   // Stats stay on LOCAL (per-device, high-frequency)
   if (message.type === "incrementStats") {
-    chrome.storage.local.get(["totalFiltered", "dictionaryHits", "apiHits"], function (data) {
-      var update = { totalFiltered: (data.totalFiltered || 0) + message.count };
-      if (message.source === "dictionary") {
-        update.dictionaryHits = (data.dictionaryHits || 0) + message.count;
-      } else if (message.source === "api") {
-        update.apiHits = (data.apiHits || 0) + message.count;
-      }
-      chrome.storage.local.set(update);
+    chrome.storage.local.get(["totalFiltered"], function (data) {
+      chrome.storage.local.set({ totalFiltered: (data.totalFiltered || 0) + message.count });
     });
   }
 
@@ -164,30 +169,19 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     });
   }
 
-  if (message.type === "verifyRevealPassword") {
-    hashPassword(message.password).then(function (hash) {
-      chrome.storage.sync.get(["parentalPin"], function (data) {
-        sendResponse({ success: data.parentalPin && hash === data.parentalPin });
-      });
-    });
-    return true;
-  }
-
   if (message.type === "verifyPin") {
-    hashPassword(message.pin).then(function (hash) {
-      chrome.storage.sync.get(["parentalPin"], function (data) {
-        sendResponse({ success: data.parentalPin === hash });
-      });
-    });
+    handleVerifyPin(message.pin).then(sendResponse);
     return true;
   }
 
   if (message.type === "setPin") {
-    hashPassword(message.pin).then(function (hash) {
-      chrome.storage.sync.set({ parentalPin: hash }, function () {
-        sendResponse({ success: true });
-      });
-    });
+    makePinRecord(message.pin)
+      .then(function (record) {
+        chrome.storage.sync.set({ parentalPin: record }, function () {
+          sendResponse({ success: true });
+        });
+      })
+      .catch(function () { sendResponse({ success: false }); });
     return true;
   }
 
@@ -212,16 +206,12 @@ async function handleClassify(texts) {
 async function classifyBatch(texts, retries) {
   if (retries === undefined) retries = 0;
 
-  console.log("[Hayā] Classifying batch of", texts.length, "texts (retry=" + retries + ")");
-
   try {
     var response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ inputs: texts }),
     });
-
-    console.log("[Hayā] API response:", response.status);
 
     if (response.status === 503) {
       if (retries < MAX_RETRIES) {
@@ -272,10 +262,121 @@ function updateBadge(count, tabId) {
   }
 }
 
-async function hashPassword(password) {
-  var encoder = new TextEncoder();
-  var data = encoder.encode(password);
-  var buffer = await crypto.subtle.digest("SHA-256", data);
-  var array = Array.from(new Uint8Array(buffer));
-  return array.map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+/* ============================================================
+   Parental PIN hashing
+
+   A 4-digit PIN has only 10,000 possible values, so a single
+   round of SHA-256 can be brute-forced instantly. We derive the
+   PIN with salted PBKDF2 instead, which makes each guess cost
+   ~200ms — turning an instant break into a slow one.
+
+   Stored shape: { v: 2, salt: <hex>, hash: <hex>, iterations: N }
+   Legacy values are plain SHA-256 hex strings; those still verify
+   and are transparently upgraded to v2 on the next correct entry.
+   ============================================================ */
+
+var PBKDF2_ITERATIONS = 1000000;
+
+// Failed-attempt throttle. The realistic attack on a 4-digit PIN is a child
+// typing guesses by hand, so make repeated failures progressively expensive.
+var MAX_FREE_ATTEMPTS = 5;
+var LOCKOUT_BASE_MS = 30000;
+
+function bufToHex(buffer) {
+  return Array.from(new Uint8Array(buffer))
+    .map(function (b) { return b.toString(16).padStart(2, "0"); })
+    .join("");
+}
+
+function hexToBytes(hex) {
+  var bytes = new Uint8Array(hex.length / 2);
+  for (var i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return bytes;
+}
+
+// Legacy (v1) — unsalted SHA-256. Kept only to verify old PINs.
+async function legacySha256(text) {
+  var buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return bufToHex(buffer);
+}
+
+async function derivePin(pin, saltHex, iterations) {
+  var key = await crypto.subtle.importKey(
+    "raw", new TextEncoder().encode(pin), "PBKDF2", false, ["deriveBits"]
+  );
+  var bits = await crypto.subtle.deriveBits(
+    { name: "PBKDF2", salt: hexToBytes(saltHex), iterations: iterations, hash: "SHA-256" },
+    key,
+    256
+  );
+  return bufToHex(bits);
+}
+
+async function makePinRecord(pin) {
+  var saltHex = bufToHex(crypto.getRandomValues(new Uint8Array(16)).buffer);
+  var hash = await derivePin(pin, saltHex, PBKDF2_ITERATIONS);
+  return { v: 2, salt: saltHex, hash: hash, iterations: PBKDF2_ITERATIONS };
+}
+
+// Length-constant comparison — avoids leaking match position via timing.
+function safeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
+  var diff = 0;
+  for (var i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+// Verify with a lockout: after MAX_FREE_ATTEMPTS failures, each further
+// failure locks the PIN for an exponentially longer window.
+async function handleVerifyPin(pin) {
+  var state = await chrome.storage.local.get(["pinFails", "pinLockUntil"]);
+  var fails = state.pinFails || 0;
+  var lockUntil = state.pinLockUntil || 0;
+  var now = Date.now();
+
+  if (now < lockUntil) {
+    return { success: false, lockedFor: Math.ceil((lockUntil - now) / 1000) };
+  }
+
+  var record = (await chrome.storage.sync.get(["parentalPin"])).parentalPin;
+  var ok = false;
+  try { ok = await verifyPinAgainst(record, pin); } catch (e) { ok = false; }
+
+  if (ok) {
+    await chrome.storage.local.set({ pinFails: 0, pinLockUntil: 0 });
+    return { success: true };
+  }
+
+  fails++;
+  var update = { pinFails: fails };
+  if (fails > MAX_FREE_ATTEMPTS) {
+    var over = fails - MAX_FREE_ATTEMPTS;
+    // 30s, 60s, 120s, 240s … capped at 15 min
+    var wait = Math.min(LOCKOUT_BASE_MS * Math.pow(2, over - 1), 900000);
+    update.pinLockUntil = now + wait;
+    await chrome.storage.local.set(update);
+    return { success: false, lockedFor: Math.ceil(wait / 1000) };
+  }
+
+  await chrome.storage.local.set(update);
+  return { success: false, remaining: MAX_FREE_ATTEMPTS - fails + 1 };
+}
+
+async function verifyPinAgainst(record, pin) {
+  if (!record) return false;
+
+  // v1 legacy: plain SHA-256 string → verify, then upgrade in place.
+  if (typeof record === "string") {
+    var legacy = await legacySha256(pin);
+    if (!safeEqual(legacy, record)) return false;
+    var upgraded = await makePinRecord(pin);
+    await chrome.storage.sync.set({ parentalPin: upgraded });
+    return true;
+  }
+
+  if (!record.salt || !record.hash) return false;
+  var candidate = await derivePin(pin, record.salt, record.iterations || PBKDF2_ITERATIONS);
+  return safeEqual(candidate, record.hash);
 }

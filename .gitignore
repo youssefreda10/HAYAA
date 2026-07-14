@@ -42,3 +42,14 @@ desktop.ini
 
 # Claude Code
 .claude/
+
+# Node
+node_modules/
+
+# Generated test suites (large; produced by generators on demand)
+tests/suite_*.json
+tests/suite_*.jsonl
+tests/safe_corpus.json
+
+# Generated reports
+reports/stress_full.json

@@ -17,6 +17,7 @@
   var toxicCount = 0;
   var pendingTexts = [];
   var pendingElements = [];
+  var pendingOriginals = [];
   var batchTimer = null;
   var wordGroups = { exact: new Set(), partial: new Set(), regex: [] };
   var allowlist = new Set();
@@ -28,38 +29,41 @@
   var apiCache = new Map();
   var MAX_CACHE = 500;
 
+  // Comment blocks already sent to the model. A block is scored ONCE even
+  // though several of its child elements may each reach processElement.
+  var queuedBlocks = new WeakSet();
+
   // Deferred elements (outside viewport)
   var viewportObserver = null;
 
   async function init() {
-    console.log("[Hayā] Content script loaded");
     settings = await getSettings();
-    console.log("[Hayā] Settings:", JSON.stringify(settings));
 
-    if (!settings.enabled) { console.log("[Hayā] Disabled"); return; }
+    if (!settings.enabled) return;
 
     var domain = window.location.hostname;
     if (settings.domainMode === "minimal") {
       if (!settings.enabledDomains || settings.enabledDomains.indexOf(domain) === -1) {
-        console.log("[Hayā] Minimal mode — domain not enabled:", domain);
         return;
       }
     } else {
       if (settings.disabledDomains && settings.disabledDomains.indexOf(domain) !== -1) {
-        console.log("[Hayā] Domain disabled:", domain);
         return;
       }
     }
 
-    chrome.storage.sync.get(["parentalPin"], function (data) {
-      if (data.parentalPin) {
-        revealLocked = true;
-        console.log("[Hayā] Reveal locked (parental PIN set)");
-      }
+    // Must resolve BEFORE scanning — otherwise reveal buttons exist while
+    // revealLocked is still false and the lock can be bypassed.
+    await new Promise(function (resolve) {
+      chrome.storage.sync.get(["parentalPin"], function (data) {
+        if (data.parentalPin) {
+          revealLocked = true;
+        }
+        resolve();
+      });
     });
 
     await loadWordLists();
-    console.log("[Hayā] Dictionary:", wordGroups.exact.size, "exact +", wordGroups.partial.size, "partial +", wordGroups.regex.length, "regex");
     chrome.runtime.sendMessage({ type: "pageScanned" });
     setupViewportObserver();
     scanPage();
@@ -105,19 +109,29 @@
           }
         }
 
+        var contextualWords = new Set(HayaDictionary.contextual || []);
+        var pejorativeWords = new Set(HayaDictionary.pejorative || []);
+
         allowlist = new Set(allow);
         var allowIter = allowlist.values();
         var ae = allowIter.next();
         while (!ae.done) {
           exactWords.delete(ae.value);
           partialWords.delete(ae.value);
+          contextualWords.delete(ae.value);
+          pejorativeWords.delete(ae.value);
           ae = allowIter.next();
         }
 
         wordGroups = {
           exact: exactWords,
+          contextual: contextualWords,
+          pejorative: pejorativeWords,
           partial: partialWords,
           regex: regexPatterns.concat(HayaDictionary.patterns || []),
+          // Passed through so the matcher can veto regex/partial hits too —
+          // deleting from the sets alone never protected against those.
+          allow: allowlist,
         };
         resolve();
       });
@@ -214,14 +228,50 @@
 
     var text = getDirectText(element);
     if (!text || text.length < MIN_TEXT_LENGTH) return;
-    if (!hasArabic(text)) return;
+    var isArabiziText = false;
+    if (typeof HayaArabiziTransliterator !== "undefined") {
+      isArabiziText = HayaArabiziTransliterator.isArabizi(text);
+    }
+    
+    if (!hasArabic(text) && !isArabiziText) return;
 
     element.setAttribute(PROCESSED_ATTR, "1");
 
+    // Layer 0.2: Emoji Analysis (before normalizer strips them)
+    var emojiAnalysis = { isToxic: false, score: 0 };
+    if (typeof HayaEmojiAnalyzer !== "undefined") {
+      emojiAnalysis = HayaEmojiAnalyzer.analyze(text);
+      if (emojiAnalysis.isToxic) {
+        applyFilter(element);
+        logFiltered(text, "emoji");
+        toxicCount++;
+        chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
+        chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "emoji" });
+        return;
+      }
+    }
+    if (emojiAnalysis.extractedText) {
+      text = text + " " + emojiAnalysis.extractedText;
+    }
+
+
+    // Clean normalized form — this is what the MODEL must see. It mirrors the
+    // Python normalizer the model was TRAINED on (utils/arabic_normalizer.py):
+    // diacritics stripped, spaced letters stitched, repeats collapsed. Sending
+    // raw text to the model instead (the old bug) let obfuscation like
+    // "ك.س.م ميسي" score 0.00 SAFE, when the normalized "كسم ميسي" scores 1.00.
+    var cleanNorm = HayaNormalizer.normalize(text);
+
+    // Dictionary form — morphology-expanded. This adds direction-marker tokens
+    // that help the DICTIONARY matcher but would corrupt MODEL input, so it is
+    // kept separate and never sent to Layer 2.
+    var dictForm = cleanNorm;
+    if (cleanNorm && typeof HayaMorphologyExpander !== "undefined") {
+      dictForm = HayaMorphologyExpander.expand(cleanNorm);
+    }
+
     // Layer 1: Dictionary check (instant, no network)
-    var normalized = HayaNormalizer.normalize(text);
-    if (normalized && HayaMatcher.check(normalized, wordGroups)) {
-      console.log("[Hayā] Dictionary match (Layer 1):", text.substring(0, 50));
+    if (dictForm && HayaMatcher.check(dictForm, wordGroups)) {
       applyFilter(element);
       logFiltered(text, "dictionary");
       toxicCount++;
@@ -230,20 +280,55 @@
       return;
     }
 
-    // Check cache before queuing for API
-    var cached = apiCache.get(normalized || text);
-    if (cached) {
-      if (cached.label === "TOXIC" && cached.score >= settings.threshold) {
+    // Layer 1.5: Obfuscation resolver (instant, no network).
+    // Repairs masked/padded tokens ("كىىىمك") and re-checks the dictionary.
+    // Only fires on tokens with an evasion signature, so clean text is never
+    // rewritten — verified at 0 false positives on the hard-negative corpus.
+    if (cleanNorm && typeof HayaObfuscationResolver !== "undefined") {
+      var resolved = HayaObfuscationResolver.resolveViaDictionary(
+        cleanNorm,
+        function (candidate) {
+          return HayaMatcher.check(
+            HayaMorphologyExpander.expand(candidate), wordGroups
+          );
+        }
+      );
+      if (resolved) {
         applyFilter(element);
-        logFiltered(text, "api-cache");
+        logFiltered(text, "deobfuscated");
         toxicCount++;
         chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
+        chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "dictionary" });
+        return;
+      }
+    }
+
+    // Layer 2: the model needs the WHOLE comment, not this element's fragment
+    // (see getBlockText — fragments score 0.00 on content that scores 0.97
+    // intact). So we score the enclosing BLOCK, and if it comes back toxic we
+    // blur the block — the whole comment the human reads, not the one <span>
+    // that happened to trigger the scan. Sibling fragments of the same block
+    // are skipped via queuedBlocks, so each comment costs exactly one call.
+    var block = getBlockElement(element);
+    var blockText = getBlockText(element);
+    var modelText = HayaNormalizer.normalize(blockText) || cleanNorm;
+
+    var blockCached = apiCache.get(modelText);
+    if (blockCached) {
+      if (blockCached.label === "TOXIC" && blockCached.score >= settings.threshold) {
+        applyFilter(block);
+        logFiltered(blockText, "api-cache");
+        toxicCount++;
+        chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
+        chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "api" });
       }
       return;
     }
 
-    // Layer 2: Queue for AI model (via background.js)
-    queueForClassification(text, element);
+    if (queuedBlocks.has(block)) return; // already in flight for this comment
+    queuedBlocks.add(block);
+
+    queueForClassification(modelText, block, blockText);
   }
 
   function getDirectText(element) {
@@ -254,6 +339,44 @@
       }
     }
     return text.trim();
+  }
+
+  // ── Block text for the MODEL ────────────────────────────────
+  //
+  // getDirectText() returns only an element's OWN text nodes, so a comment
+  // split across <span>/<b>/<a> children arrives as fragments. That is fine
+  // for the dictionary (a slur is one word), but it CRIPPLES the model:
+  // implicit toxicity needs context, and short fragments fall outside the
+  // distribution the model was trained on (toxic examples averaged ~17 words).
+  //
+  // Measured on the real model — the same comment:
+  //     whole            → 0.97 TOXIC
+  //     split into 4 DOM fragments → 0.00 / 0.00 / 0.00 / 0.00  (missed)
+  //
+  // So for Layer 2 we climb to the nearest block-level container and send its
+  // FULL text, which is what the human actually reads as one comment.
+  var BLOCK_TAGS = new Set([
+    "P", "DIV", "LI", "TD", "TH", "ARTICLE", "SECTION", "BLOCKQUOTE",
+    "H1", "H2", "H3", "H4", "H5", "H6", "DD", "DT", "FIGCAPTION", "MAIN",
+  ]);
+  var MAX_BLOCK_CHARS = 1000; // keep well under the model's 128-token window
+
+  function getBlockElement(element) {
+    var node = element;
+    var hops = 0;
+    while (node && hops < 6) {
+      if (BLOCK_TAGS.has(node.tagName)) return node;
+      node = node.parentElement;
+      hops++;
+    }
+    return element;
+  }
+
+  function getBlockText(element) {
+    var block = getBlockElement(element);
+    var text = (block.textContent || "").replace(/\s+/g, " ").trim();
+    if (text.length > MAX_BLOCK_CHARS) text = text.substring(0, MAX_BLOCK_CHARS);
+    return text;
   }
 
   function hasArabic(text) {
@@ -267,9 +390,12 @@
   // Batching & Classification (Layer 2 — via background.js)
   // ============================================================
 
-  function queueForClassification(text, element) {
+  // text = clean normalized form sent to the model; original = human-readable
+  // source text, carried only for the filtered log / cache display.
+  function queueForClassification(text, element, original) {
     pendingTexts.push(text);
     pendingElements.push(element);
+    pendingOriginals.push(original != null ? original : text);
 
     if (pendingTexts.length >= 50) {
       flushBatch();
@@ -284,18 +410,17 @@
 
     var texts = pendingTexts.slice();
     var elements = pendingElements.slice();
+    var originals = pendingOriginals.slice();
     pendingTexts = [];
     pendingElements = [];
-
-    console.log("[Hayā] Sending", texts.length, "texts to API (Layer 2)");
+    pendingOriginals = [];
 
     chrome.runtime.sendMessage({ type: "classify", texts: texts }, function (results) {
       if (chrome.runtime.lastError) {
-        console.error("[Hayā]", chrome.runtime.lastError.message);
         return;
       }
       if (results) {
-        applyResults(results, elements, texts);
+        applyResults(results, elements, texts, originals);
       }
     });
   }
@@ -304,7 +429,7 @@
   // Applying Results
   // ============================================================
 
-  function applyResults(results, elements, texts) {
+  function applyResults(results, elements, texts, originals) {
     var newToxic = 0;
 
     for (var i = 0; i < results.length; i++) {
@@ -313,17 +438,17 @@
 
       if (!element || !result) continue;
 
-      // Cache the result
-      var normalized = HayaNormalizer.normalize(texts[i]) || texts[i];
+      // texts[i] is already the clean normalized form the model scored — cache
+      // directly on it (matches the lookup key in processElement). No re-normalize.
       if (apiCache.size >= MAX_CACHE) {
         var firstKey = apiCache.keys().next().value;
         apiCache.delete(firstKey);
       }
-      apiCache.set(normalized, result);
+      apiCache.set(texts[i], result);
 
       if (result.label === "TOXIC" && result.score >= settings.threshold) {
         applyFilter(element);
-        logFiltered(texts[i] || "", "api");
+        logFiltered((originals && originals[i]) || texts[i] || "", "api");
         newToxic++;
       }
     }
@@ -336,6 +461,9 @@
   }
 
   function applyFilter(element) {
+    // Element may have been removed from DOM while waiting for the API response
+    if (!element.parentNode || !element.isConnected) return;
+
     var mode = settings.mode || "blur";
     var text = getDirectText(element) || "";
 
@@ -433,9 +561,9 @@
     overlay.className = "haya-password-overlay";
     overlay.innerHTML =
       '<div class="haya-password-box">' +
-        '<h3>🔒 الكشف محمي</h3>' +
-        '<p>أدخل كلمة المرور للكشف عن المحتوى المخفي</p>' +
-        '<input type="password" class="haya-pw-input" placeholder="كلمة المرور..." autofocus>' +
+        '<h3>الكشف محمي</h3>' +
+        '<p>أدخل رمز PIN للكشف عن المحتوى المخفي</p>' +
+        '<input type="password" class="haya-pw-input" maxlength="4" inputmode="numeric" dir="ltr" placeholder="PIN" autofocus>' +
         '<div class="haya-pw-btns">' +
           '<button class="haya-pw-submit">فتح</button>' +
           '<button class="haya-pw-cancel">إلغاء</button>' +
@@ -449,16 +577,21 @@
     var errorEl = overlay.querySelector(".haya-pw-error");
 
     function tryUnlock() {
-      var pw = input.value;
-      if (!pw) return;
+      var pin = input.value;
+      if (!pin) return;
 
-      chrome.runtime.sendMessage({ type: "verifyRevealPassword", password: pw }, function (res) {
+      chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, function (res) {
         if (res && res.success) {
           revealLocked = false;
           overlay.remove();
           onSuccess();
+        } else if (res && res.lockedFor) {
+          errorEl.textContent = "محاولات كثيرة — انتظر " + res.lockedFor + " ثانية";
+          input.value = "";
         } else {
-          errorEl.textContent = "كلمة المرور غير صحيحة";
+          errorEl.textContent = res && res.remaining
+            ? "رمز PIN غير صحيح — متبقي " + res.remaining + " محاولات"
+            : "رمز PIN غير صحيح";
           input.value = "";
           input.focus();
         }

@@ -22,8 +22,8 @@
   filter: none;
   cursor: default;
   user-select: auto;
-  border-left: 3px solid #ef4444;
-  padding-left: 4px;
+  border-inline-start: 3px solid #ef4444;
+  padding-inline-start: 4px;
   background-color: rgba(239, 68, 68, 0.05);
 }
 
@@ -80,29 +80,26 @@
   transform: none;
 }
 
-/* Report button — small flag next to reveal */
+/* Report button — hidden when blurred, visible only when revealed */
 .haya-report-btn {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  z-index: 999998;
-  background: rgba(12, 12, 46, 0.7);
-  backdrop-filter: blur(8px);
-  color: #8888bb;
-  border: 1px solid rgba(108, 159, 232, 0.15);
-  border-radius: 6px;
-  padding: 2px 6px;
+  display: none;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: inherit;
+  font-family: "Segoe UI", -apple-system, sans-serif;
   line-height: 1;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+  padding: 1px 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+  opacity: 0.7;
 }
 
 .haya-report-btn:hover {
-  color: #f0f0ff;
-  border-color: rgba(180, 127, 218, 0.3);
-  box-shadow: 0 0 8px rgba(180, 127, 218, 0.2);
+  opacity: 1;
+  background: rgba(239, 68, 68, 0.2);
 }
 
 .haya-report-btn:disabled {
@@ -111,13 +108,10 @@
   border-color: rgba(16, 185, 129, 0.3);
 }
 
-/* When revealed, report btn becomes inline */
+/* When revealed, show report btn inline */
 .haya-wrapper.haya-revealed-state .haya-report-btn {
-  position: static;
   display: inline;
-  margin-right: 4px;
-  vertical-align: middle;
-  opacity: 0.6;
+  margin-inline-start: 4px;
 }
 
 .haya-wrapper.haya-revealed-state .haya-report-btn:hover {
@@ -143,8 +137,8 @@
 
 .haya-password-overlay {
   position: fixed;
-  inset: 0;
-  z-index: 999999;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 9999999;
   background: rgba(7, 7, 26, 0.7);
   backdrop-filter: blur(8px);
   display: flex;
@@ -158,9 +152,8 @@
   backdrop-filter: blur(16px);
   border: 1px solid rgba(108, 159, 232, 0.15);
   border-radius: 16px;
-  padding: 32px 28px;
-  min-width: 300px;
-  max-width: 360px;
+  padding: 32px 32px;
+  width: 320px;
   text-align: center;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(108, 159, 232, 0.1);
   font-family: "Segoe UI", -apple-system, sans-serif;
@@ -192,6 +185,7 @@
   padding: 12px 16px;
   font-size: 16px;
   text-align: center;
+  direction: ltr;
   letter-spacing: 4px;
   outline: none;
   margin-bottom: 16px;
@@ -207,11 +201,12 @@
 .haya-password-box .haya-pw-btns {
   display: flex;
   gap: 10px;
+  width: 100%;
 }
 
 .haya-password-box button {
   flex: 1;
-  padding: 11px;
+  padding: 12px 16px;
   border-radius: 10px;
   font-size: 14px;
   font-family: inherit;
@@ -219,6 +214,7 @@
   cursor: pointer;
   border: none;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .haya-password-box .haya-pw-submit {
@@ -257,8 +253,8 @@
 .haya-toast {
   position: fixed;
   bottom: 24px;
-  left: 24px;
-  z-index: 999999;
+  inset-inline-start: 24px;
+  z-index: 10000000;
   background: rgba(12, 12, 46, 0.92);
   backdrop-filter: blur(12px);
   color: #f0f0ff;

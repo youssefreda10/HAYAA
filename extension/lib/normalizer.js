@@ -3,7 +3,6 @@
 var HayaNormalizer = (function () {
   var ZERO_WIDTH = "​‌‍‎‏‪‫‬‭‮⁠⁡⁢⁣⁤﻿";
   var ARABIC_RANGE = "[\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\uFB50-\\uFDFF\\uFE70-\\uFEFF]";
-  var ARABIC_RE = new RegExp(ARABIC_RANGE);
   var NOT_ARABIC_OR_SPACE = new RegExp("[^\\s\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\uFB50-\\uFDFF\\uFE70-\\uFEFF]", "g");
   var DIGITS_RE = /[0-9٠-٩۰-۹]/g;
   var DIACRITICS_RE = /[ً-ٰٟ]/g;
@@ -13,13 +12,34 @@ var HayaNormalizer = (function () {
   var SPACED_LETTERS_RE;
 
   try {
-    SPACED_LETTERS_RE = new RegExp("(?<=" + ARABIC_RANGE + ")\\s(?=" + ARABIC_RANGE + "(?:\\s|$))", "g");
+    // Collapse letter-spacing ("ك س م ك" → "كسمك") WITHOUT gluing a real
+    // leading word onto a spelled-out run. The preceding letter must itself
+    // be lone (preceded by start-or-space) — so "يا ك ذ ا ب" collapses to
+    // "يا كذاب" (address cue preserved as its own token), not "ياكذاب".
+    // Without this, the cue merged into the word, destroying both direction
+    // detection and the "يا"-stripping needed to reach the stem.
+    SPACED_LETTERS_RE = new RegExp("(?<=(?:^|\\s)" + ARABIC_RANGE + ")\\s(?=" + ARABIC_RANGE + "(?:\\s|$))", "g");
   } catch (e) {
     SPACED_LETTERS_RE = null;
   }
 
   function normalize(text) {
     if (!text || typeof text !== "string") return "";
+
+    // Step 0: Unicode Sanitizer (Adversarial defense)
+    if (typeof HayaUnicodeSanitizer !== "undefined") {
+      text = HayaUnicodeSanitizer.sanitize(text);
+    }
+
+    // Step 0.1: Arabizi transliteration (must run before Homoglyphs so we don't misidentify Latin letters as fake Arabic)
+    if (typeof HayaArabiziTransliterator !== "undefined") {
+      text = HayaArabiziTransliterator.transliterate(text);
+    }
+
+    // Step 0.2: Homoglyph canonicalization
+    if (typeof HayaHomoglyphNormalizer !== "undefined") {
+      text = HayaHomoglyphNormalizer.normalize(text);
+    }
 
     text = text.normalize("NFKC");
 

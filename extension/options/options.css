@@ -24,6 +24,7 @@
   --danger: #ef4444;
   --success: #10b981;
   --glass-blur: blur(12px);
+  --slider-bg: rgba(50, 50, 80, 0.6);
   --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
@@ -39,6 +40,7 @@ body.light {
   --border-glow: rgba(180, 127, 218, 0.3);
   --glow-blue: rgba(108, 159, 232, 0.2);
   --glow-purple: rgba(180, 127, 218, 0.15);
+  --slider-bg: #d1d5db;
   --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
@@ -49,6 +51,7 @@ body {
   color: var(--text);
   direction: rtl;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .container {
@@ -179,8 +182,9 @@ header h1 {
 .switch input { opacity: 0; width: 0; height: 0; }
 
 .slider {
-  position: absolute; cursor: pointer; inset: 0;
-  background: rgba(50, 50, 80, 0.6);
+  position: absolute; cursor: pointer;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: var(--slider-bg);
   border-radius: 26px; transition: 0.3s ease;
   border: 1px solid var(--border);
 }
@@ -189,9 +193,9 @@ header h1 {
   content: ""; position: absolute;
   height: 20px; width: 20px;
   right: 3px; bottom: 2px;
-  background: white; border-radius: 50%;
+  background: #fff; border-radius: 50%;
   transition: 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 input:checked + .slider {
@@ -233,7 +237,7 @@ input:checked + .slider::before { transform: translateX(-20px); }
 
 .field input[type="checkbox"] {
   accent-color: var(--accent-blue);
-  margin-left: 8px;
+  margin-inline-start: 8px;
   width: 18px; height: 18px;
   vertical-align: middle; cursor: pointer;
 }
@@ -384,7 +388,19 @@ input:checked + .slider::before { transform: translateX(-20px); }
 }
 
 .config-buttons { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.import-label { text-align: center; line-height: 1; padding-top: 11px; cursor: pointer; }
+.import-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ─── Focus Visible (keyboard accessibility) ─── */
+button:focus-visible, select:focus-visible, a:focus-visible, .tab:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
+}
 
 /* ─── Empty States ─── */
 .empty-state {
@@ -407,9 +423,111 @@ input:checked + .slider::before { transform: translateX(-20px); }
   max-height: 300px;
   overflow-y: auto;
   position: relative;
-  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 92%, transparent 100%);
 }
 
 .word-list::-webkit-scrollbar { width: 4px; }
 .word-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ─── Parental PIN Page Gate ─── */
+.page-lock {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-lock-box {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 36px;
+  width: 340px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--glass-inner), 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.page-lock-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px var(--glow-blue);
+  margin-bottom: 4px;
+}
+
+.page-lock-box .lock-icon-big {
+  width: 32px;
+  height: 32px;
+  color: var(--accent-purple);
+}
+
+.page-lock-box h2 {
+  font-size: 20px;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-lock-box p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.page-lock-box .pin-input {
+  width: 180px;
+  background: var(--bg-input);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: inherit;
+  text-align: center;
+  letter-spacing: 12px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.page-lock-box .pin-input::placeholder {
+  font-size: 16px;
+  letter-spacing: 6px;
+  font-weight: 400;
+}
+
+.page-lock-box .pin-input:focus {
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 16px var(--glow-purple);
+}
+
+.page-lock-box .pin-submit-btn {
+  width: 180px;
+  background: var(--gradient-btn);
+  color: #fff;
+  border: none;
+  padding: 11px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px var(--glow-blue);
+}
+
+.page-lock-box .pin-submit-btn:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 24px var(--glow-blue);
+}

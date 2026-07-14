@@ -23,6 +23,7 @@
   --glow-purple: rgba(180, 127, 218, 0.25);
   --danger: #ef4444;
   --success: #10b981;
+  --slider-bg: rgba(50, 50, 80, 0.6);
   --glass-blur: blur(12px);
   --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
@@ -39,6 +40,7 @@ body.light {
   --border-glow: rgba(180, 127, 218, 0.3);
   --glow-blue: rgba(108, 159, 232, 0.2);
   --glow-purple: rgba(180, 127, 218, 0.15);
+  --slider-bg: #d1d5db;
   --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
@@ -96,10 +98,6 @@ body {
   gap: 12px;
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid transparent;
-  background-image: linear-gradient(var(--bg), var(--bg)), var(--gradient);
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
   border-bottom: 1px solid;
   border-image: var(--gradient) 1;
 }
@@ -184,8 +182,8 @@ body {
 .slider {
   position: absolute;
   cursor: pointer;
-  inset: 0;
-  background: rgba(50, 50, 80, 0.6);
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: var(--slider-bg);
   border-radius: 26px;
   transition: 0.3s ease;
   border: 1px solid var(--border);
@@ -434,20 +432,27 @@ input:checked + .slider::before {
 }
 
 .pin-input {
-  width: 160px;
+  width: 180px;
   background: var(--bg-input);
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 12px 16px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   font-family: inherit;
   text-align: center;
-  letter-spacing: 10px;
+  direction: ltr;
+  letter-spacing: 12px;
   outline: none;
   transition: all 0.3s ease;
   backdrop-filter: var(--glass-blur);
+}
+
+.pin-input::placeholder {
+  font-size: 16px;
+  letter-spacing: 6px;
+  font-weight: 400;
 }
 
 .pin-input:focus {
@@ -456,7 +461,7 @@ input:checked + .slider::before {
 }
 
 .pin-submit-btn {
-  width: 160px;
+  width: 180px;
   background: var(--gradient-btn);
   color: #fff;
   border: none;
@@ -473,6 +478,12 @@ input:checked + .slider::before {
 .pin-submit-btn:hover {
   transform: translateY(-1px) scale(1.02);
   box-shadow: 0 6px 24px var(--glow-blue);
+}
+
+/* ─── Focus Visible (keyboard accessibility) ─── */
+button:focus-visible, select:focus-visible, a:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
 }
 
 /* ─── Footer ─── */

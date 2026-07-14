@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const enableToggle = document.getElementById("enableToggle");
   const modeSelect = document.getElementById("modeSelect");
   var parentalUnlocked = false;
+  // Set when the lock overlay was opened to gate a specific action (e.g. the
+  // user clicked "open options"). After a correct PIN we run it, so the parent
+  // is not silently dropped back with nothing happening.
+  var pendingAfterUnlock = null;
 
   // ─── Theme ───
   chrome.storage.sync.get(["theme"], (data) => {
@@ -90,12 +94,28 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, (res) => {
       if (res && res.success) {
         unlockControls();
+        if (pendingAfterUnlock) {
+          var action = pendingAfterUnlock;
+          pendingAfterUnlock = null;
+          action();
+        }
       } else {
-        msg.textContent = "رمز PIN غير صحيح";
+        msg.textContent = pinErrorText(res);
         document.getElementById("unlockPinInput").value = "";
       }
     });
   });
+
+  // Shared wording for a rejected PIN (wrong, or temporarily locked out)
+  function pinErrorText(res) {
+    if (res && res.lockedFor) {
+      return "محاولات كثيرة — انتظر " + res.lockedFor + " ثانية";
+    }
+    if (res && res.remaining) {
+      return "رمز PIN غير صحيح — متبقي " + res.remaining + " محاولات";
+    }
+    return "رمز PIN غير صحيح";
+  }
 
   document.getElementById("unlockPinInput").addEventListener("keydown", (e) => {
     if (e.key === "Enter") document.getElementById("unlockPinBtn").click();
@@ -147,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     chrome.storage.sync.get(["parentalPin"], (data) => {
       if (data.parentalPin && !parentalUnlocked) {
+        pendingAfterUnlock = function () { chrome.runtime.openOptionsPage(); };
         document.getElementById("lockedOverlay").style.display = "flex";
         document.getElementById("unlockPinInput").focus();
       } else {
@@ -217,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
       } else {
-        msg.textContent = "رمز PIN غير صحيح";
+        msg.textContent = pinErrorText(res);
       }
     });
   });
