@@ -31,12 +31,7 @@ var HayaNormalizer = (function () {
       text = HayaUnicodeSanitizer.sanitize(text);
     }
 
-    // Step 0.1: Arabizi transliteration (must run before Homoglyphs so we don't misidentify Latin letters as fake Arabic)
-    if (typeof HayaArabiziTransliterator !== "undefined") {
-      text = HayaArabiziTransliterator.transliterate(text);
-    }
-
-    // Step 0.2: Homoglyph canonicalization
+    // Step 0.1: Homoglyph canonicalization
     if (typeof HayaHomoglyphNormalizer !== "undefined") {
       text = HayaHomoglyphNormalizer.normalize(text);
     }

@@ -28,7 +28,7 @@ def p_toxic(text):
 # One node process to normalize + dict-check + generate candidates for a batch.
 NODE = r"""
 const fs=require("fs"),path=require("path"),LIB=path.join(process.cwd(),"extension","lib");
-["unicode_sanitizer","homoglyph_normalizer","arabizi_transliterator","emoji_analyzer","normalizer","morphology_expander","dictionary","matcher","obfuscation_resolver"].forEach(f=>{global.eval(fs.readFileSync(path.join(LIB,f+".js"),"utf8"));});
+["unicode_sanitizer","homoglyph_normalizer","emoji_analyzer","normalizer","morphology_expander","dictionary","matcher","obfuscation_resolver"].forEach(f=>{global.eval(fs.readFileSync(path.join(LIB,f+".js"),"utf8"));});
 const wg={exact:HayaDictionary.words,contextual:HayaDictionary.contextual,pejorative:HayaDictionary.pejorative,partial:new Set(),regex:HayaDictionary.patterns,allow:new Set()};
 const matchFn=t=>HayaMatcher.check(HayaMorphologyExpander.expand(t),wg);
 const inp=JSON.parse(fs.readFileSync(0,"utf8"));

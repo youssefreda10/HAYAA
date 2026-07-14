@@ -6,7 +6,7 @@
 /* Wrapper — holds blurred element + unblurred button */
 .haya-wrapper {
   position: relative;
-  display: inline;
+  display: inline-block;
 }
 
 /* Block wrapper — for div/p/article elements */
@@ -19,6 +19,7 @@
   filter: blur(5px);
   cursor: default;
   transition: filter 0.3s ease;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -40,6 +41,7 @@
   transform: translate(-50%, -50%);
   z-index: 999998;
   background: rgba(12, 12, 46, 0.85);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -72,7 +74,7 @@
   font-size: 11px;
   padding: 1px 6px;
   border-radius: 4px;
-  margin-right: 6px;
+  margin-inline-start: 6px;
   vertical-align: middle;
   box-shadow: none;
   backdrop-filter: none;
@@ -145,6 +147,7 @@
   top: 0; right: 0; bottom: 0; left: 0;
   z-index: 9999999;
   background: rgba(7, 7, 26, 0.7);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -154,11 +157,12 @@
 
 .haya-password-box {
   background: rgba(18, 18, 58, 0.95);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(108, 159, 232, 0.15);
   border-radius: 16px;
   padding: 32px 32px;
-  width: 320px;
+  width: min(320px, 90vw);
   text-align: center;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(108, 159, 232, 0.1);
   font-family: "Segoe UI", -apple-system, sans-serif;
@@ -261,6 +265,7 @@
   inset-inline-start: 24px;
   z-index: 10000000;
   background: rgba(12, 12, 46, 0.92);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   color: #f0f0ff;
   padding: 10px 20px;
@@ -280,4 +285,10 @@
 .haya-toast-show {
   opacity: 1;
   transform: translateY(0);
+}
+
+.haya-reveal-btn:focus-visible,
+.haya-report-btn:focus-visible {
+  outline: 2px solid #6C9FE8;
+  outline-offset: 2px;
 }

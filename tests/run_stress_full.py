@@ -30,7 +30,7 @@ NODE = r"""
 const readline = require("readline");
 const fs = require("fs"), path = require("path");
 const LIB = path.join(process.cwd(), "extension", "lib");
-["unicode_sanitizer","homoglyph_normalizer","arabizi_transliterator","emoji_analyzer","normalizer","morphology_expander","dictionary","matcher","obfuscation_resolver"]
+["unicode_sanitizer","homoglyph_normalizer","emoji_analyzer","normalizer","morphology_expander","dictionary","matcher","obfuscation_resolver"]
   .forEach(f => { global.eval(fs.readFileSync(path.join(LIB, f + ".js"), "utf8")); });
 const D = HayaDictionary;
 const wg = {exact:D.words, contextual:D.contextual, pejorative:D.pejorative, partial:new Set(), regex:D.patterns, allow:new Set()};

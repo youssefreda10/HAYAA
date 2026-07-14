@@ -367,10 +367,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     msg.textContent = "";
-    chrome.runtime.sendMessage({ type: "setPin", pin: pin }, () => {
-      document.getElementById("optNewRevealPw").value = "";
-      document.getElementById("optLockActiveView").style.display = "block";
-      document.getElementById("optLockSetupView").style.display = "none";
+    chrome.runtime.sendMessage({ type: "setPin", pin: pin }, (res) => {
+      if (res && res.success) {
+        document.getElementById("optNewRevealPw").value = "";
+        document.getElementById("optLockActiveView").style.display = "block";
+        document.getElementById("optLockSetupView").style.display = "none";
+      } else {
+        msg.textContent = "فشل تعيين الرمز";
+      }
     });
   });
 
@@ -439,9 +443,19 @@ document.addEventListener("DOMContentLoaded", () => {
     var reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        var data = JSON.parse(ev.target.result);
-        delete data.parentalPin;
+        var raw = JSON.parse(ev.target.result);
+        var VALID_KEYS = ["enabled", "mode", "threshold", "disabledDomains",
+          "enabledDomains", "domainMode", "customWords", "allowlist", "theme"];
+        var data = {};
+        VALID_KEYS.forEach(function (k) { if (k in raw) data[k] = raw[k]; });
+        if (data.mode && ["blur", "hide", "highlight"].indexOf(data.mode) === -1) {
+          data.mode = "blur";
+        }
         chrome.storage.sync.set(data, () => {
+          if (chrome.runtime.lastError) {
+            showMsg("configMsg", "فشل الاستيراد: " + chrome.runtime.lastError.message);
+            return;
+          }
           showMsg("configMsg", "تم استيراد الإعدادات");
           setTimeout(() => { location.reload(); }, 1500);
         });
@@ -456,6 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ─── Undo (Ctrl+Z) ───
   document.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "z") {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
       e.preventDefault();
       if (undoStack.length === 0) return;
       var last = undoStack.pop();

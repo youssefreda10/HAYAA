@@ -191,11 +191,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     msg.textContent = "";
-    chrome.runtime.sendMessage({ type: "setPin", pin: pin }, () => {
-      document.getElementById("newPin").value = "";
-      document.getElementById("lockActiveView").style.display = "block";
-      document.getElementById("lockSetupView").style.display = "none";
-      parentalUnlocked = true; // parent just set it, they're authenticated
+    chrome.runtime.sendMessage({ type: "setPin", pin: pin }, (res) => {
+      if (res && res.success) {
+        document.getElementById("newPin").value = "";
+        document.getElementById("lockActiveView").style.display = "block";
+        document.getElementById("lockSetupView").style.display = "none";
+        parentalUnlocked = true;
+      } else {
+        msg.textContent = "فشل تعيين الرمز";
+      }
     });
   });
 
@@ -207,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("lockBtn").addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: "lockReveals" });
+        chrome.tabs.sendMessage(tabs[0].id, { type: "lockReveals" }).catch(function () {});
         document.getElementById("lockText").textContent = "وضع حماية الأطفال مفعّل";
       }
     });
@@ -234,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("removePinForm").style.display = "none";
           unlockControls();
           chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            if (tabs[0]) chrome.tabs.sendMessage(tabs[0].id, { type: "unlockReveals" });
+            if (tabs[0]) chrome.tabs.sendMessage(tabs[0].id, { type: "unlockReveals" }).catch(function () {});
           });
         });
       } else {

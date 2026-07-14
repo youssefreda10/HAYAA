@@ -11,6 +11,12 @@
   var SKIP_TAGS = new Set([
     "SCRIPT", "STYLE", "NOSCRIPT", "SVG", "MATH", "CODE", "PRE",
     "INPUT", "TEXTAREA", "SELECT", "BUTTON", "IFRAME",
+    "NAV", "HEADER", "FOOTER", "LABEL", "OPTION", "ASIDE",
+  ]);
+
+  var SKIP_ROLES = new Set([
+    "navigation", "banner", "contentinfo", "menu", "menubar",
+    "menuitem", "toolbar", "complementary", "search", "tab", "tablist",
   ]);
 
   var INITIALIZED = false;
@@ -161,6 +167,17 @@
     }
   });
 
+  chrome.storage.onChanged.addListener(function (changes, area) {
+    if (area !== "sync") return;
+    if (changes.enabled || changes.mode || changes.threshold ||
+        changes.disabledDomains || changes.enabledDomains || changes.domainMode) {
+      getSettings().then(function (s) { settings = s; });
+    }
+    if (changes.customWords || changes.allowlist) {
+      loadWordLists();
+    }
+  });
+
   // ============================================================
   // Lazy Viewport Scanning (IntersectionObserver)
   // ============================================================
@@ -195,6 +212,15 @@
   // DOM Scanning
   // ============================================================
 
+  var UI_ANCESTOR_SELECTOR = "nav, header, footer, aside, [role='navigation'], [role='banner'], [role='contentinfo'], [role='menu'], [role='menubar'], [role='toolbar'], [role='complementary'], [role='search']";
+
+  function isUIElement(node) {
+    var role = node.getAttribute && node.getAttribute("role");
+    if (role && SKIP_ROLES.has(role)) return true;
+    if (node.closest && node.closest(UI_ANCESTOR_SELECTOR)) return true;
+    return false;
+  }
+
   function scanPage() {
     var walker = document.createTreeWalker(
       document.body,
@@ -202,6 +228,8 @@
       {
         acceptNode: function (node) {
           if (SKIP_TAGS.has(node.tagName)) return NodeFilter.FILTER_REJECT;
+          var role = node.getAttribute && node.getAttribute("role");
+          if (role && SKIP_ROLES.has(role)) return NodeFilter.FILTER_REJECT;
           if (node.closest("[" + PROCESSED_ATTR + "]")) return NodeFilter.FILTER_REJECT;
           if (node.classList && (node.classList.contains("haya-wrapper") ||
               node.classList.contains("haya-reveal-btn") ||
@@ -216,7 +244,8 @@
     var node;
     while ((node = walker.nextNode())) {
       if (viewportObserver && !isInViewport(node)) {
-        if (!node.getAttribute(PROCESSED_ATTR) && getDirectText(node) && hasArabic(getDirectText(node))) {
+        var dt = getDirectText(node);
+        if (!node.getAttribute(PROCESSED_ATTR) && dt && hasArabic(dt)) {
           viewportObserver.observe(node);
         }
       } else {
@@ -229,15 +258,12 @@
 
   function processElement(element) {
     if (element.getAttribute(PROCESSED_ATTR)) return;
+    if (isUIElement(element)) return;
 
     var text = getDirectText(element);
     if (!text || text.length < MIN_TEXT_LENGTH) return;
-    var isArabiziText = false;
-    if (typeof HayaArabiziTransliterator !== "undefined") {
-      isArabiziText = HayaArabiziTransliterator.isArabizi(text);
-    }
-    
-    if (!hasArabic(text) && !isArabiziText) return;
+
+    if (!hasArabic(text)) return;
 
     element.setAttribute(PROCESSED_ATTR, "1");
 
@@ -314,8 +340,12 @@
     // that happened to trigger the scan. Sibling fragments of the same block
     // are skipped via queuedBlocks, so each comment costs exactly one call.
     var block = getBlockElement(element);
+    if (isUIElement(block)) return;
     var blockText = getBlockText(element);
     var modelText = HayaNormalizer.normalize(blockText) || cleanNorm;
+    if (!modelText || modelText.length < MIN_TEXT_LENGTH) return;
+    var modelWords = modelText.split(/\s+/).length;
+    if (modelWords < 3) return;
 
     var blockCached = apiCache.get(modelText);
     if (blockCached) {
@@ -387,9 +417,12 @@
     return text;
   }
 
+  var ARABIC_REGEX_G = new RegExp(ARABIC_REGEX.source, "g");
+
   function hasArabic(text) {
-    var arabicChars = (text.match(new RegExp(ARABIC_REGEX.source, "g")) || []).length;
-    var totalAlpha = (text.match(/[a-zA-Z؀-ۿ]/g) || []).length;
+    ARABIC_REGEX_G.lastIndex = 0;
+    var arabicChars = (text.match(ARABIC_REGEX_G) || []).length;
+    var totalAlpha = (text.match(/[a-zA-Z؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/g) || []).length;
     if (totalAlpha === 0) return false;
     return arabicChars / totalAlpha >= 0.5;
   }
@@ -600,7 +633,6 @@
 
       chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, function (res) {
         if (res && res.success) {
-          revealLocked = false;
           overlay.remove();
           onSuccess();
         } else if (res && res.lockedFor) {
@@ -666,21 +698,29 @@
         var addedNodes = mutations[i].addedNodes;
         for (var j = 0; j < addedNodes.length; j++) {
           if (addedNodes[j].nodeType === Node.ELEMENT_NODE) {
-            if (addedNodes[j].classList &&
-                (addedNodes[j].classList.contains("haya-wrapper") ||
-                 addedNodes[j].classList.contains("haya-reveal-btn") ||
-                 addedNodes[j].classList.contains("haya-report-btn") ||
-                 addedNodes[j].classList.contains("haya-password-overlay") ||
-                 addedNodes[j].classList.contains("haya-toast"))) continue;
-            processElement(addedNodes[j]);
-            var children = addedNodes[j].querySelectorAll("*");
-            children.forEach(processElement);
+            var added = addedNodes[j];
+            if (added.classList &&
+                (added.classList.contains("haya-wrapper") ||
+                 added.classList.contains("haya-reveal-btn") ||
+                 added.classList.contains("haya-report-btn") ||
+                 added.classList.contains("haya-password-overlay") ||
+                 added.classList.contains("haya-toast"))) continue;
+            if (SKIP_TAGS.has(added.tagName)) continue;
+            if (isUIElement(added)) continue;
+            processElement(added);
+            var children = added.querySelectorAll("*");
+            for (var k = 0; k < children.length; k++) {
+              if (!SKIP_TAGS.has(children[k].tagName) && !isUIElement(children[k])) {
+                processElement(children[k]);
+              }
+            }
           }
         }
       }
 
-      clearTimeout(batchTimer);
-      batchTimer = setTimeout(flushBatch, 500);
+      if (!batchTimer) {
+        batchTimer = setTimeout(flushBatch, 500);
+      }
     });
 
     observer.observe(document.body, {

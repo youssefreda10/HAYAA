@@ -14,7 +14,7 @@ const document = dom.window.document;
 // --- the exact logic now in content.js ---
 const BLOCK_TAGS = new Set(["P","DIV","LI","TD","TH","ARTICLE","SECTION","BLOCKQUOTE","H1","H2","H3","H4","H5","H6","DD","DT","FIGCAPTION","MAIN"]);
 const MAX_BLOCK_CHARS = 1000;
-function getBlockElement(el){let n=el,h=0;while(n&&h<6){if(BLOCK_TAGS.has(n.tagName))return n;n=n.parentElement;h++;}return el;}
+function getBlockElement(el){let n=el,h=0;while(n&&n!==document.body&&h<6){if(BLOCK_TAGS.has(n.tagName)){var textLen=(n.textContent||"").length;if(textLen<=2000)return n;return el;}n=n.parentElement;h++;}return el;}
 function getBlockText(el){let t=(getBlockElement(el).textContent||"").replace(/\s+/g," ").trim();return t.length>MAX_BLOCK_CHARS?t.substring(0,MAX_BLOCK_CHARS):t;}
 function getDirectText(el){let t="";for(const c of el.childNodes) if(c.nodeType===3) t+=c.textContent;return t.trim();}
 

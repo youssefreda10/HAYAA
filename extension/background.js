@@ -130,7 +130,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     return true;
   }
 
-  if (message.type === "getSettings") {
+  else if (message.type === "getSettings") {
     chrome.storage.sync.get(
       ["enabled", "mode", "threshold", "disabledDomains", "enabledDomains", "domainMode"],
       sendResponse
@@ -138,11 +138,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     return true;
   }
 
-  if (message.type === "updateBadge") {
+  else if (message.type === "updateBadge") {
     updateBadge(message.count, sender.tab && sender.tab.id);
   }
 
-  if (message.type === "reportFalsePositive") {
+  else if (message.type === "reportFalsePositive") {
     chrome.storage.local.get(["reports"], function (data) {
       var reports = data.reports || [];
       reports.push({
@@ -157,24 +157,24 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   }
 
   // Stats stay on LOCAL (per-device, high-frequency)
-  if (message.type === "incrementStats") {
+  else if (message.type === "incrementStats") {
     chrome.storage.local.get(["totalFiltered"], function (data) {
       chrome.storage.local.set({ totalFiltered: (data.totalFiltered || 0) + message.count });
     });
   }
 
-  if (message.type === "pageScanned") {
+  else if (message.type === "pageScanned") {
     chrome.storage.local.get(["pagesScanned"], function (data) {
       chrome.storage.local.set({ pagesScanned: (data.pagesScanned || 0) + 1 });
     });
   }
 
-  if (message.type === "verifyPin") {
+  else if (message.type === "verifyPin") {
     handleVerifyPin(message.pin).then(sendResponse);
     return true;
   }
 
-  if (message.type === "setPin") {
+  else if (message.type === "setPin") {
     makePinRecord(message.pin)
       .then(function (record) {
         chrome.storage.sync.set({ parentalPin: record }, function () {
@@ -185,7 +185,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     return true;
   }
 
-  if (message.type === "removePin") {
+  else if (message.type === "removePin") {
     chrome.storage.sync.remove(["parentalPin"], function () {
       sendResponse({ success: true });
     });
@@ -194,6 +194,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 async function handleClassify(texts) {
+  if (!Array.isArray(texts) || texts.length === 0) return [];
   var results = [];
   for (var i = 0; i < texts.length; i += BATCH_SIZE) {
     var batch = texts.slice(i, i + BATCH_SIZE);
@@ -251,6 +252,12 @@ async function classifyBatch(texts, retries) {
     return texts.map(function () { return { label: "SAFE", score: 0 }; });
   }
 }
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
+  if (changeInfo.status === "loading") {
+    chrome.action.setBadgeText({ text: "", tabId: tabId });
+  }
+});
 
 function updateBadge(count, tabId) {
   if (!tabId) return;
@@ -361,7 +368,7 @@ async function handleVerifyPin(pin) {
   }
 
   await chrome.storage.local.set(update);
-  return { success: false, remaining: MAX_FREE_ATTEMPTS - fails + 1 };
+  return { success: false, remaining: MAX_FREE_ATTEMPTS - fails };
 }
 
 async function verifyPinAgainst(record, pin) {

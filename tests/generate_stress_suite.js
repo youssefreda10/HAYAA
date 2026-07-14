@@ -126,11 +126,6 @@ for (const [cat, arr] of Object.entries(SAFE)) {
 
 function genToxic(allowDup) {
   const [dialect, cat, w] = pick(toxTriples);
-  // Arabizi seeds: carrier only (no Arabic morphology/obfuscation).
-  if (cat === "Arabizi") {
-    const carriers = [(x) => x, (x) => "ya " + x, (x) => "enta " + x + " gedan", (x) => x.toUpperCase()];
-    return emit(pick(carriers)(w), 1, dialect, cat, "arabizi", "bare", allowDup);
-  }
   const [mName, mFn] = pick(MORPH);
   const [oName, oFn] = pick(OBF);
   let form = oFn(mFn(w));

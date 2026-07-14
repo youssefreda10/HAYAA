@@ -17,7 +17,6 @@ const LIB = path.join(__dirname, "..", "extension", "lib");
 
 eval(fs.readFileSync(path.join(LIB, "unicode_sanitizer.js"), "utf8"));
 eval(fs.readFileSync(path.join(LIB, "homoglyph_normalizer.js"), "utf8"));
-eval(fs.readFileSync(path.join(LIB, "arabizi_transliterator.js"), "utf8"));
 eval(fs.readFileSync(path.join(LIB, "emoji_analyzer.js"), "utf8"));
 eval(fs.readFileSync(path.join(LIB, "normalizer.js"), "utf8"));
 eval(fs.readFileSync(path.join(LIB, "morphology_expander.js"), "utf8"));

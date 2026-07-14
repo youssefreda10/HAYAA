@@ -263,7 +263,7 @@ var HayaMatcher = (function () {
     var near = [words[i - 1], words[i + 1]];
     for (var n = 0; n < near.length; n++) {
       var w = near[n];
-      if (w && w.length > 3 && ATTACHED_PRONOUN.test(w)) return true;
+      if (w && w.length >= 3 && ATTACHED_PRONOUN.test(w)) return true;
     }
     return false;
   }
