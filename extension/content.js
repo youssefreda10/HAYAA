@@ -13,6 +13,7 @@
     "INPUT", "TEXTAREA", "SELECT", "BUTTON", "IFRAME",
   ]);
 
+  var INITIALIZED = false;
   var settings = { enabled: true, mode: "blur", threshold: 0.75 };
   var toxicCount = 0;
   var pendingTexts = [];
@@ -37,6 +38,8 @@
   var viewportObserver = null;
 
   async function init() {
+    if (INITIALIZED) return;
+    INITIALIZED = true;
     settings = await getSettings();
 
     if (!settings.enabled) return;
@@ -202,6 +205,7 @@
           if (node.closest("[" + PROCESSED_ATTR + "]")) return NodeFilter.FILTER_REJECT;
           if (node.classList && (node.classList.contains("haya-wrapper") ||
               node.classList.contains("haya-reveal-btn") ||
+              node.classList.contains("haya-report-btn") ||
               node.classList.contains("haya-password-overlay") ||
               node.classList.contains("haya-toast"))) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
@@ -364,8 +368,12 @@
   function getBlockElement(element) {
     var node = element;
     var hops = 0;
-    while (node && hops < 6) {
-      if (BLOCK_TAGS.has(node.tagName)) return node;
+    while (node && node !== document.body && hops < 6) {
+      if (BLOCK_TAGS.has(node.tagName)) {
+        var textLen = (node.textContent || "").length;
+        if (textLen <= 2000) return node;
+        return element;
+      }
       node = node.parentElement;
       hops++;
     }
@@ -461,16 +469,26 @@
   }
 
   function applyFilter(element) {
-    // Element may have been removed from DOM while waiting for the API response
     if (!element.parentNode || !element.isConnected) return;
+    if (element.closest && element.closest(".haya-wrapper")) return;
+    if (element.classList && element.classList.contains("haya-blur")) return;
+    if (element.querySelector && element.querySelector(".haya-blur")) return;
+
+    element.setAttribute(PROCESSED_ATTR, "1");
 
     var mode = settings.mode || "blur";
     var text = getDirectText(element) || "";
 
     switch (mode) {
       case "blur":
-        var wrapper = document.createElement("span");
+        var computedDisplay = "";
+        try { computedDisplay = window.getComputedStyle(element).display; } catch (e) {}
+        var isInline = computedDisplay === "inline" || computedDisplay === "";
+
+        var wrapper = document.createElement(isInline ? "span" : "div");
         wrapper.className = "haya-wrapper";
+        if (!isInline) wrapper.classList.add("haya-wrapper-block");
+
         element.parentNode.insertBefore(wrapper, element);
         wrapper.appendChild(element);
         element.classList.add("haya-blur");
@@ -651,6 +669,7 @@
             if (addedNodes[j].classList &&
                 (addedNodes[j].classList.contains("haya-wrapper") ||
                  addedNodes[j].classList.contains("haya-reveal-btn") ||
+                 addedNodes[j].classList.contains("haya-report-btn") ||
                  addedNodes[j].classList.contains("haya-password-overlay") ||
                  addedNodes[j].classList.contains("haya-toast"))) continue;
             processElement(addedNodes[j]);

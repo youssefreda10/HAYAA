@@ -9,6 +9,11 @@
   display: inline;
 }
 
+/* Block wrapper — for div/p/article elements */
+.haya-wrapper-block {
+  display: block;
+}
+
 /* Blur mode */
 .haya-blur {
   filter: blur(5px);
