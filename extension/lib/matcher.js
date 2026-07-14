@@ -88,6 +88,41 @@ var HayaMatcher = (function () {
   // خوله as the name is the correct disambiguation. Kept deliberately small.
   var NAME_EXCEPTIONS = new Set(["خوله", "خولة", "الخولي", "خولي", "شركه", "شركة"]);
 
+  // Technical-register homographs. A handful of unconditional entries carry a
+  // second, entirely legitimate sense in a technical domain:
+  //   طيز  — the anatomical term, as used in a medical/dissection text
+  //   زبر  — pruning a palm (and, classically, inscribing/writing)
+  // These cannot be exempted outright the way a proper name can: the obscene
+  // sense is the common one, and dropping them would open a trivial bypass.
+  // So the exemption is doubly conditioned — the sentence must carry a domain
+  // cue, AND the token must not be aimed at a person:
+  //
+  //   الطيز مصطلح تشريحي في كتاب طب     → cue + undirected  → exempt
+  //   زبر النخل يعني تقليمه في الزراعة  → cue + undirected  → exempt
+  //   يا طيز يا زراعة                   → directed          → NOT exempt
+  //   طيزك في الزراعة                   → 2nd-person suffix → NOT exempt
+  //
+  // The direction half is what stops this becoming a laundering trick: an
+  // insult worth laundering is aimed at someone, so it fails the gate no
+  // matter how much agricultural vocabulary is stapled onto it.
+  var REGISTER_HOMOGRAPHS = [
+    {
+      set: new Set(["طيز"]),
+      cues: new Set([
+        "تشريحي", "تشريحيه", "تشريح", "التشريح", "تشريحيا",
+        "طبي", "طبيه", "طب", "الطب", "مصطلح", "المصطلح",
+        "علمي", "علميه", "عضله", "العضله", "جسم", "الجسم",
+      ]),
+    },
+    {
+      set: new Set(["زبر"]),
+      cues: new Set([
+        "النخل", "نخل", "النخيل", "نخيل", "تقليم", "تقليمه", "التقليم",
+        "زراعه", "الزراعه", "زراعي", "زراعيه", "شجر", "الشجر", "فلاحه",
+      ]),
+    },
+  ];
+
   function compressRepeats(text) {
     return text.replace(/(.)\1+/g, "$1");
   }
@@ -137,6 +172,23 @@ var HayaMatcher = (function () {
       .replace(/ظ/g, "ض");
   }
 
+  // Tokens that must never be ج→ك folded, because the ج spelling is itself an
+  // ordinary word whose ك form is profanity. The only family found is جسم:
+  //
+  //   جسم / الجسم / جسمك  ──ج→ك──>  كسم / الكسم / كسمك
+  //
+  // "جسم" (a body) is everyday vocabulary — medicine, fitness, physics — and
+  // folding it convicted every sentence that used it. Note the fix cannot live
+  // in an exception Set consulted through inSet(): that path dialect-folds the
+  // token it is testing, so listing جسم there would make the real profanity
+  // كسم fold onto جسم and exempt ITSELF. The fold has to be blocked at source.
+  //
+  // Blocking only this direction is safe: كسم is still matched by the direct
+  // set.has() in inSet(), so the profanity is untouched. What is given up is
+  // catching جسمك used as a deliberate misspelling of كسمك — a real but narrow
+  // recall loss, and the model still sees such a sentence in full context.
+  var NO_J_FOLD = /^(ال)?جسم/;
+
   // ك↔ج is ambiguous in both directions, so try each rather than
   // committing: "منيوج"→"منيوك" (want) but "جلب"→"كلب" (want).
   function dialectForms(word) {
@@ -144,8 +196,10 @@ var HayaMatcher = (function () {
     var base = foldDialect(word);
     if (base !== word) out.push(base);
 
-    var jToK = base.replace(/ج/g, "ك");
-    if (jToK !== base) out.push(jToK);
+    if (!NO_J_FOLD.test(base)) {
+      var jToK = base.replace(/ج/g, "ك");
+      if (jToK !== base) out.push(jToK);
+    }
 
     var kToJ = base.replace(/ك/g, "ج");
     if (kToJ !== base) out.push(kToJ);
@@ -276,14 +330,39 @@ var HayaMatcher = (function () {
     return false;
   }
 
+  // Is words[i] a homograph standing in its technical sense? Requires BOTH a
+  // domain cue elsewhere in the sentence and the absence of any cue that the
+  // word is aimed at a person. See REGISTER_HOMOGRAPHS.
+  function inTechnicalRegister(words, i) {
+    if (isDirectedAtPerson(words, i)) return false;
+
+    for (var h = 0; h < REGISTER_HOMOGRAPHS.length; h++) {
+      var entry = REGISTER_HOMOGRAPHS[h];
+      if (!tokenHits(entry.set, words[i])) continue;
+
+      for (var w = 0; w < words.length; w++) {
+        if (w === i) continue;
+        var other = words[w];
+        if (entry.cues.has(other) || entry.cues.has(foldVariants(other))) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   function matchesAny(text, exact, contextual, pejorative, partial, regex, allow) {
     var words = text.split(/\s+/).filter(Boolean);
     var i;
 
-    // Unconditional dictionary — fires regardless of context.
+    // Unconditional dictionary — fires regardless of context, except for the
+    // handful of homographs that a technical register can legitimately claim.
     for (i = 0; i < words.length; i++) {
       if (isExempt(allow, words[i])) continue; // user override / proper name wins
-      if (tokenHits(exact, words[i])) return true;
+      if (tokenHits(exact, words[i])) {
+        if (inTechnicalRegister(words, i)) continue;
+        return true;
+      }
     }
 
     // Tier 1 (literal nouns) — only when aimed at a person.

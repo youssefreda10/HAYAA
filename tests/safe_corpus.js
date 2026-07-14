@@ -41,14 +41,25 @@ const SUBSTRING_TRAPS = [
   "قصة قصيرة جميلة", "المقص حاد", "نيكولا اسم اجنبي",
 ];
 
-// Accepted trade-offs: the profane token is used here in a rare literal /
-// technical sense (طيز = anatomical, زبر النخل = palm pruning). Catching the
-// slur in normal use is worth over-firing on these edge registers, so they
-// are expected-safe-but-accepted rather than bugs. The AI model (Layer 2)
-// could recover them with context; Layer 1 deliberately does not try.
-const ACCEPTED_TRAPS = [
+// Technical register: the profane token carries its legitimate domain sense
+// (طيز = anatomical, زبر النخل = palm pruning). These used to be written off as
+// accepted trade-offs and excluded from the score; the matcher now clears them
+// via REGISTER_HOMOGRAPHS, so they are ordinary scored cases and a regression
+// here is a real bug.
+//
+// The جسم entries guard a separate collision the corpus never covered: the
+// ج→ك dialect fold turned جسم (a body) into كسم, convicting every sentence
+// about anatomy, fitness or physics. See NO_J_FOLD in matcher.js.
+const TECHNICAL_REGISTER = [
   "الطيز مصطلح تشريحي في كتاب طب",
   "زبر النخل يعني تقليمه في الزراعة",
+  "الطيز في علم التشريح جزء من الجسم",
+  "تقليم زبر النخيل في الزراعة مهم",
+  "جسم الانسان فيه مئتين وستة عظمة",
+  "تمرين لتقوية الجسم كل يوم",
+  "الجسم محتاج راحة بعد التمرين",
+  "جسمي تعبان النهاردة",
+  "دراسة عن اجسام مضادة في الدم",
 ];
 
 // ── 3. Neutral identity mention (religion / ethnicity) ──────
@@ -141,10 +152,6 @@ function build() {
     cases.push({ text, expected: 0, dialect: "SafeCorpus", category, flags });
   }
 
-  // Accepted trade-offs: expected safe, but a Layer-1 hit is tolerated (see
-  // ACCEPTED_TRAPS note). Flagged so the runner counts them apart from bugs.
-  for (const t of ACCEPTED_TRAPS) add(t, "Accepted_Trap", ["accepted"]);
-
   const groups = {
     Name_Trap: NAMES,
     Substring_Trap: SUBSTRING_TRAPS,
@@ -152,6 +159,7 @@ function build() {
     Descriptive_Undirected: DESCRIPTIVE,
     Register_Quote: REGISTER,
     Everyday_Clean: EVERYDAY,
+    Technical_Register: TECHNICAL_REGISTER,
   };
 
   for (const [cat, arr] of Object.entries(groups)) {

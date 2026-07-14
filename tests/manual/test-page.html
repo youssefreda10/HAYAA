@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حياء — صفحة اختبار يدوي</title>
+<style>
+  :root {
+    --bg: #f2f4f8;
+    --card: #ffffff;
+    --line: #dbe1ea;
+    --ink: #151a24;
+    --muted: #5f6a7d;
+    --gold: #9a6a18;
+    --goldbg: #f7efdc;
+    --ok: #2f7f60;
+    --okbg: #e4f2ec;
+    --no: #b93a4c;
+    --nobg: #fbe8ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#10151f; --card:#19212f; --line:#2b3448; --ink:#e7ebf2; --muted:#94a0b3;
+      --gold:#e0ac4e; --goldbg:#2a2313; --ok:#4fb28c; --okbg:#16281f; --no:#e8697a; --nobg:#2c1519;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Segoe UI", Tahoma, "Noto Naskh Arabic", sans-serif;
+    font-size: 16px; line-height: 1.75;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 18px 80px; }
+
+  nav {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    padding: 14px 18px; margin-bottom: 22px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  }
+  nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+
+  .howto {
+    background: var(--goldbg); border: 1px solid var(--gold);
+    border-radius: 12px; padding: 16px 18px; margin-bottom: 26px;
+  }
+  .howto h2 { margin: 0 0 8px; font-size: 16px; color: var(--gold); }
+  .howto ol { margin: 0; padding-inline-start: 20px; }
+  .howto li { margin: 4px 0; }
+  .howto code {
+    font-family: ui-monospace, Consolas, monospace; font-size: 13.5px;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 5px; padding: 1px 6px; direction: ltr; display: inline-block;
+  }
+
+  .layout { display: grid; grid-template-columns: minmax(0,1fr) 290px; gap: 22px; align-items: start; }
+  @media (max-width: 860px) { .layout { grid-template-columns: minmax(0,1fr); } }
+
+  section {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; margin-bottom: 22px; overflow: hidden;
+  }
+  section > h2 {
+    margin: 0; padding: 13px 18px; font-size: 15px;
+    border-bottom: 1px solid var(--line); background: var(--bg);
+  }
+
+  .item { padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: 0; }
+  .item .txt { font-size: 16.5px; }
+  .expect {
+    display: inline-block; margin-top: 7px;
+    font-size: 12.5px; font-weight: 600;
+    border-radius: 999px; padding: 2px 10px; border: 1px solid;
+  }
+  .expect.blur { color: var(--no); background: var(--nobg); border-color: var(--no); }
+  .expect.pass { color: var(--ok); background: var(--okbg); border-color: var(--ok); }
+  .expect.ai   { color: var(--gold); background: var(--goldbg); border-color: var(--gold); }
+
+  aside { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  aside > h2 { margin: 0; padding: 13px 16px; font-size: 14px; border-bottom: 1px solid var(--line); background: var(--bg); }
+  aside .item { padding: 12px 16px; }
+
+  footer {
+    margin-top: 26px; padding: 18px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    color: var(--muted); font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <a href="#">الرئيسية</a>
+    <a href="#">الأقسام</a>
+    <a href="#">الأكثر تفاعلاً</a>
+    <a href="#">حسابي</a>
+    <a href="#">تسجيل الخروج</a>
+  </nav>
+
+  <div class="howto">
+    <h2>طريقة التشغيل</h2>
+    <ol>
+      <li>الاكستنشن مش بيشتغل على <code>file://</code> — لازم سيرفر محلي.</li>
+      <li>من مجلد المشروع شغّل: <code>python -m http.server 8000</code></li>
+      <li>افتح: <code>http://localhost:8000/tests/manual/test-page.html</code></li>
+      <li>حمّل الاكستنشن من <code>chrome://extensions</code> بـ Load unpacked على مجلد <code>extension</code>.</li>
+      <li>قارن كل عنصر بالوسم اللي تحته: أحمر يعني المفروض يتحجب، أخضر يعني المفروض يعدّي، ذهبي يعني ده شغل الموديل مش القاموس.</li>
+    </ol>
+  </div>
+
+  <div class="layout">
+    <main>
+
+      <section>
+        <h2>١ — نص سليم تماماً (أي حجب هنا معناه خطأ)</h2>
+        <div class="item">
+          <div class="txt">صباح الخير يا جماعة، عامل ايه النهاردة؟</div>
+          <span class="expect pass">المتوقع: يعدّي</span>
+        </div>
+        <div class="item">
+          <div class="txt">الفيلم كان حلو بس النهاية مش مقنعة خالص.</div>
+          <span class="expect pass">المتوقع: يعدّي</span>
+        </div>
+        <div class="item">
+          <div class="txt">شيل الوسخ من الشارع يا جماعة، البلد بقت زبالة.</div>
+          <span class="expect pass">المتوقع: يعدّي — وصف مش موجّه لحد</span>
+        </div>
+        <div class="item">
+          <div class="txt">خوله بنت عمي وحشتني اوي، هزورها الاسبوع الجاي.</div>
+          <span class="expect pass">المتوقع: يعدّي — اسم علم</span>
+        </div>
+        <div class="item">
+          <div class="txt">صديقي مسيحي محترم جداً وزميلي يهودي شخص طيب.</div>
+          <span class="expect pass">المتوقع: يعدّي — ذكر دين مش كراهية</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>٢ — سياق تقني (كان بيتحجب غلط قبل آخر إصلاح)</h2>
+        <div class="item">
+          <div class="txt">الطيز مصطلح تشريحي في كتاب طب، مش شتيمة في السياق ده.</div>
+          <span class="expect pass">المتوقع: يعدّي</span>
+        </div>
+        <div class="item">
+          <div class="txt">زبر النخل يعني تقليمه في الزراعة، معلومة مفيدة للفلاحين.</div>
+          <span class="expect pass">المتوقع: يعدّي</span>
+        </div>
+        <div class="item">
+          <div class="txt">جسم الانسان فيه مئتين وستة عظمة تقريباً.</div>
+          <span class="expect pass">المتوقع: يعدّي</span>
+        </div>
+        <div class="item">
+          <div class="txt">الجسم محتاج راحة بعد التمرين، متزودهاش عليه.</div>
+          <span class="expect pass">المتوقع: يعدّي</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>٣ — إساءة صريحة (لازم تتحجب)</h2>
+        <div class="item">
+          <div class="txt">كسم اتفانتينو لكسم ميسي</div>
+          <span class="expect blur">المتوقع: يتحجب</span>
+        </div>
+        <div class="item">
+          <div class="txt">يا ابن الكلب انت وهو، مش عايز اشوف وشك</div>
+          <span class="expect blur">المتوقع: يتحجب</span>
+        </div>
+        <div class="item">
+          <div class="txt">روح يا عرص مش عايز اشوفك تاني</div>
+          <span class="expect blur">المتوقع: يتحجب</span>
+        </div>
+        <div class="item">
+          <div class="txt">انت وسخ وقذر ومحدش طايقك</div>
+          <span class="expect blur">المتوقع: يتحجب — كلمة موجّهة لشخص</span>
+        </div>
+        <div class="item">
+          <div class="txt">انت واحد وسخ وقذر ومحدش طايقك</div>
+          <span class="expect ai">المتوقع: الطبقة ١ تعدّيها — «انت» بعيدة عن «وسخ» بكلمة، فمش موجّهة. ده حد القاموس، والموديل هو اللي يمسكها</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>٤ — تمويه وتحايل (لازم تتحجب)</h2>
+        <div class="item">
+          <div class="txt">ك.س.م.ك يا صاحبي</div>
+          <span class="expect blur">المتوقع: يتحجب — فواصل</span>
+        </div>
+        <div class="item">
+          <div class="txt">ك س م ك</div>
+          <span class="expect blur">المتوقع: يتحجب — حروف متباعدة</span>
+        </div>
+        <div class="item">
+          <div class="txt">كسسسسسمك يا حيوان</div>
+          <span class="expect blur">المتوقع: يتحجب — تكرار حروف</span>
+        </div>
+        <div class="item">
+          <div class="txt">انت 🐕 يا صاحبي</div>
+          <span class="expect blur">المتوقع: يتحجب — إيموجي موجّه</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>٥ — محاولات التفاف على الاستثناء التقني (لازم تتحجب برضه)</h2>
+        <div class="item">
+          <div class="txt">يا طيز في الزراعة</div>
+          <span class="expect blur">المتوقع: يتحجب — موجّه لشخص</span>
+        </div>
+        <div class="item">
+          <div class="txt">طيزك يا نخل</div>
+          <span class="expect blur">المتوقع: يتحجب — ضمير مخاطب</span>
+        </div>
+        <div class="item">
+          <div class="txt">كسمك في كتاب طب تشريحي</div>
+          <span class="expect blur">المتوقع: يتحجب — الشتيمة مش بتتغسل بكلام تقني</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>٦ — إساءة ضمنية بدون أي كلمة في القاموس (شغل الموديل وحده)</h2>
+        <div class="item">
+          <div class="txt">كل اللي حواليك بيتمنوا تمشي ومش عايزين يشوفوا وشك تاني ابدا</div>
+          <span class="expect ai">المتوقع: القاموس يعدّيها والموديل يحجبها — لو فضلت واضحة يبقى الـ API مش شغال</span>
+        </div>
+        <div class="item">
+          <div class="txt">مالكش لازمة في الدنيا وياريتك ما اتولدت اصلا</div>
+          <span class="expect ai">المتوقع: القاموس يعدّيها والموديل يحجبها</span>
+        </div>
+        <div class="item">
+          <div class="txt">انت عبء على اهلك وعلى نفسك ومحدش مستفيد منك</div>
+          <span class="expect ai">المتوقع: القاموس يعدّيها والموديل يحجبها</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>٧ — إساءة ضمنية القاموس بيمسكها بعبارة كاملة</h2>
+        <div class="item">
+          <div class="txt">والله يا اخي محدش بيحبك خالص ومحدش طايقك</div>
+          <span class="expect blur">المتوقع: يتحجب — عبارة كاملة مسجّلة في القاموس، مش كلمة واحدة</span>
+        </div>
+        <div class="item">
+          <div class="txt">انت فاشل في كل حاجة بتعملها ومفيش امل فيك</div>
+          <span class="expect blur">المتوقع: يتحجب — صفة قدحية جات ملزوقة بضمير مخاطب</span>
+        </div>
+      </section>
+
+    </main>
+
+    <aside>
+      <h2>الشريط الجانبي — آخر المشاركات</h2>
+      <div class="item">
+        <div class="txt">كسمك يا حيوان</div>
+        <span class="expect blur">المتوقع: يتحجب — ده الباج الأصلي بتاع ريديت</span>
+      </div>
+      <div class="item">
+        <div class="txt">تقليم زبر النخيل في الزراعة مهم</div>
+        <span class="expect pass">المتوقع: يعدّي</span>
+      </div>
+      <div class="item">
+        <div class="txt">نصايح لتقوية الجسم في الجيم</div>
+        <span class="expect pass">المتوقع: يعدّي</span>
+      </div>
+      <div class="item">
+        <div class="txt">يا ابن الكلب انت وهو</div>
+        <span class="expect blur">المتوقع: يتحجب</span>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    الفوتر بيتفحص برضه — النص ده سليم ومفروض يعدّي من غير حجب.
+  </footer>
+
+</div>
+</body>
+</html>

@@ -61,25 +61,28 @@ if (fs.existsSync(corpusPath)) {
 const byCat = {};
 const failures = [];
 let fp = 0;
-let acceptedHits = 0;
 
+// Every safe case is scored. There used to be an "accepted" flag that let a
+// case be a known false positive yet still be subtracted from the denominator,
+// which reported 100% precision while two sentences were in fact being blurred
+// — and it hid a third bug (جسم → كسم) that no category covered. If a safe
+// sentence is convicted, it is a false positive. No exemptions.
 for (const c of cases) {
   const cat = c.category;
-  const accepted = (c.flags || []).indexOf("accepted") !== -1;
-  if (!byCat[cat]) byCat[cat] = { n: 0, fp: 0, accepted: accepted };
+  if (!byCat[cat]) byCat[cat] = { n: 0, fp: 0 };
   byCat[cat].n++;
   if (predict(c.text) === 1) {
     byCat[cat].fp++;
-    if (accepted) { acceptedHits++; }
-    else { fp++; failures.push(c); }
+    fp++;
+    failures.push(c);
   }
 }
 
 console.log("\n" + "=".repeat(64));
 console.log(`  Hayā — Precision Test (hard negatives, Layer 1 only)`);
 console.log("=".repeat(64));
-const scored = cases.length - acceptedHits; // exclude accepted traps from the score
-console.log(`\nTotal safe cases: ${cases.length}  (scored: ${scored}, accepted traps hit: ${acceptedHits})`);
+const scored = cases.length;
+console.log(`\nTotal safe cases: ${scored}`);
 const prec = (scored - fp) / scored;
 const col = fp === 0 ? C.g : (prec >= 0.98 ? C.y : C.r);
 console.log(`Specificity (stayed safe): ${col}${(prec * 100).toFixed(2)}%${C.x}`);
