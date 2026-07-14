@@ -43,6 +43,12 @@ var HayaArabiziTransliterator = (function () {
     var arabiziPatterns = /\b(ya|yala|w?allah|insha|7a[br]|ma3a|3ala|kos|7mar|a5|el|el-|al-|ibn|bnt|kel[bm]|shar?m|na?yek|5awal|ta7t|ksmk|a7a|metnak|dayooth|gawaad|m3rs|zamel|gandara|sarsari|kadeesa|kooz|zool|masid|msa5)\b/i;
     if (arabiziPatterns.test(cleaned)) return true;
 
+    // Common Arabizi profanity WITHOUT a number signal — these are otherwise
+    // pure-Latin and would be rejected here, then stripped to "" by the Arabic
+    // normalizer ("nik"/"teez" vanished entirely). Detect them explicitly.
+    var arabiziProfanity = /\b(nik|neek|nayek|teez|tez|teezy|sharmout[a]?|sharmoota|manyook[a]?|taboun|kahba|qa?7ba|9a?hba|kharrat|zanim|kosom[m]?ak|zamla|7alouf|n3al|3abeed|3ars[a]?|q7ba|zeby|zb|5ara|5ra|man[iy]ak)\b/i;
+    if (arabiziProfanity.test(cleaned)) return true;
+
     return false;
   }
 

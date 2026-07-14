@@ -310,10 +310,16 @@ var HayaMatcher = (function () {
     }
 
     // Multi-word phrases from the dictionary ("ابن الكلب").
+    // Fold BOTH sides: the incoming text is normalized (ة→ه, ى→ي …) but the
+    // stored phrase may still carry ة/ة-forms ("ابن الشرموطة"). Comparing the
+    // raw entry against folded text silently never matched — fold the entry too.
+    var foldedText = foldVariants(text);
     var eIter = exact.values();
     var e = eIter.next();
     while (!e.done) {
-      if (e.value.indexOf(" ") !== -1 && text.indexOf(e.value) !== -1) return true;
+      if (e.value.indexOf(" ") !== -1 &&
+          (text.indexOf(e.value) !== -1 ||
+           foldedText.indexOf(foldVariants(e.value)) !== -1)) return true;
       e = eIter.next();
     }
 
