@@ -6,7 +6,7 @@
 /* Wrapper — holds blurred element + unblurred button */
 .haya-wrapper {
   position: relative;
-  display: inline-block;
+  display: inline;
 }
 
 /* Block wrapper — for div/p/article elements */
@@ -16,11 +16,11 @@
 
 /* Blur mode */
 .haya-blur {
-  filter: blur(5px);
+  filter: blur(5px) !important;
   cursor: default;
   transition: filter 0.3s ease;
-  -webkit-user-select: none;
-  user-select: none;
+  -webkit-user-select: none !important;
+  user-select: none !important;
 }
 
 /* Revealed state */

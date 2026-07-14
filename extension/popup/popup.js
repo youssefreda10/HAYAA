@@ -51,6 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
               enableToggle.checked = !disabled.includes(domain);
             }
           } catch (e) {}
+        } else {
+          enableToggle.checked = false;
+          enableToggle.disabled = true;
         }
       });
 
@@ -209,11 +212,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ─── Lock Reveal ───
   document.getElementById("lockBtn").addEventListener("click", () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: "lockReveals" }).catch(function () {});
-        document.getElementById("lockText").textContent = "وضع حماية الأطفال مفعّل";
-      }
+    chrome.tabs.query({}, (tabs) => {
+      tabs.forEach((tab) => {
+        chrome.tabs.sendMessage(tab.id, { type: "lockReveals" }).catch(function () {});
+      });
+      document.getElementById("lockText").textContent = "وضع حماية الأطفال مفعّل";
     });
   });
 
@@ -230,15 +233,19 @@ document.addEventListener("DOMContentLoaded", () => {
     var msg = document.getElementById("removePinMsg");
     if (!pin) { msg.textContent = "أدخل الرمز"; return; }
 
-    chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, (res) => {
+    chrome.runtime.sendMessage({ type: "removePin", currentPin: pin }, (res) => {
+      if (chrome.runtime.lastError) {
+        msg.textContent = "فشل الاتصال — حاول مرة أخرى";
+        return;
+      }
       if (res && res.success) {
-        chrome.runtime.sendMessage({ type: "removePin" }, () => {
-          document.getElementById("lockActiveView").style.display = "none";
-          document.getElementById("lockSetupView").style.display = "block";
-          document.getElementById("removePinForm").style.display = "none";
-          unlockControls();
-          chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            if (tabs[0]) chrome.tabs.sendMessage(tabs[0].id, { type: "unlockReveals" }).catch(function () {});
+        document.getElementById("lockActiveView").style.display = "none";
+        document.getElementById("lockSetupView").style.display = "block";
+        document.getElementById("removePinForm").style.display = "none";
+        unlockControls();
+        chrome.tabs.query({}, (tabs) => {
+          tabs.forEach((tab) => {
+            chrome.tabs.sendMessage(tab.id, { type: "unlockReveals" }).catch(function () {});
           });
         });
       } else {

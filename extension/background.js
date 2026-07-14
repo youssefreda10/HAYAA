@@ -8,6 +8,10 @@ var DEFAULT_THRESHOLD = 0.75;
 var BATCH_SIZE = 50;
 var RETRY_DELAY = 20000;
 var MAX_RETRIES = 3;
+var FETCH_TIMEOUT = 15000;
+
+// Serialize PIN verification so concurrent requests can't bypass lockout
+var pinQueue = Promise.resolve();
 
 chrome.runtime.onInstalled.addListener(function (details) {
   if (details.reason === "install") {
@@ -32,33 +36,45 @@ chrome.runtime.onInstalled.addListener(function (details) {
     chrome.tabs.create({ url: "onboarding.html" });
   }
 
-  // Context menus — recreate on every install/update
-  chrome.contextMenus.create({
-    id: "haya-add-word",
-    title: "حياء: أضف \"%s\" للفلتر",
-    contexts: ["selection"],
-  });
+  // Context menus — recreate on every install/update (removeAll avoids duplicate-ID errors)
+  chrome.contextMenus.removeAll(function () {
+    chrome.contextMenus.create({
+      id: "haya-add-word",
+      title: "حياء: أضف \"%s\" للفلتر",
+      contexts: ["selection"],
+    });
 
-  chrome.contextMenus.create({
-    id: "haya-add-allowlist",
-    title: "حياء: أضف \"%s\" للقائمة البيضاء",
-    contexts: ["selection"],
+    chrome.contextMenus.create({
+      id: "haya-add-allowlist",
+      title: "حياء: أضف \"%s\" للقائمة البيضاء",
+      contexts: ["selection"],
+    });
   });
 });
 
 // Reload the tab to apply the new word list, then toast once it has settled.
 // (Toasting before the reload is pointless — the reload destroys the toast.)
 function reloadAndToast(tabId, message) {
+  function cleanup() {
+    chrome.tabs.onUpdated.removeListener(onUpdated);
+    chrome.tabs.onRemoved.removeListener(onRemoved);
+    clearTimeout(timeout);
+  }
   function onUpdated(updatedTabId, changeInfo) {
     if (updatedTabId !== tabId || changeInfo.status !== "complete") return;
-    chrome.tabs.onUpdated.removeListener(onUpdated);
-    // Content script runs at document_idle; give it a moment to attach.
+    cleanup();
     setTimeout(function () {
       chrome.tabs.sendMessage(tabId, { type: "showToast", message: message })
         .catch(function () {});
     }, 400);
   }
+  function onRemoved(removedTabId) {
+    if (removedTabId !== tabId) return;
+    cleanup();
+  }
+  var timeout = setTimeout(cleanup, 10000);
   chrome.tabs.onUpdated.addListener(onUpdated);
+  chrome.tabs.onRemoved.addListener(onRemoved);
   chrome.tabs.reload(tabId);
 }
 
@@ -126,7 +142,7 @@ chrome.commands.onCommand.addListener(function (command) {
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.type === "classify") {
-    handleClassify(message.texts).then(sendResponse);
+    handleClassify(message.texts).then(sendResponse).catch(function () { sendResponse([]); });
     return true;
   }
 
@@ -170,25 +186,56 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   }
 
   else if (message.type === "verifyPin") {
-    handleVerifyPin(message.pin).then(sendResponse);
+    pinQueue = pinQueue.then(function () {
+      return handleVerifyPin(message.pin);
+    }).then(sendResponse).catch(function () {
+      sendResponse({ success: false });
+    });
     return true;
   }
 
   else if (message.type === "setPin") {
-    makePinRecord(message.pin)
-      .then(function (record) {
-        chrome.storage.sync.set({ parentalPin: record }, function () {
-          sendResponse({ success: true });
+    // Require current PIN if one is already set
+    pinQueue = pinQueue.then(function () {
+      return chrome.storage.sync.get(["parentalPin"]);
+    }).then(function (data) {
+      if (data.parentalPin) {
+        if (!message.currentPin) return { success: false, error: "currentPin required" };
+        return handleVerifyPin(message.currentPin).then(function (res) {
+          if (!res.success) return res;
+          return makePinRecord(message.pin).then(function (record) {
+            return new Promise(function (resolve) {
+              chrome.storage.sync.set({ parentalPin: record }, function () {
+                resolve({ success: true });
+              });
+            });
+          });
         });
-      })
-      .catch(function () { sendResponse({ success: false }); });
+      }
+      return makePinRecord(message.pin).then(function (record) {
+        return new Promise(function (resolve) {
+          chrome.storage.sync.set({ parentalPin: record }, function () {
+            resolve({ success: true });
+          });
+        });
+      });
+    }).then(sendResponse).catch(function () { sendResponse({ success: false }); });
     return true;
   }
 
   else if (message.type === "removePin") {
-    chrome.storage.sync.remove(["parentalPin"], function () {
-      sendResponse({ success: true });
-    });
+    // Require current PIN verification before removal
+    pinQueue = pinQueue.then(function () {
+      if (!message.currentPin) return { success: false, error: "currentPin required" };
+      return handleVerifyPin(message.currentPin).then(function (res) {
+        if (!res.success) return res;
+        return new Promise(function (resolve) {
+          chrome.storage.sync.remove(["parentalPin"], function () {
+            resolve({ success: true });
+          });
+        });
+      });
+    }).then(sendResponse).catch(function () { sendResponse({ success: false }); });
     return true;
   }
 });
@@ -208,11 +255,17 @@ async function classifyBatch(texts, retries) {
   if (retries === undefined) retries = 0;
 
   try {
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, FETCH_TIMEOUT);
+
     var response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ inputs: texts }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timer);
 
     if (response.status === 503) {
       if (retries < MAX_RETRIES) {
@@ -235,6 +288,11 @@ async function classifyBatch(texts, retries) {
     }
 
     var data = await response.json();
+
+    if (!Array.isArray(data)) {
+      console.warn("[Hayā] Unexpected API response shape:", typeof data);
+      return texts.map(function () { return { label: "SAFE", score: 0 }; });
+    }
 
     return data.map(function (result) {
       if (Array.isArray(result)) {

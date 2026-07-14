@@ -339,15 +339,17 @@ document.addEventListener("DOMContentLoaded", () => {
     var pin = document.getElementById("optRemovePwInput").value;
     var msg = document.getElementById("optRemovePwMsg");
     if (!pin) { msg.textContent = "أدخل الرمز"; return; }
-    chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, (res) => {
+    chrome.runtime.sendMessage({ type: "removePin", currentPin: pin }, (res) => {
+      if (chrome.runtime.lastError) {
+        msg.textContent = "فشل الاتصال — حاول مرة أخرى";
+        return;
+      }
       if (res && res.success) {
-        chrome.runtime.sendMessage({ type: "removePin" }, () => {
-          document.getElementById("optLockActiveView").style.display = "none";
-          document.getElementById("optLockSetupView").style.display = "block";
-          document.getElementById("optRemovePwForm").style.display = "none";
-          chrome.tabs.query({}, (tabs) => {
-            tabs.forEach((tab) => { chrome.tabs.sendMessage(tab.id, { type: "unlockReveals" }).catch(() => {}); });
-          });
+        document.getElementById("optLockActiveView").style.display = "none";
+        document.getElementById("optLockSetupView").style.display = "block";
+        document.getElementById("optRemovePwForm").style.display = "none";
+        chrome.tabs.query({}, (tabs) => {
+          tabs.forEach((tab) => { chrome.tabs.sendMessage(tab.id, { type: "unlockReveals" }).catch(() => {}); });
         });
       } else {
         msg.textContent = pinErrorText(res);
@@ -415,18 +417,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!code) return;
     try {
       var shareData = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+      var importedWords = Array.isArray(shareData.customWords) ? shareData.customWords : [];
+      var importedAllow = Array.isArray(shareData.allowlist) ? shareData.allowlist : [];
       chrome.storage.sync.get(["customWords", "allowlist"], (data) => {
         var words = data.customWords || [];
         var allow = data.allowlist || [];
         var addedW = 0, addedA = 0;
-        (shareData.customWords || []).forEach((w) => {
+        importedWords.forEach((w) => {
           var val = typeof w === "string" ? w : w.word;
           if (!words.some((x) => (typeof x === "string" ? x : x.word) === val)) { words.push(w); addedW++; }
         });
-        (shareData.allowlist || []).forEach((w) => {
-          if (!allow.includes(w)) { allow.push(w); addedA++; }
+        importedAllow.forEach((w) => {
+          if (typeof w === "string" && !allow.includes(w)) { allow.push(w); addedA++; }
         });
         chrome.storage.sync.set({ customWords: words, allowlist: allow }, () => {
+          if (chrome.runtime.lastError) {
+            showMsg("configMsg", "القائمة كبيرة جداً — لم يتم الحفظ");
+            return;
+          }
           renderWords(words);
           renderAllowlist(allow);
           showMsg("configMsg", "تم استيراد " + addedW + " كلمة فلتر + " + addedA + " قائمة بيضاء");
@@ -450,6 +458,19 @@ document.addEventListener("DOMContentLoaded", () => {
         VALID_KEYS.forEach(function (k) { if (k in raw) data[k] = raw[k]; });
         if (data.mode && ["blur", "hide", "highlight"].indexOf(data.mode) === -1) {
           data.mode = "blur";
+        }
+        var ARRAY_KEYS = ["disabledDomains", "enabledDomains", "customWords", "allowlist"];
+        ARRAY_KEYS.forEach(function (k) {
+          if (k in data && !Array.isArray(data[k])) delete data[k];
+        });
+        if ("threshold" in data) {
+          data.threshold = Number(data.threshold);
+          if (isNaN(data.threshold) || data.threshold < 0 || data.threshold > 1) {
+            delete data.threshold;
+          }
+        }
+        if ("enabled" in data && typeof data.enabled !== "boolean") {
+          delete data.enabled;
         }
         chrome.storage.sync.set(data, () => {
           if (chrome.runtime.lastError) {

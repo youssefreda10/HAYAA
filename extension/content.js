@@ -11,12 +11,6 @@
   var SKIP_TAGS = new Set([
     "SCRIPT", "STYLE", "NOSCRIPT", "SVG", "MATH", "CODE", "PRE",
     "INPUT", "TEXTAREA", "SELECT", "BUTTON", "IFRAME",
-    "NAV", "HEADER", "FOOTER", "LABEL", "OPTION", "ASIDE",
-  ]);
-
-  var SKIP_ROLES = new Set([
-    "navigation", "banner", "contentinfo", "menu", "menubar",
-    "menuitem", "toolbar", "complementary", "search", "tab", "tablist",
   ]);
 
   var INITIALIZED = false;
@@ -212,15 +206,6 @@
   // DOM Scanning
   // ============================================================
 
-  var UI_ANCESTOR_SELECTOR = "nav, header, footer, aside, [role='navigation'], [role='banner'], [role='contentinfo'], [role='menu'], [role='menubar'], [role='toolbar'], [role='complementary'], [role='search']";
-
-  function isUIElement(node) {
-    var role = node.getAttribute && node.getAttribute("role");
-    if (role && SKIP_ROLES.has(role)) return true;
-    if (node.closest && node.closest(UI_ANCESTOR_SELECTOR)) return true;
-    return false;
-  }
-
   function scanPage() {
     var walker = document.createTreeWalker(
       document.body,
@@ -228,8 +213,6 @@
       {
         acceptNode: function (node) {
           if (SKIP_TAGS.has(node.tagName)) return NodeFilter.FILTER_REJECT;
-          var role = node.getAttribute && node.getAttribute("role");
-          if (role && SKIP_ROLES.has(role)) return NodeFilter.FILTER_REJECT;
           if (node.closest("[" + PROCESSED_ATTR + "]")) return NodeFilter.FILTER_REJECT;
           if (node.classList && (node.classList.contains("haya-wrapper") ||
               node.classList.contains("haya-reveal-btn") ||
@@ -258,7 +241,6 @@
 
   function processElement(element) {
     if (element.getAttribute(PROCESSED_ATTR)) return;
-    if (isUIElement(element)) return;
 
     var text = getDirectText(element);
     if (!text || text.length < MIN_TEXT_LENGTH) return;
@@ -340,7 +322,6 @@
     // that happened to trigger the scan. Sibling fragments of the same block
     // are skipped via queuedBlocks, so each comment costs exactly one call.
     var block = getBlockElement(element);
-    if (isUIElement(block)) return;
     var blockText = getBlockText(element);
     var modelText = HayaNormalizer.normalize(blockText) || cleanNorm;
     if (!modelText || modelText.length < MIN_TEXT_LENGTH) return;
@@ -706,11 +687,10 @@
                  added.classList.contains("haya-password-overlay") ||
                  added.classList.contains("haya-toast"))) continue;
             if (SKIP_TAGS.has(added.tagName)) continue;
-            if (isUIElement(added)) continue;
             processElement(added);
             var children = added.querySelectorAll("*");
             for (var k = 0; k < children.length; k++) {
-              if (!SKIP_TAGS.has(children[k].tagName) && !isUIElement(children[k])) {
+              if (!SKIP_TAGS.has(children[k].tagName)) {
                 processElement(children[k]);
               }
             }
