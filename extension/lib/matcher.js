@@ -173,21 +173,22 @@ var HayaMatcher = (function () {
   }
 
   // Tokens that must never be ج→ك folded, because the ج spelling is itself an
-  // ordinary word whose ك form is profanity. The only family found is جسم:
+  // ordinary word whose ك form is profanity:
   //
-  //   جسم / الجسم / جسمك  ──ج→ك──>  كسم / الكسم / كسمك
+  //   جسم / الجسم / جسمك  ──ج→ك──>  كسم / الكسم / كسمك   (a body → obscenity)
+  //   جوز / جوزها / جوزي  ──ج→ك──>  كوز / كوزها / كوزي   (husband/walnut → slur)
   //
-  // "جسم" (a body) is everyday vocabulary — medicine, fitness, physics — and
-  // folding it convicted every sentence that used it. Note the fix cannot live
-  // in an exception Set consulted through inSet(): that path dialect-folds the
-  // token it is testing, so listing جسم there would make the real profanity
+  // "جسم" (a body) and "جوز" (husband, walnut, a pair) are everyday vocabulary,
+  // and folding them convicted every sentence that used them. The fix cannot
+  // live in an exception Set consulted through inSet(): that path dialect-folds
+  // the token it is testing, so listing جسم there would make the real profanity
   // كسم fold onto جسم and exempt ITSELF. The fold has to be blocked at source.
   //
-  // Blocking only this direction is safe: كسم is still matched by the direct
-  // set.has() in inSet(), so the profanity is untouched. What is given up is
-  // catching جسمك used as a deliberate misspelling of كسمك — a real but narrow
-  // recall loss, and the model still sees such a sentence in full context.
-  var NO_J_FOLD = /^(ال)?جسم/;
+  // Blocking only this direction is safe: كسم / كوز are still matched by the
+  // direct set.has() in inSet(), so the profanity is untouched. What is given up
+  // is catching جسمك / جوزك used as a deliberate misspelling of the slur — a
+  // narrow recall loss, and the model still sees such a sentence in full context.
+  var NO_J_FOLD = /^(ال)?(جسم|جوز)/;
 
   // ك↔ج is ambiguous in both directions, so try each rather than
   // committing: "منيوج"→"منيوك" (want) but "جلب"→"كلب" (want).
@@ -314,10 +315,17 @@ var HayaMatcher = (function () {
     // A neighbouring word may carry the addressee instead: "شكلك مقرف".
     // Kept strictly adjacent — a sentence-wide scan would drag
     // "شيل الوسخ من شارعك" back in as a false positive.
+    //
+    // But a trailing ك is only a 2nd-person pronoun on some words; on plenty
+    // of ordinary nouns it is part of the root (السمك fish, الديك rooster,
+    // السلك wire, الملك king). Those almost always carry the definite article,
+    // and a definite noun is never a "your-…" possessive — you don't say
+    // "الشكلك". So a neighbour beginning with ال is not treated as an
+    // addressee, which stops "السمك خايس" / "الديك مقرف" convicting.
     var near = [words[i - 1], words[i + 1]];
     for (var n = 0; n < near.length; n++) {
       var w = near[n];
-      if (w && w.length >= 3 && ATTACHED_PRONOUN.test(w)) return true;
+      if (w && w.length >= 3 && !/^ال/.test(w) && ATTACHED_PRONOUN.test(w)) return true;
     }
     return false;
   }
