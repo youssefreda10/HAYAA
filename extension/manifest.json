@@ -13,7 +13,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["http://*/*", "https://*/*"],
       "js": ["lib/unicode_sanitizer.js", "lib/homoglyph_normalizer.js", "lib/emoji_analyzer.js", "lib/normalizer.js", "lib/morphology_expander.js", "lib/dictionary.js", "lib/matcher.js", "lib/obfuscation_resolver.js", "content.js"],
       "css": ["styles/overlay.css"],
       "run_at": "document_idle"

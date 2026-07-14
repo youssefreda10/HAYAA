@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "node tests/run_tests.js && node tests/run_suite.js",
+    "test": "node tests/run_tests.js && node tests/run_suite.js && node tests/block_dom.test.js",
     "test:precision": "node tests/safe_corpus.js && node tests/run_precision.js",
     "test:dom": "node tests/block_dom.test.js",
     "test:stress": "node tests/generate_stress_suite.js && python tests/run_stress_full.py",
