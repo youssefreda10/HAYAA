@@ -25,6 +25,11 @@
   var filteredTexts = [];
   var MAX_FILTERED_LOG = 50;
   var revealLocked = false;
+  // Set once the correct PIN is entered on this page load. It unlocks EVERY
+  // reveal on the page so the PIN is asked once per page, not per element.
+  // Deliberately not persisted: a reload re-locks, and locking from the popup
+  // clears it — so a child can't keep it open by revealing element by element.
+  var sessionUnlocked = false;
 
   // API result cache (text → {label, score})
   var apiCache = new Map();
@@ -151,10 +156,13 @@
     }
     if (msg.type === "lockReveals") {
       revealLocked = true;
+      sessionUnlocked = false; // locking from the popup re-arms the PIN
       reblurAll();
     }
     if (msg.type === "unlockReveals") {
+      // PIN was removed entirely — no protection at all.
       revealLocked = false;
+      sessionUnlocked = false;
     }
     if (msg.type === "showToast") {
       showToast(msg.message);
@@ -630,8 +638,12 @@
   // ============================================================
 
   function handleRevealClick(element, btn, wrapper) {
-    if (revealLocked) {
+    // Ask for the PIN only if reveals are locked AND this page hasn't been
+    // unlocked yet this session. Once unlocked, every reveal is free until the
+    // page reloads or the popup locks again.
+    if (revealLocked && !sessionUnlocked) {
       showPasswordPrompt(function () {
+        sessionUnlocked = true;
         toggleBlur(element, btn, wrapper);
       });
     } else {

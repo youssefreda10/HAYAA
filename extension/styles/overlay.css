@@ -142,17 +142,47 @@
    Password Prompt Overlay — injected into page DOM
    ============================================================ */
 
+/* Isolation reset. This UI is injected into arbitrary pages, and host global
+   rules on button/input/div (Reddit sets min-height, line-height, appearance,
+   margin, box-sizing…) were leaking in and pushing the buttons out of the box
+   — which is why the panel looked broken on some sites and fine on others.
+   Neutralise every layout-affecting property the host could impose on our
+   subtree, then our own rules below re-style deliberately. Only layout props
+   are reset here; colour/shadow/font-size/letter-spacing we set ourselves are
+   left alone. The overlay element itself is excluded so it keeps position:fixed. */
+.haya-password-overlay * {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  height: auto !important;
+  line-height: normal !important;
+  vertical-align: baseline !important;
+  float: none !important;
+  position: static !important;
+  inset: auto !important;
+  text-transform: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  transform: none !important;
+}
+
 .haya-password-overlay {
-  position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
-  z-index: 9999999;
+  position: fixed !important;
+  top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;
+  width: auto !important; height: auto !important;
+  z-index: 2147483647 !important; /* max int — sit above any host overlay */
   background: rgba(7, 7, 26, 0.7);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   direction: rtl;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .haya-password-box {
@@ -161,8 +191,8 @@
   backdrop-filter: blur(16px);
   border: 1px solid rgba(108, 159, 232, 0.15);
   border-radius: 16px;
-  padding: 32px 32px;
-  width: min(320px, 90vw);
+  padding: 32px !important;
+  width: min(320px, 90vw) !important;
   text-align: center;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(108, 159, 232, 0.1);
   font-family: "Segoe UI", -apple-system, sans-serif;
@@ -186,16 +216,16 @@
 }
 
 .haya-password-box input {
-  width: 100%;
+  width: 100% !important;
   background: rgba(12, 12, 40, 0.8);
   color: #f0f0ff;
   border: 1px solid rgba(108, 159, 232, 0.12);
   border-radius: 10px;
-  padding: 12px 16px;
+  padding: 12px 16px !important;
   font-size: 16px;
   text-align: center;
   direction: ltr;
-  letter-spacing: 4px;
+  letter-spacing: 4px !important;
   outline: none;
   margin-bottom: 16px;
   font-family: inherit;
@@ -208,14 +238,14 @@
 }
 
 .haya-password-box .haya-pw-btns {
-  display: flex;
-  gap: 10px;
-  width: 100%;
+  display: flex !important;
+  gap: 10px !important;
+  width: 100% !important;
 }
 
 .haya-password-box button {
-  flex: 1;
-  padding: 12px 16px;
+  flex: 1 1 0 !important;
+  padding: 12px 16px !important;
   border-radius: 10px;
   font-size: 14px;
   font-family: inherit;
@@ -251,8 +281,8 @@
 .haya-password-box .haya-pw-error {
   color: #ef4444;
   font-size: 13px;
-  margin-top: 10px;
-  min-height: 20px;
+  margin-top: 10px !important;
+  min-height: 20px !important;
 }
 
 /* ============================================================
