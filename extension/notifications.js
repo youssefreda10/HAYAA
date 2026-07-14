@@ -4,6 +4,52 @@ document.addEventListener("DOMContentLoaded", function () {
     if (data.theme === "light") document.body.classList.add("light");
   });
 
+  // ─── Parental PIN gate ───
+  // The log shows filtered/reported text, so it needs the same protection as
+  // the options page. It can be opened directly, so it gates itself. The log
+  // data is not even loaded until the PIN passes.
+  chrome.storage.sync.get(["parentalPin"], function (data) {
+    if (data.parentalPin) {
+      document.getElementById("pageLock").style.display = "flex";
+      document.getElementById("logContent").style.display = "none";
+      setTimeout(function () { document.getElementById("pageLockInput").focus(); }, 100);
+    } else {
+      unlockLog();
+    }
+  });
+
+  function unlockLog() {
+    document.getElementById("pageLock").style.display = "none";
+    document.getElementById("logContent").style.display = "block";
+    loadLog();
+  }
+
+  document.getElementById("pageLockBtn").addEventListener("click", function () {
+    var pin = document.getElementById("pageLockInput").value;
+    var msg = document.getElementById("pageLockMsg");
+    if (!pin) { msg.textContent = "أدخل الرمز"; return; }
+
+    chrome.runtime.sendMessage({ type: "verifyPin", pin: pin }, function (res) {
+      if (chrome.runtime.lastError) { msg.textContent = "فشل الاتصال — حاول مرة أخرى"; return; }
+      if (res && res.success) {
+        unlockLog();
+      } else if (res && res.lockedFor) {
+        msg.textContent = "محاولات كثيرة — انتظر " + res.lockedFor + " ثانية";
+        document.getElementById("pageLockInput").value = "";
+      } else {
+        msg.textContent = res && res.remaining
+          ? "رمز PIN غير صحيح — متبقي " + res.remaining + " محاولات"
+          : "رمز PIN غير صحيح";
+        document.getElementById("pageLockInput").value = "";
+        document.getElementById("pageLockInput").focus();
+      }
+    });
+  });
+
+  document.getElementById("pageLockInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") document.getElementById("pageLockBtn").click();
+  });
+
   // Tabs
   document.querySelectorAll(".tab").forEach(function (tab) {
     tab.addEventListener("click", function () {
@@ -29,6 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return div.innerHTML;
   }
 
+  // All log data loading lives here so nothing sensitive is fetched into the
+  // DOM until the PIN gate passes.
+  function loadLog() {
   // Load stats
   chrome.storage.local.get(["totalFiltered", "reports", "pagesScanned"], function (data) {
     document.getElementById("totalCount").textContent = (data.totalFiltered || 0).toLocaleString("ar-EG");
@@ -108,4 +157,5 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
+  } // end loadLog
 });
