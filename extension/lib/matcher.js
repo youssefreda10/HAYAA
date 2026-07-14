@@ -79,6 +79,20 @@ var HayaMatcher = (function () {
   var ADDRESS_CUES = new Set(["يا", "انت", "انتي", "انتى", "انتم", "انتو", "انتوا", "يااا"]);
   var ATTACHED_PRONOUN = /(ك|كم|كي)$/;
 
+  // The address cue "يا" is often written glued to a leading connective —
+  // "ويا غبي", "فيا غبي", "واليا وسخ", "اليا بعير" — and a bare ADDRESS_CUES
+  // lookup misses all of them, letting a clearly directed insult through.
+  // Recognise a cue after stripping only و/ف/ال/وال/بال. Deliberately NOT
+  // stripping ل or ب alone: "ليا" means "mine" in Egyptian ("الكتاب ليا"),
+  // and treating it as an addressee would convict "الكلب ليا" (my dog).
+  var CUE_PREFIX = /^(وال|بال|ال|و|ف)/;
+  function isAddressCue(w) {
+    if (!w) return false;
+    if (ADDRESS_CUES.has(w)) return true;
+    var stripped = w.replace(CUE_PREFIX, "");
+    return stripped !== w && ADDRESS_CUES.has(stripped);
+  }
+
   // Proper-name gazetteer. These are common Arabic names/surnames/places
   // that stem onto a profanity root and would otherwise be convicted:
   //   خوله / خولة (the female name Khawla) → strips ه → خول (a slur)
@@ -306,9 +320,9 @@ var HayaMatcher = (function () {
   //   شيل الوسخ ... → NOT directed
   function isDirectedAtPerson(words, i) {
     var token = words[i];
-    if (i > 0 && ADDRESS_CUES.has(words[i - 1])) return true;
+    if (i > 0 && isAddressCue(words[i - 1])) return true;
     // "يا ابن الوسخ" — cue two back, with a construct noun between
-    if (i > 1 && ADDRESS_CUES.has(words[i - 2]) &&
+    if (i > 1 && isAddressCue(words[i - 2]) &&
         (words[i - 1] === "ابن" || words[i - 1] === "بنت")) return true;
     if (ATTACHED_PRONOUN.test(token) && token.length > MIN_STEM) return true;
 
