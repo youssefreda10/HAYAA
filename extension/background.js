@@ -8,7 +8,13 @@ var DEFAULT_THRESHOLD = 0.75;
 var BATCH_SIZE = 50;
 var RETRY_DELAY = 20000;
 var MAX_RETRIES = 3;
-var FETCH_TIMEOUT = 15000;
+// Modal scales to zero. A request that lands on a cold container waits for the
+// container to boot AND for the model to load from HuggingFace — measured at
+// 19–21s, against 0.8s once warm. The old 15s ceiling therefore aborted the
+// FIRST request every time the app had gone idle, and the abort was swallowed
+// into a SAFE verdict, so Layer 2 silently never ran. 60s clears a cold start
+// with headroom; a timeout is now retried rather than treated as "not toxic".
+var FETCH_TIMEOUT = 60000;
 
 // Serialize PIN verification so concurrent requests can't bypass lockout
 var pinQueue = Promise.resolve();
@@ -306,7 +312,18 @@ async function classifyBatch(texts, retries) {
       return { label: "SAFE", score: 0 };
     });
   } catch (error) {
-    console.error("[Hayā] API error:", error.message);
+    clearTimeout(timer);
+    // A cold-start abort or a transient network drop is not evidence the text
+    // is safe — retry before giving up, so one slow boot doesn't wave a whole
+    // page through unscored.
+    var aborted = error && error.name === "AbortError";
+    if (retries < MAX_RETRIES) {
+      console.warn("[Hayā] " + (aborted ? "timeout" : "network error") +
+        ", retry " + (retries + 1) + "/" + MAX_RETRIES + ": " + error.message);
+      await new Promise(function (r) { setTimeout(r, aborted ? 1000 : RETRY_DELAY); });
+      return classifyBatch(texts, retries + 1);
+    }
+    console.error("[Hayā] API error after retries:", error.message);
     return texts.map(function () { return { label: "SAFE", score: 0 }; });
   }
 }

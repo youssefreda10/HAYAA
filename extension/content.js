@@ -245,7 +245,15 @@
     var text = getDirectText(element);
     if (!text || text.length < MIN_TEXT_LENGTH) return;
 
-    if (!hasArabic(text)) return;
+    // A trace is created for every element that clears the length gate. When
+    // HayaDebug is off, trace/step/decide are no-ops that allocate nothing.
+    var tr = HayaDebug.trace(text);
+
+    if (!hasArabic(text)) {
+      tr.step("hasArabic", "false — skipped").decide("PASS", "pre-filter", "مش عربي بما يكفي");
+      return;
+    }
+    tr.step("hasArabic", "true");
 
     element.setAttribute(PROCESSED_ATTR, "1");
 
@@ -253,17 +261,20 @@
     var emojiAnalysis = { isToxic: false, score: 0 };
     if (typeof HayaEmojiAnalyzer !== "undefined") {
       emojiAnalysis = HayaEmojiAnalyzer.analyze(text);
+      tr.step("L0.2 emoji", { isToxic: emojiAnalysis.isToxic, flags: emojiAnalysis.flags, score: emojiAnalysis.score });
       if (emojiAnalysis.isToxic) {
         applyFilter(element);
         logFiltered(text, "emoji");
         toxicCount++;
         chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
         chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "emoji" });
+        tr.decide("BLOCK", "L0.2 emoji", "إيموجي مسيء: " + (emojiAnalysis.flags || []).join("، "));
         return;
       }
     }
     if (emojiAnalysis.extractedText) {
       text = text + " " + emojiAnalysis.extractedText;
+      tr.step("emoji extract", emojiAnalysis.extractedText);
     }
 
 
@@ -273,6 +284,7 @@
     // raw text to the model instead (the old bug) let obfuscation like
     // "ك.س.م ميسي" score 0.00 SAFE, when the normalized "كسم ميسي" scores 1.00.
     var cleanNorm = HayaNormalizer.normalize(text);
+    tr.step("L1 normalize", cleanNorm);
 
     // Dictionary form — morphology-expanded. This adds direction-marker tokens
     // that help the DICTIONARY matcher but would corrupt MODEL input, so it is
@@ -280,15 +292,19 @@
     var dictForm = cleanNorm;
     if (cleanNorm && typeof HayaMorphologyExpander !== "undefined") {
       dictForm = HayaMorphologyExpander.expand(cleanNorm);
+      if (dictForm !== cleanNorm) tr.step("L0.8 morphology", dictForm);
     }
 
     // Layer 1: Dictionary check (instant, no network)
-    if (dictForm && HayaMatcher.check(dictForm, wordGroups)) {
+    var dictHit = dictForm && HayaMatcher.check(dictForm, wordGroups);
+    tr.step("L1 dictionary", dictHit ? "HIT" : "miss");
+    if (dictHit) {
       applyFilter(element);
       logFiltered(text, "dictionary");
       toxicCount++;
       chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
       chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "dictionary" });
+      tr.decide("BLOCK", "L1 dictionary", "طابق القاموس: " + (traceCulprit(dictForm) || "—"));
       return;
     }
 
@@ -305,12 +321,14 @@
           );
         }
       );
+      tr.step("L1.5 deobfuscate", resolved ? "HIT" : "miss");
       if (resolved) {
         applyFilter(element);
         logFiltered(text, "deobfuscated");
         toxicCount++;
         chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
         chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "dictionary" });
+        tr.decide("BLOCK", "L1.5 deobfuscate", "نص متموّه اتفكّ لكلمة في القاموس");
         return;
       }
     }
@@ -324,26 +342,74 @@
     var block = getBlockElement(element);
     var blockText = getBlockText(element);
     var modelText = HayaNormalizer.normalize(blockText) || cleanNorm;
-    if (!modelText || modelText.length < MIN_TEXT_LENGTH) return;
+    if (!modelText || modelText.length < MIN_TEXT_LENGTH) {
+      tr.decide("PASS", "L2 skipped", "النص بعد التطبيع أقصر من الحد");
+      return;
+    }
     var modelWords = modelText.split(/\s+/).length;
-    if (modelWords < 3) return;
+    if (modelWords < 3) {
+      tr.step("L2 block", short(modelText, 80) + " (" + modelWords + " كلمة)");
+      tr.decide("PASS", "L2 skipped", "الكتلة أقل من ٣ كلمات — مش بتترسل للموديل");
+      return;
+    }
+    tr.step("L2 block", modelText + " (" + modelWords + " كلمة)");
 
     var blockCached = apiCache.get(modelText);
     if (blockCached) {
+      tr.step("L2 cache", { label: blockCached.label, score: blockCached.score });
       if (blockCached.label === "TOXIC" && blockCached.score >= settings.threshold) {
         applyFilter(block);
         logFiltered(blockText, "api-cache");
         toxicCount++;
         chrome.runtime.sendMessage({ type: "updateBadge", count: toxicCount });
         chrome.runtime.sendMessage({ type: "incrementStats", count: 1, source: "api" });
+        tr.decide("BLOCK", "L2 model (cache)", "الموديل: " + blockCached.score.toFixed(2) +
+          " ≥ عتبة " + settings.threshold);
+      } else {
+        tr.decide("PASS", "L2 model (cache)", "الموديل: " + blockCached.score.toFixed(2) +
+          " < عتبة " + settings.threshold);
       }
       return;
     }
 
-    if (queuedBlocks.has(block)) return; // already in flight for this comment
+    if (queuedBlocks.has(block)) {
+      tr.decide("PASS", "L2 dedup", "الكتلة دي مترسلة بالفعل — بتتحسب مرة واحدة");
+      return; // already in flight for this comment
+    }
     queuedBlocks.add(block);
 
+    tr.decide("PASS", "L2 queued", "اترسلت للموديل — النتيجة بتوصل async (شوف [Hayā L2] لاحقاً)");
+    HayaDebug.isOn() && attachQueueTrace(modelText, tr.id);
     queueForClassification(modelText, block, blockText);
+  }
+
+  // Small helper mirrored from the sim: name the token/phrase/pattern that
+  // convicted the text, so a dictionary BLOCK says WHY in the trace.
+  function traceCulprit(dictForm) {
+    try {
+      var words = dictForm.split(/\s+/).filter(Boolean);
+      for (var i = 0; i < words.length; i++) {
+        if (HayaMatcher.check(words[i], wordGroups)) return "الكلمة «" + words[i] + "»";
+      }
+      var phrase = null;
+      wordGroups.exact.forEach(function (w) {
+        if (!phrase && w.indexOf(" ") !== -1 && dictForm.indexOf(w) !== -1) phrase = w;
+      });
+      if (phrase) return "العبارة «" + phrase + "»";
+      return "تطابق سياقي أو نمط";
+    } catch (e) { return null; }
+  }
+
+  function short(s, n) {
+    s = String(s == null ? "" : s);
+    return s.length > n ? s.slice(0, n) + "…" : s;
+  }
+
+  // Remember which text each queued model call was for, so the async result
+  // handler can print a matching [Hayā L2] line when debug is on.
+  var l2Pending = {};
+  function attachQueueTrace(modelText, traceId) {
+    l2Pending[modelText] = traceId;
   }
 
   function getDirectText(element) {
@@ -468,7 +534,22 @@
       }
       apiCache.set(texts[i], result);
 
-      if (result.label === "TOXIC" && result.score >= settings.threshold) {
+      var isToxic = result.label === "TOXIC" && result.score >= settings.threshold;
+
+      if (HayaDebug.isOn()) {
+        var sc = typeof result.score === "number" ? result.score.toFixed(3) : result.score;
+        var css = isToxic ? "color:#e8697a;font-weight:700" : "color:#4fb28c;font-weight:700";
+        console.log(
+          "%c[Hayā L2 #" + (l2Pending[texts[i]] || "?") + "] " +
+          (isToxic ? "BLOCK" : "PASS ") + "%c  model=" + result.label +
+          " score=" + sc + " / عتبة " + settings.threshold + "  %c" +
+          short((originals && originals[i]) || texts[i] || "", 60),
+          css, "color:#909baf", "color:#8b95a6"
+        );
+        delete l2Pending[texts[i]];
+      }
+
+      if (isToxic) {
         applyFilter(element);
         logFiltered((originals && originals[i]) || texts[i] || "", "api");
         newToxic++;
