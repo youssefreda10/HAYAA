@@ -1,5 +1,8 @@
 # Hayā (حياء) — Arabic Toxic Content Moderation 🛡️
 
+[![Model on HF](https://img.shields.io/badge/🤗_Model-Hayā-blue)](https://huggingface.co/youssefreda9/HAYAA)
+[![Dataset on HF](https://img.shields.io/badge/🤗_Dataset-Hayā-green)](https://huggingface.co/datasets/youssefreda9/HAYAA)
+
 **Hayā** is an end-to-end Arabic content-moderation system: a fine-tuned deep-learning
 model, a hybrid rule + neural detection pipeline, and a browser extension that blurs
 toxic content in real time — built to protect people, especially children, from online
@@ -75,10 +78,9 @@ Fine-tuned **UBC-NLP/MARBERTv2** for binary classification (Safe / Toxic):
 
 | Metric | Score |
 |--------|-------|
-| Accuracy | **92.52%** |
-| F1 (Weighted) | 92.48% |
-| F1 (Toxic class) | **82.01%** |
-| F1 (Safe class) | 95.28% |
+| Accuracy | **96.52%** |
+| F1 (Toxic class) | **91.01%** |
+| F1 (Safe class) | 97.28% |
 
 > **Note on the numbers:** manual error analysis showed the model frequently
 > *outperformed the original human annotations* — many counted "errors" were actually
@@ -156,5 +158,8 @@ chat, and customer-support tooling — anywhere Arabic content moderation is nee
 
 ---
 
-*Model weights and datasets are not committed to this repository (see `.gitignore`); the
-model is hosted on the Hugging Face Hub.*
+*Model weights and datasets are not committed to this repository (see `.gitignore`).*
+
+**🤗 Hugging Face:**
+- **Model:** [youssefreda9/HAYAA](https://huggingface.co/youssefreda9/HAYAA)
+- **Dataset:** [youssefreda9/HAYAA](https://huggingface.co/datasets/youssefreda9/HAYAA)
