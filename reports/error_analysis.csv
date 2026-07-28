@@ -1,0 +1,628 @@
+text,label,source,dialect,prediction,label_name,pred_name
+صاحب ابليس ولا تصاحب رخيص,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+المراة مهما بلغ جمالها فانها تفقد الانوثة اذا كانت غبية او ضعيفة الشخصية او متصنعة او كاذبة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+متل ما الشب لازم يغض النظر لازم البنت تتحشم,1,NUHA,Unknown,0,Toxic,Safe
+حتى في السياسة؛ الاردنو اليابانو العراق بنفس المجموعة,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+مادامت تعمل بشرف ودين فلا ضير ما حدى بعرف الظروف الي خلتها تعمل على تكسي رغم انها شغله مرهقه ومتعبه الله يعطيها الصحه والعافيه,1,NUHA,Unknown,0,Toxic,Safe
+هو جزء من مشروع صفوي خاسر بازن الله,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+برجعك بقلك انا مو بالسعودية ولا تتعتبري السعودية بلدك لانو السعودية اكبر من انها تحوي قليله ادبع ارضها,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+جزاير بوصبع,0,DziriOFN,Unknown,1,Safe,Toxic
+زمن رده وانحطاط فكري واخلاقي اصبحنا بحاجه للانسانية اكثر من الدين,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+عقيدةو قناعة لمن هم اشرف منك اما بالنسبة لك، فهي مجرد وثيقة تزايد بها لمن يدفع لك اكثر كعبد في سوق النخاسة,1,DziriOFN,Unknown,0,Toxic,Safe
+هاي اذاعه هابطه وبرامجها ساقطه مثلها,0,NUHA,Unknown,1,Safe,Toxic
+التدين والاسلمة المغشوشة هي اخطر علينا من الالحاد الصريح,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اغلق فمك انا لست فقط اكبر منك انا اكبر من دولتك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ادفع اولادك والامراء اولا,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+اغبى انسان بالنسبة الي هو الي مفكر حاله زلمةو بقلك انا مستعد للموت لا والله انت حمارو غشيم يا صاحبي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ممكن امص الحلمه,0,AbusiveAccounts,Unknown,1,Safe,Toxic
+گرم،م زيادهہ،هہ شوف هاي مش شغل انك اطقصها او كر عليها هاي خذها لا صالحك,1,NUHA,Unknown,0,Toxic,Safe
+سواقه وسقتو، ملاعب وحضرتو، سينما وجاتكم، قانون تحرش قوي قانون يجرم الضرب وش تبون فوق ذا كله احترام المراءه كيان وروح واقدر رغباتهم لكن بعض البنات ماينعطون وجه بزياده والانثي دايما تختلف عن الرجل ولها حدود حتا في حريتها سعوديات نطلب اسقاط الولايه,0,FemaleSportHate,Unknown,1,Safe,Toxic
+الله يرحم اموات الاردن والمسلمين اما المواطن جاهل او الحكومة اجهل,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+غالياني تصاريحه تجيب المرض,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+يخلف على المكياج,0,NUHA,Unknown,1,Safe,Toxic
+هسة جد كيف بتحس حالك زلمة بس تتطلع من البيت تقعد تشكي للناس عن امكو ابوك؟ ياخي جد هدول ما بستحوع دمهد؟,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+قال وزير التجارة الفرنسي الماركات اكبر كذبة اخترعها الاذكياء لسرقة اموال الاغنياء فوقع فيها الفقراء,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+انا زنجي واعجبك اجي عندك البيت اووريك,0,AraTox,Unknown,1,Safe,Toxic
+كل واحد يلتهى بهمو وحكاية الصحرا والبوليزاريو هاذي موش الشعب لي راه يتحكم فيها ومناش لاهيين بيها ادوها بيعوها احرقوها ربي يسهل,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+ماتكلمت علي اختي ريمي شهد الكلام موجه لدوله قطر المجنسين وبس,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+عطه عسكريم وخله يتسمر يشاهد العربيه والجزيره يغسلون دماغه بصابونه زت,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+هل اسلوب وتصرفات لجين الهذلول تدعوا الي شرع اله او مخالفتها,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+الحين انا كنت قايل لك اني اتكلم عن نفسي مصر تتميلح,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الشهيد صدام حسين ظالم وطاغيه لانه بنى مجد وقوة وترسانه نوويه وعلماء للعراق ولم يعترف بالصهاينه او لانه كان صد منيع لاطماع ايران يا ابواقها,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+المساعدات تقدم لفلسطين اما المغاربه اولاد الوطن لا شوف غير حدا نيفك ونتا غادي لبلدان الناس وجه غاضب وجه غاضب,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+ظهور الجداد الالكتروني بحسابات جديدة بكثرة صور الجيش بالميمز المضحكةو النكاتو تخوين كل الثورجية يا اخواني يا كافر يا شيوعيو جر الجميع في اتجاة المحادثات التي لا تنتهي هشتاقات لتوجيةو اقناع الراي العام لدعم الجيشو تشويه صورة المهنيين مدعومة بالاعلامو حسابات مشهورة,0,OSACT4|OffensEval2020_AR,MSA + mixed dialects|MSA/Mixed,1,Safe,Toxic
+حفيدة الطاغية فرعون ايش تتوقعو منها؟ هه,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+يا رجل كل دول العالم تحارب السنة وتبرمج محاربيها برمجة عقدية وتجيش الشيعة ضد السنة وجاي تقلي المعتقدات الدينية لا يصح ان يحاسب المرء عليها طيب نحاربهم بقصيدة لمجنون ليلى مثلا؟ ام نحاربهم بمنسف رز؟؟,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+الله ستر ما كنتي مسلحه او معك قنابل,0,NUHA,Unknown,1,Safe,Toxic
+روح يا عباس ما تلاقي ترامادول في السوق يا بعيد زى ما غليته على الشباب الغلبان انت وسيسي كوله,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هه صدقتوها الغباء الكذب بام عينه حابة دير البوز,0,Arabic_Superset|MultiDialect_NabilBadri|T-HSAB,Multi-dialect|Tunisian|Unknown,1,Safe,Toxic
+اعتقد الواجب مقاطعة برامجها والقناة ايضا اخطاء متكررة,0,NUHA,Unknown,1,Safe,Toxic
+المذيع هو اللي بيخ الموقف كان ممكن يجاملها مثل ما عملت المزيعه بس لانه الحكي اجى عالوجع شكله اخضر ويابسو,0,NUHA,Unknown,1,Safe,Toxic
+شفاء الصدور معاذ الكساسبهي حبي لدولتنا من طيبها حتى المرتدين اذا بردانين تدفيهم يارب احفظ دولة الخلافة,1,Fraiwan,Unknown,0,Toxic,Safe
+على حسب سرعة تقدم الدشاديش اتوقع بانه في حال سباق بينهم وبين حلزون سوف يصل قبلهم الرمادي مع العلم الحلزون غير مسلح,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+طارق الهاشمي واتباعه وبعدها حكمه نور المالكي النتن بالاعدام كلهم من ظهر الدبابة الامريكية الى اذناب ايران وما خرجوا الا بريحة كريهة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+معلومات وصلتنا من الشباب المرابطة بالقريا طالبين فزعة كلاب العودة صارو غرب القريا بكيلو ونص ومعن تركس وعبينصبو متارس جديدة بمنطقة اسما الجاموسية وناصبين هاون عند المدجنة الفزعة يا نشامة وياريت الكل ينسق مع شباب القريا والعمليات والمختصين الفزعة يا غانمين من صغحاتهم,1,ArCybC,Unknown,0,Toxic,Safe
+نعم يا روح امك لا دا حي حررها رقصك البلدي على الوحدة والنص,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+يا ويلي يمه من الحب شو بعزب شو بذل,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+اللهم سلط على عباس من يغتاله,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+لو انهم تخابروا مع اسراييل او خنازير الخمارات دولة ال منشار لتمت ترقيتهم,0,ArabicOffensive_Taxonomy|Arabic_Superset|MLMA|MultiDialect_NabilBadri,Multi-dialect|Unknown,1,Safe,Toxic
+لعنة الله عليه وعلى من دعمه وناصره وايده,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الورع تكبر,0,ArabicCyberbullying,Unknown,1,Safe,Toxic
+والله ياريت اصلا النفسيه بالسالب راهي قاعده ونبي واحد نفش غلي معاه,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+الان صرت تتكلم بادب واحترام من سمعت بتحرير ارضك بالقوة الله يهدي افكاركم وعقليتكم الطايفية وحقدكم على الشيعة وتكفيرهم,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+للجزيرة او لكاتب هذا المقال سفاهةاحلام,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+صدت بعقول الماخاذلين العملاء الرافضين للحرية وفي يد الثوار وقلوبهم لم ما زالت,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+شقيف الكواسر الدنيا راحت في شربة ماء,0,NUHA,Unknown,1,Safe,Toxic
+انتوا اسكندرانية يعني فلاحين,0,AraTox,Unknown,1,Safe,Toxic
+كسم الكاميرون ارضاو شعبا,1,Egyptian_HateSpeech,Unknown,0,Toxic,Safe
+ينطبق عليك المثل العربي انت معهم معهم وعليهم عليهم اي انسان متذبذب ومتناقظ للحقايق ونرجو من الجزيره ان تنشر,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+بغض النظر عن ما قال والاساءة للمراة فهنالك من قال وهو خير البشرية رسول الله صلى الله عليه وسلم لا يفلح قوم ولو امرهم لامراة اي منصب في الدولة لا يحتاج النساء للانهن ذات قلب طيب والمناصب تحتاج الرجال لانهم ذو شدة وقوة,0,Algerian_Offensive,Unknown,1,Safe,Toxic
+الصحافه المغربيه مرحاض عمومي,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+ولا يعني كيف بدها اجيب المسبي الها ولبوها,1,NUHA,Unknown,0,Toxic,Safe
+وارى ان خطاب الدولة للمسلمين الاكراد لحد الان ليس بالمستوى المطلوب وبقدر حجم التضليل الذي يمارس عليهم من قبل العلمانيين والمرجية,0,Fraiwan,Unknown,1,Safe,Toxic
+محمد المعايطه انت وسخ واوسخ منك صقر الذنيبات,0,NUHA,Unknown,1,Safe,Toxic
+يبقى الزعيم جلاد الانديه مهما خسر يابو وليد,1,AntiFanatic,Unknown,0,Toxic,Safe
+لاتهمل قلب احبك، اجعلہ مزدهر بقربگ,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+وين السستاني الكلب ومقتدى النغل من خره بشيب ابهاتهم وكل معمم قذر هسه الشيعة هم يصلون يتبعون هذولة الكواويد,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+مادري شالمقصد من وضع الكلاسيكو على دايما حركة قذرة من القناة الاقذر هالحركات,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+حقوق المراة محفوظه ابن الحلال بالدين الاسلامي الصحيح دينجية الوقت رجعوا المراة لعصر الجاهليه وخلوها عبده للمجتمع الي خلقوا حررها الاسلام قبل اكثر سنه,0,ArMIS,MSA + dialects,1,Safe,Toxic
+كلاب الفرس بني هاشم عرب وليس فرسي قذر,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+حصيله الفطور بالغلط حتي الان جغمه ماا قبل اذان المغرب بساعه حبه كورن فلكس مغمسه بعسل,1,SaudiCodeMixing,Unknown,0,Toxic,Safe
+شوف اشلون راح يكون شكل البنت البدويه المنقبه لو في حريه,1,AbusiveAccounts,Unknown,0,Toxic,Safe
+صاحب الاحصايية سمين ويبي يرقعها واضحه,0,AraTox,Unknown,1,Safe,Toxic
+لو يبدي الهلال مجرد رغبه ولو بسيطه بالتعاقد مع اللاعب لارتفع المبلغ الى ضعف هذا الرقم مسكين يا عكاش,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+يجيبونك بالاصبع الوسطى يا شيخ الشيوخ,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+زي الخفاش منظرها,0,NUHA,Unknown,1,Safe,Toxic
+مقاتل وقاتل بقوات النخبه يتفاخر بقتل العشرات من الفلسطينيين الى رييس وزراء دولة الكيان هدفه الاردن كدولة للفلسطينين انتظروا الحرب على الابواب بقدوم نفنتالي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+شخصية بتخزي وبتعر وما بتستحق الاحترام,0,NUHA,Unknown,1,Safe,Toxic
+الله يعينك يا قمر كم وحدة شبه القردة تشبهت فيك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الصرع قليل عليكي,0,NUHA,Unknown,1,Safe,Toxic
+هنا ياتي الرجل العنكبوت غلافات موضوع رجل العنكبوت يوما، لعنة مجيدة رجل العنكبوت تغطي اغنية موضوع البرنامج التلفزيوني لان العنكبوت لديه ارجل، واذا كنت تاخذ بعيدا عن تحصل على هنا هو اليوم انا متاكد من ان في تذبذب له الرسوم المتحركة، الرجل العنكبوت جاء عبر حصته من الكبيرة، والاسود، قنابل على شكل كرة البولينج مع فيوز كبيرة الفقاعة على القمة لذلك رجل العنكبوت الاعلان المزحة اغنية موضوع ليس الكثير من تمتد انها ليست غلاف، في حد ذاته، ولكن حصلت على ضربة من ذلك مرة اخرى، سوف اظهر نفسي الباب,1,PolyGuardMix,Unknown,0,Toxic,Safe
+المثقف ما بسيي لطفله، وما بسيي لغزه، ومش كل حكيه عن الشب شو بحب والبنت شو بتكره,1,NUHA,Unknown,0,Toxic,Safe
+الله يوقعك بلسان الاردنيه ساعتها رح تشوفي الابداع,1,NUHA,Unknown,0,Toxic,Safe
+فعلا المعلمات شغل جعير,0,NUHA,Unknown,1,Safe,Toxic
+هادا الشيخ حكيت معاه وانا محتاجه لاهل الخير وبس عرف اني سوريه حطلي حضر,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+طبعا وضعكم مثل وضع ابو يمن الذي يعيش علي فتات الازمات فاتفاق السعوديه وسوريا يعني رجوعك لفقر ودك,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+ابرياء عمل غنايي فلسطيني حطم جدار الصمت اشهر الحقيقة ابريااء,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+بعرف شو يعني عشاير وما حكيت اشي عن العشاير وبعرف دورهم في البلد، واسامه لا يمثل الا نفسه وفيه قليله من اتباعه ما منقدر نتبع انسان عنده فكر ارهابي ودموي وداير في السلاح وبحكي اقتل واذبح وطخ كلنا عارفين وضع الاردن شو هوه وغير هيك اتطلعواع البلاد الي حوالي الاردن وين صارو,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لو عنده كرامة طمر حاله بالتراب مجرم,0,Arabic_Superset|AwaneArabizi|L-HSAB|MultiDialect_NabilBadri|TextDetox|arHateDataset,Levantine|Multi-dialect|Unknown,1,Safe,Toxic
+مبروك علينا يا امير هكدا العصابة تحكملك من الي خلا الختان,1,DziriOFN,Unknown,0,Toxic,Safe
+مستفزز مره لدرجه نفسي انحرك,0,ArabicDangerous,Unknown,1,Safe,Toxic
+لا يقيمون وزنا لا لعالم ولا لامام ولا لصحابي حتى ان كبيرهم السيء قطب طعن بسيدنا معاوية لحوم علماءهم مسمومة وعلماءنا عملاء خونه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لاحول ولا قوه عندها مرض نفسي خاصها طبيب نفسي,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+حنا السلطية تشهد لنا الفناجيل نسهر لها ما حنا مكببرين المخدة حنا السلطية عند المرجلة فزعة رجاجيل حنا على الميدان سيل لا طم لا تهدا,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+والله مشكله تكون هامل وغبي بوقت واحد,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انا مش عارف بتقعدو شهر تسمعو اغاني برمضان بتقلبو مطوعين اذا واحد شغل مقطع بتعدمو بل حمام,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+واحد كاتب لايجوز للمراة تربية اي حيوان في بيتها يكفيها زوجها قتلني الحيوان,0,AbusiveAccounts,Unknown,1,Safe,Toxic
+صح صغير وعندة كورة حلوة وبيذيد كويس لقدام غير الكابتن الكبير بتاعنا عاشورنا الي اخرة يرجع لورا وكفاا,1,AntiFanatic,Unknown,0,Toxic,Safe
+كمان سوي رتويت عشان نتفاهم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+النا احنا كناس بالظاهر وهاي مبين الظاهر تبعهم لا بلتزمو بشريعه ولا بدين وواضح هل اشي فهاي مش محتاجه ذمه واسعه او لا لانه المكتوب مبين من عنوانه,1,NUHA,Unknown,0,Toxic,Safe
+هاظ يعتبر انتحار كلو متر لو نطيت طحونتي المسوسة بصيرش فيها اشي,1,NUHA,Unknown,0,Toxic,Safe
+ا سطوب بوضي شيمن دي حرفيا الجديدة اسطوب فكن فلسفة اند كوبيينقي سمينةي بقرة,1,AraTox,Unknown,0,Toxic,Safe
+مايرفع ضغطي الا الرجال المعرس ابو عيال اللي حاط اذنه عند الحريم،و اي طقعه تصير بينهو بين حرمته وصلها لامهو اهله,1,ArabicOffensive_Taxonomy|Arabic_Superset|MLMA|MultiDialect_NabilBadri|arHateDataset,Multi-dialect|Unknown,0,Toxic,Safe
+مستخدم يعيش حزب الله حالة تخبط غير مسبوقة، على وقع احتجاجات في كل لبنان، لا سيما في البيية الحاضنة والتي لم تشه,1,ArMI,Levantine/Mixed,0,Toxic,Safe
+والله السوء الذي تتحدث عنه هو كلامك وفكرك ونهجك لماذا هذا التحقير والشتم لشعوب بلاد الشام اذا كان هناك اشخاص سيين هذا لا يعمم على الاردنيين وغيرهم لولا هذه الشعوب لما كنت في امان,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الحمار بس تقله حاا بيفهم هدون بتقلهن حاا بتلاقي حالك ما عارف من وين جاييك الضرب وبالاخر قاعد بباص اخضر وطالع عادلب,0,Arabic_Superset|AwaneArabizi|L-HSAB|MultiDialect_NabilBadri|arHateDataset,Levantine|Multi-dialect|Unknown,1,Safe,Toxic
+نعتذر لك فعليا الجهات المعنيه مهتمه بقضايا اخري سخيفه زي رهف وشبيهاتها الي انحاشوا برا البلد وهم مدلعين اخر,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+لانهم اخونجيه وسيتم اجتثاثهم,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+نقول لامريكا وروسيا وايران قوله تعالى سيهزم الجمع ويوولون الدبر,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+احنا نطالب بحقوق النساء لان القانون ياخذ حقهم لحد الان الي قتلو زوجاتهم اخواتهم تحاسبو انعدمو عايشين حياة طبيعية مطالبنا تحقيق العدالة مثلما اعتقلو الام يعتقلون الي قتل زوجته اخته يعدموهم ليش المراة بالعراق دمها رخيص,0,ArMIS,MSA + dialects,1,Safe,Toxic
+مايك فغالي العيسى رجعوها تمثل وتتسلى احسن ماتبلش بهالقصص,1,NUHA,Unknown,0,Toxic,Safe
+اول مره اشوف وزير خارجيه امريكا منحول مره نايحه مستاجره ومره رادوود ومره من اتباع المرسي ابو العباس ينشد لولايا جيبوتي مدد ياسيدنا حي حي حي,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+ما احقرك يا ديما ديعان ما كنت دافع عنك,0,Arabic_Superset|Let-Mi,Levantine|Multi-dialect,1,Safe,Toxic
+وجهها تقول ديد عنز,0,NUHA,Unknown,1,Safe,Toxic
+الهلام اختفى لان النصر ظهر وبان ولو يرجع فارس نجد لمستواه فريقك ما يصبح له طاري,1,AntiFanatic,Unknown,0,Toxic,Safe
+حسستيني انه دلو زبالة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اذبحكم درر,0,ArabicDangerous,Unknown,1,Safe,Toxic
+اقول لجريدة الراي شمس حريتنا وانتصارنا لن يحجبها غربال كذبكم وخنوعكم وعمالتكم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+رفيف الكلبةو عمران الاكلب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انت مجرم كبير جزار ديال الكرنة,0,MAOffens,Unknown,1,Safe,Toxic
+اقسم بالله العظيم ان كاظم الساهر احسن منكم كلكم يلي تحكون على كاظم، ويع يغرون من نجح الفنان الكبير كاظم الساهر,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+لما بيامر وطنا امره على الرس والعين دق الرمح بعود الزين,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+الموضوعات اللي لحقت عليها كالتالي التطبيع مع الكيان الصهيوني، حكم الردة، الموقف من امريكا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الرد على رسالة محمد العريفي الدولة الاسلامية عبر,1,Fraiwan,Unknown,0,Toxic,Safe
+الكل اجر بالفلسطينيه وما حدا يشرف حاله ويا ريت تختصرو هل حكي السخيف العنصرى اما ولدنه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+صح يا اقرع,0,AraTox,Unknown,1,Safe,Toxic
+وش مخىثة الجيران هذي داقين على ابوي بناتك بالليل طالعين,1,HateDay,Multi-dialect,0,Toxic,Safe
+احسن شي هالايام تدخل مصعد مترووس ناس وتعطس فيه وتقول الله يلعن الساعة اللي رحت فيها الصين هه,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+طالعة تنتحر عاخر طرز,0,NUHA,Unknown,1,Safe,Toxic
+افتتاح كنيسه في الرياض فجزيرة العرب حرم الاسلام،وقاعدته التي لا يجوزالسماح اوالاذن لكافرباختراقها،ولا التجنس بجنسيتها،ولاالتملك فيها،فضلا عن اقامة كنيسة فيها لعباد الصليب،فلا يجتمع فيها دينان،الا دينا واحدا هو دين الاسلام ولا يكون فيها قبلتان،الا قبلة المسلمين اللجنه الدايمة,1,Arabic_Superset|arHateDataset,Multi-dialect,0,Toxic,Safe
+الكلب هاد بدو يعترف بيهودية اسراييل هه الله يوخدو,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+غيرو المكاتب والسيارات والحراسات شكلهم غالين على معاليه بيحبهم,1,NUHA,Unknown,0,Toxic,Safe
+عضو الكونغرس الامريكي فرينش هيل مخدرات نظام بشار الاسد وصلت الى اوروبا وهي مسالة وقت لتصل الى شواطي امريكا ويطلق على بشار لاسد لقب ملك المخدرات,0,HateDay,Multi-dialect,1,Safe,Toxic
+خسيتو يا اعلام ساقط هند اشرف منكو كلكو,0,NUHA,Unknown,1,Safe,Toxic
+تتحارب امريكا وايران وسياتي الضرب على راس قطر,0,ArabicOffensive_Taxonomy|MPOLD,Multi-dialect|Unknown,1,Safe,Toxic
+صح الحب اعمي بصح اختي حبك اعمي واطرش واقيلا ساحرلك انا كي كنتي تهدري علي الحب تخيالتو,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+رغم الاهانة وصل الرز شكرا لقطر على عزة النفس,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+ربي صادفنيب صباح اللامي الا اضرب النعال على حلكه,1,ArabicOffensive_Taxonomy,Unknown,0,Toxic,Safe
+كيفك يا واطي من قلب صادق احسن من بحبك بالنفاقو الكذب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الحق على الي مشى معها استقبلها,0,NUHA,Unknown,1,Safe,Toxic
+مادام هيك الوضع ياريت بيريز يبيع كاسياس واربيلو,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ليبيا ليست كعكه دبلوماسيه ولا اقتصاديه لبرلين,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+طز عليكم,0,NUHA,Unknown,1,Safe,Toxic
+ليش عاملين للصورة قص بدنا نتاكد انها موثره ولا لا,1,NUHA,Unknown,0,Toxic,Safe
+دول الخليج تبذل الغالي والنفيس لدعم باقي العرب ثم لا يجدون الا النكران والجحود والسب والشتم على كل الفضاييات,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+وخرايط جوجل من توصلك يا يضحك,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+طيب والله اللي رفض مقابلتها عنده اخلاق وخجل كل الاحترام,1,NUHA,Unknown,0,Toxic,Safe
+مت بغيظك اكيد لم تحصل على فيزا عمل عندهم,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+ام عبد الله الزعيم الظاهر انت شبهها بهالمنظر,1,NUHA,Unknown,0,Toxic,Safe
+يمه يخوف اليوم الذكور متفقين عليا ولا ايش فوق العشره ابلكهم اليوم رعب,1,HateDay,Multi-dialect,0,Toxic,Safe
+كتير مكانك غلط ان تكوني اعلامية وتستخدمي كلمات هابطة لا تليق الا بمستوى ناطقها كلمة زريبه هي مكان مناسب لشخص متلك لا يقدر معاناة شعب باكمله,0,NUHA,Unknown,1,Safe,Toxic
+والله انه وصخ ينغف بعدين ياكل بنفس اليد,0,ArabicCyberbullying,Unknown,1,Safe,Toxic
+فضحت البنت عشان واحد باعها ورماها بالزباله برافوا عليه رجعها لقدرها استغفر اللهي ربي,1,ArabicOffensive_Taxonomy,Unknown,0,Toxic,Safe
+يا شباب الموضوع تكرر وبدات الفتياة بكشفن المخفي ضمن العايلة الواحدة سابقا نتيجة الاغلاق وعدم التطور وعدم وجود الانترنت والهواتف كانت امور العنف الاسري والتحرش والذل مخفية شاهدنا حوادث سابقة في المغرب تونس الامارات والسعودية والاردن اصبح في جراة بالافصاح نتيجة التواصل مع الجمعيات المختصة,1,NUHA,Unknown,0,Toxic,Safe
+يتيم المجد يدفع لكم ملياردولار واخرتها تحطون صورته وتكتبون تميم العنز مالكم حل اخذتم الفل,0,Arabic_Superset|AwaneArabizi|L-HSAB|MultiDialect_NabilBadri|TextDetox|arHateDataset,Levantine|Multi-dialect|Unknown,1,Safe,Toxic
+هوف سواقة حريم وسواقة رجالة,0,ArabicOffensive_Taxonomy|Arabic_Superset|MLMA|MultiDialect_NabilBadri,Multi-dialect|Unknown,1,Safe,Toxic
+ورود مصر الله لا يجبر السيسي واللي معاه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ولله يا جعفر طلعتي مو قليله المصدر مخابز الاندلس,1,NUHA,Unknown,0,Toxic,Safe
+شويه كورة شويه طقطقه ثم امرر اهدافي الخفيه,1,AntiFanatic,Unknown,0,Toxic,Safe
+وماله بيت اهلها للبنت يعني؟ ما ضل بيوت؟ بيطلبها بالسوق قاعد؟ ما ضل حيا ولا ادب ولا عرف ولا اخلاق اشي بيخزي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ايران الصهاينة امريكا روسيا داعش كل من يومن بغير ذلك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انصار الخلافة في بلاد الحرمين,1,Fraiwan,Unknown,0,Toxic,Safe
+كربلاء مدينه مقدسه البصره لا فهمت يا,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+هذا العام سيقلب عاشوراء الى حفل شواء سترون ما يسوكم يا ابناء المتعة والزنا,0,Fraiwan,Unknown,1,Safe,Toxic
+نسيبورتي مولودية او يدك في عضو ذكري قود,0,DziriOFN,Unknown,1,Safe,Toxic
+العرب معروف عليهم انهم بكثرة كلامهم يبنون قصورا عذرا,1,ArCybC,Unknown,0,Toxic,Safe
+انت حتي في عين امك قرد,0,Arabic_Superset|OSACT5,MSA + mixed dialects|Multi-dialect,1,Safe,Toxic
+يااع شو مقرفه,0,NUHA,Unknown,1,Safe,Toxic
+عام كله قتل وخراب بيوت وكذب ونفاق,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اللهم سدد رايهم وصوب سهامهم وجمع كلمتهم واربط على قلوبهم وثبت اقدامهم وانصرهم على عدوك وعدوهم,0,Fraiwan,Unknown,1,Safe,Toxic
+ايران تسمي الحوثيين شيعة الشوارع كيف باتوقع الفعلة لو رسلوا للسعودية شيعة المباني,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+تسلم يا اغلى اخ وانا اتشرف بردك على تغريدتي,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+نعم في اعلام الجزيرة الكاذب,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+غير مقيم يعني بتمارس عملها من البيت,0,NUHA,Unknown,1,Safe,Toxic
+لا يابغل يا حذاء الامارات وجزمتها ليسوا مرتزقة السعوديه السعوديه في صفكم يا ذنب واستشهد وليس نفق نفقك حمار,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+الي بيسوانه الاخوان ببلاد الحرمين ولا بالاصح هذا الي صايرع هالسالفه وغيرها لكن مانقول ان لاتجعل سباتهم يارب كسبات اهل الكهف,1,Fraiwan,Unknown,0,Toxic,Safe
+اللهم عاما ملييا برحمتك وغفرانك، بعطايك، علما وعملا ربنا اتنا من لدنك رحمة وهيي لنا من امرنا رشدا ربي عافي بلدي من نكبتها واطعم جايعها واكسي عاريها وشافي جرحاها وكن سترا وعونا لهم يارب,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+الان خلو رياض الاطفال اجباري بعدها فكرو بعمر الثلاث سنوات وزارة الفشل والله,1,Arabic_Superset|OSACT5,MSA + mixed dialects|Multi-dialect,0,Toxic,Safe
+الحريم كلهم صايرين شبه بعض,0,ArabicOffensive_Taxonomy|Arabic_Superset|MLMA|MultiDialect_NabilBadri,Multi-dialect|Unknown,1,Safe,Toxic
+التشبيح ولا زمانه ايامكم معدوده,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+خول زيك,0,ArabicAbusiveCollection,Unknown,1,Safe,Toxic
+مشكلتي مع برنامج الاتجاه المعاكس انني لا اطيق ولا احتمل ولا استسيغ كذب الطرف المويد للنظام الحالي ولهذا لا اتابعه حفاظا على مستوى سكر منخفض,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ليش ان شاء الله كنت مفكر انو قصدها بالحمار حمار ذهنيا ؟؟لا دكتور لا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مثل المارد الليب كان يا ما كان,0,NUHA,Unknown,1,Safe,Toxic
+اللي سوى هالفيديو مجنونو شكرا,1,ArCybC,Unknown,0,Toxic,Safe
+على كل، امثال المذكور لم ينتكسوا حديثا، لكنهم قلدوا شرفا هم ليسو له اهلا فلا تغرنكم المناصب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اثبت نجاحه في التمثيل والسقوط,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ماحدا عميتعرض لدينك انتي عمتتعرضي لحريتهاو قرارها الشخصي طبقي دينك على حالكو بس,0,HijabYT,Unknown,1,Safe,Toxic
+براڤو عليها عشان ما تحتاج لاي حد الشغل مش عيب ولا حرام طالما سلوكها نظيف وراح تصير عادي في البلد تسوق تاكسي في محطة بنزين عادي,1,NUHA,Unknown,0,Toxic,Safe
+الاعدام هو الحل الوحيد لالسود دول,0,HateCheck_Arabic,Unknown,1,Safe,Toxic
+اولاد شوارع وفيلم تافه ماسونيين,0,NUHA,Unknown,1,Safe,Toxic
+احمد موسى هو المطرود,0,ArabicAbusiveCollection,Unknown,1,Safe,Toxic
+اللاجيين لازم يخرسو للابد,0,HateCheck_Arabic,Unknown,1,Safe,Toxic
+صحافي ويحتاج لشهرة حتى وان وقف مع الشيطان الرجيم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+والله ما في داعي اتابع الجزيره كله علشان رولا واجلس شهر انتظر رولا ولا اشوف رولا,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+اليوم دخلت عند وكيل جمهورية نشيكله على شرطة سيزاتلي سلعة ڨالي روحي شكي للمير هه هه الله جبلكم كونسار جميع حڨار نشا الله تخرج في والدكم او شوفو فرق بين خطاب تاع رايس تاعنا او تاع تونس,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+وانا اقول من امن العقوبة سرق البلد,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اصوات ايكر كاسياس خمس نقاط لكريستيانو رونالدو ثلاث نقاط لسيرجيو راموس نقطة واحدة لتوماس مولر,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+بكون لي عندن لبناني مجنس,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+هو حلي عنا رجاءا يعني طيب اذا واحد حيط مسك الرسغ شو بدو يخليكي تلفي ايدك وتسحبيها بتدربوا على اطفال روضة يعني,1,NUHA,Unknown,0,Toxic,Safe
+البطنيجي سحب الكثير من التصاريح التي منحتها وزارة الداخلية لعدد من الموسسات والشركات والتجار في قطاع غزة للحد من حركة التنقل بين المحافظات لمنع انتشار فيروس كورونا,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+محمد البراري العجارمه الشيوخ ربطهم غليص ما ضل بيها شيوخ,0,NUHA,Unknown,1,Safe,Toxic
+متى ستعبدتم الناس وقد ولدتهم امهاتهم احرار فكيف والامه كلها عبيد لعدوها وهي راضيه كلاغنام لا تنضر الا الى طعامها الذي تقاد اليه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+حسابي القديم المايسترو وهذا حسابي الثاني احب المتحررين,1,AdultContent,MSA/Mixed,0,Toxic,Safe
+حنا خاصنا العسكر مدة شهر بعدا حتى نشوفو شنو واقع راه كاين الكلاخ كتير اشقرب دين للمرض المعدي لاحولة ولا قوة الا بالله حسبنا اللهو نعمة الوكيل في كل من لم يلتزمو كيف قال المثل الشريف احب لاخيك المسلم ما تحب لنفسكو اكثر للعلك تلقى رضى الله,0,MAOffens,Unknown,1,Safe,Toxic
+ول عليكم شاطرين بالترويج للفحشو الفساد,0,NUHA,Unknown,1,Safe,Toxic
+كلنا معاذ ودي افهم الي بالهشتاق وش وضعكم يعني مثال صغير عشان تستوعبون يصير يدخل عليك جارك ويقتل عيالك ويشردكم بس ياويلك,1,Fraiwan,Unknown,0,Toxic,Safe
+يا الهي، لو امكنك ان تاخذ ثواني وقت الجماع الفعلي لتفكر بي لمرة واحدة,1,PolyGuardMix,Unknown,0,Toxic,Safe
+نصاب امرايقي,0,MAOffens,Unknown,1,Safe,Toxic
+نتوما باينه تقاديتو من عندي الحشيش عشاق الكتاميه متنساوش ابوني الله يعفو عليكم,1,Moroccan_Darija_v2,Moroccan,0,Toxic,Safe
+وين عروبتك الي بتتغنى فيها يا ولا بدك بس اتباع محمد يحموا غزة وين حماة كنيسة القيامه الله يلعن كل صاحب فتنه ولا فلسطين بس للموحدين كنت الوم الناس فيك بس فعلا انك خسيس,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انتوا اللي ماكلين البلد,0,NUHA,Unknown,1,Safe,Toxic
+كغ وين راك رايح بيها راك بارون كبير بابلو اسكوبلر هه نتا متدخلش للحبس نتا يسحقوك العصابة,0,Algerian_Offensive,Unknown,1,Safe,Toxic
+الكلاب ممكن تحب الي ربتهمل درجة انها تسوي نفس الاشيف هي كمان حيوان,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+بلا حجاب بلا بطيخ اللي بيهمني انو انت حلو,1,HijabYT,Unknown,0,Toxic,Safe
+حتى لو كان هنالك حلا سياسيا في سوريا يجب ملاحقة الروس واخراجهم من سوريا حتى اخر جندي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+شو ناقص عليكي؟ وازا انتي دكتورة وقابلهع حالك تشتغلي اي اشي احنا مو قابلين,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+واال ما اوسخكم شو هاد استغفر الله العظيم جد,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اما رييسي خول مستنيين ايه من بقية الشعب,0,ArabicAbusiveCollection,Unknown,1,Safe,Toxic
+لم يبق للعراقيين جميعا سوى الثورة الشاملةف سنة من القحط لا تستهدف الا الاستيصال الشامل لكل ابناء قحطان في العراق ولا نجاة الا بالثورة والصدق والصبر,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+تقدم جنود الدوله الاسلاميه في عين العرب كوباني جاري على قدم وساق رغم التهويل الاعلامي للقصف,1,Fraiwan,Unknown,0,Toxic,Safe
+اه يا ام نص لسان,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مش هيك بدكم هاي المساواه الي بطالبو فيها,1,NUHA,Unknown,0,Toxic,Safe
+لا خلفت الوالدة اقامة جسور تعاون مع محتل غاصب اقامة جسور تعاون مع قتلة اطفال اقامة جسور تعاون مع كيان صهيوني اقامة جسور تعاون مع اعداء الدين الواضح انه قايم بواجبكع اتم وجه يا رييس الشوون التطبيعية,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+وله كيف صفاتك ملايكيه حسبي الله ونعم الوكيل,0,NUHA,Unknown,1,Safe,Toxic
+كبرتو انجنت,0,NUHA,Unknown,1,Safe,Toxic
+الدولة الاسلامية نشيد لنا المرهفات,0,Fraiwan,Unknown,1,Safe,Toxic
+لاتخلي مثل هذه الصوره تره يزعل العراعير والاخوان المفسدين,0,Fraiwan,Unknown,1,Safe,Toxic
+بالله انا صدقته تلاقيه كان سمين وحاول ينحف ومانحف,1,AraTox,Unknown,0,Toxic,Safe
+تردي الحجاب من فوق ومن تحت عقيدة طهران يدخل مين من كان شو هل العقيدة هها,1,HijabYT,Unknown,0,Toxic,Safe
+قولو علماء الدين من يسبب القتل وفتن في مصر ولانقلابات ياسبحان الله الدنيا عكس,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+بايع الكليجا هه التعليقات نكتته طق ومطاقق هاه يالشباب حسيتو بشعور البنات الحين يوم انتم تخقونع بنت ترامب يملا الي ماني بقايله,0,Arabic_Superset|OSACT5,MSA + mixed dialects|Multi-dialect,1,Safe,Toxic
+وليه بس اليوم يضحك؟ هل لانهم شيعه ومايهمه الف سوري سني؟,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+حراق اوى موضوع ان كوتينيو يجيب جون فى اليونايتد دى مكتوبالك يا فالفيردى يا ابن المحظوظه,0,OffensEval2020_AR,MSA/Mixed,1,Safe,Toxic
+هاي حرب اعلاميه تعلموها من اسراييل تقول الكذب والناس تتناقل الخبر قبل ايام قامت بنشر الناس اقتحمو المحلات وشفنا الناس سود من افريقيا ونسبوه لتركيا قناة العربية الكاذبه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+وينك انت وربعك من ثلاث سنوات ونص مابحثتواالحين يوم قربت نهايه مجلس الحكومه بتقصون على الناس صج الي بينتخبكم حمار من امه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لاعقة احذية او لاعق احذية جبان,0,MultiDialect_NabilBadri,Unknown,1,Safe,Toxic
+والله مافي مشكله ولا مصيبه الا وراها مره ،، اسكتي بس,1,NUHA,Unknown,0,Toxic,Safe
+شي واحد يفهمني هاد خونا في الله واش كيقلب على بقرة ولا شي حاجة اخرى قالك غليضةو فايتة,1,AfriHate,Unknown,0,Toxic,Safe
+مستفزه اللف,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+بعد دخول امريكا وروسيا والدول الاخرى السوال انت تحل تربط؟ لااعتقد انك توثر اولك اي تاثير سوى دفع المزيد من الاموال,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+مرحبا مليون بالجميع الفحول لنا وللمسلمين حلالهم حلال الجميع,1,HateDay,Multi-dialect,0,Toxic,Safe
+طيب بيعنا سكوتك او بمعنى اخر كول هوا,0,Arabic_Superset|AwaneArabizi|L-HSAB|MultiDialect_NabilBadri|TextDetox|arHateDataset,Levantine|Multi-dialect|Unknown,1,Safe,Toxic
+محمد ابراهيم الطيراوي ولله لينفضهم نفض,0,NUHA,Unknown,1,Safe,Toxic
+لبس البدلة الحمرا ؟؟ يعنى طلع اهلاوىو انا كنت فاكرة زملكاوى هه,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+كان من اول الواحد يخرج الكورنيش يحصل الصغير والكبير، يحصل السالب والموجب والمبادل، يحصل جميع الاشكال والاحجام، الان تخرج تحصل ناس قليل كلهم شباب وصغار السن بس وطلبي كبار السن مافيش او نادرا تحصل كورنيش الحديده الصورة تعبيريه,1,HateDay,Multi-dialect,0,Toxic,Safe
+عبد الله بن سبا، يهودي من اليمن، يطلق عليه ابن السوداء اسلم في عهد عثمان بن عفان، واثير بشانه قضايا كثيرة، فيرى البعض انه كان منافقا، كما يرى كثير من المورخين والكتاب، انه شخصية مختلقة واسطورية ليس لها اي واقع، حيث يرى بعض علماء اهل السنة ان ابن سبا يهودي دخل الاسلام نفاقا,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+الله يحشركم معو بالاخره,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لي مالحقش للعنب يقول حامض,1,MAOffens,Unknown,0,Toxic,Safe
+ااحح فديته فولوو ممكن الحسه,0,AbusiveAccounts,Unknown,1,Safe,Toxic
+قال بيهددو بنجيكو بنجيكو بيفكرو جيشنا متل جيش المالكي والا جيش بشار عدن ارجل تاكلكو طيبين,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لع ما تقولهاشي ما قادرشي اسمع منيك حاجه زي كده يبقى هاخد بتاره واقتل الي قتل حبيبي مش ههملهم واصل,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لا يفلح قوم ولوا امرهم امراة,0,NUHA,Unknown,1,Safe,Toxic
+ماثماش اتفه اسم الشنال متاعك واضح جعبه,0,Arabic_Superset|MultiDialect_NabilBadri|T-HSAB,Multi-dialect|Tunisian|Unknown,1,Safe,Toxic
+لو كانت داعش من قطع يد هذه الطفلة السنية ،لنتفض لها المسلمين السنة قبل النصارى لكن للاسف من قتلها هي حكومة العبادي,0,Fraiwan,Unknown,1,Safe,Toxic
+والله ما ينجمو اديرولو حاجة على بالهم بلي لقبايل متاحدين لوكان امسوه اديرو حالة تحياتي ارقازن,0,DziriOFN,Unknown,1,Safe,Toxic
+يفي هافع تهع تيمع سهويولدي دراو ساتجيرل نوعل ين سعلعبراتيون,1,SaudiCodeMixing,Unknown,0,Toxic,Safe
+كنت مفكرها منيحة نادرة عمران على فكرة لو كان الواحد بغلطو مرق بنت او ست كبيرة بخرس مباشرة اما انته عارضينها على الهواء فعلا انكم شر,0,NUHA,Unknown,1,Safe,Toxic
+مش لازم نسمح لاي اسود يعيش,0,HateCheck_Arabic,Unknown,1,Safe,Toxic
+لا حوله ولا قوه الا باللهع هل مساء الي مثل الزفت ابين عليه من اولها,0,NUHA,Unknown,1,Safe,Toxic
+لا شلبي كثير راقي ما بسمح غير بالشحبار وبزيت السيارات جبتلهم كلب عشا يتربو لانها عيله متل قاع الكيله,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+احول هالمصري,0,AraTox,Unknown,1,Safe,Toxic
+محن اسلامي بضين,0,ArabicAbusiveCollection,Unknown,1,Safe,Toxic
+الرياض ريال تحطها بالفيزا حقتك وبطلب انا وتعطيني رقم الفيزا ورح يوصلك رمز التفعيل ورقم الطلب رسالهع جوالك من الموقع تقدر تلغيه اذا سحبت عليك وترجع فلوسك,1,AdultContent,MSA/Mixed,0,Toxic,Safe
+هه احنا اشعرفنا ده دماغه لازم تتصدر لاوروبا واللهي معظم الوزراء عندنا عاوزين حرق,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+من اسود الاسلام ،نحن في الحرب اسود لا نهابو صقور ساميات في السماء صهوات الخيل كانت مهدناو عليها قد توارثنا الاباء,1,Fraiwan,Unknown,0,Toxic,Safe
+قالوا مسكين من لا يعرف الانجليزية، قد يواجه صعوبة في فهم كلام الناس ونقول مسكين من لا يعرف العربية، قد يواجه صعوبة في فهم كلام رب الناس,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+كل الحكي والكلام يلي بتحكوه ما بيقلي بيضه، انا بشوف احسن حل نتحالف مع الشياطين، على الاقل بنكسب الدنيا، مش زي وضعنا الحالي لا دنيا ولا اخره,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+كلمة كر علي هي اصلا بتجي في المفاجاة ما بين الفرح والحزن وهي كلمة سوداني الجنسيةب,1,AraTox,Unknown,0,Toxic,Safe
+اللهم انك عفو كريم تحب العفو فاعف عنى اللهم انك عفو كريم تحب العفو فاعف عنى اللهم انك عفو كريم تحب العفو فاعف عنى باقية وتتمدد,1,Fraiwan,Unknown,0,Toxic,Safe
+شخص مو حقك؟ لا تتميلحين عنده ياحيوانه تفهمين لان فيه احد بيغار علييه,0,AbusiveAccounts,Unknown,1,Safe,Toxic
+انا بكره الشتا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لعنة الله على كل من يثير الفتنة ويحرض عليها وقد حرضوا كثيرا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+شكلها زهايمر من اقوى نوع,0,NUHA,Unknown,1,Safe,Toxic
+انو بدون بموت من عبي الفراغ من عندك زي مثالك الهندي بدون المشط بموت من الحسرة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اصلا لو السوريين طلعوا مظاهرة كنتي رح تشوفي دعم من الشعب ولا رح نوقف ضدهم؟ شعبنا وعارفينه مفش داعي نكزب على بعض,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+ع جميع المحن والفتن وفي سبيل الصمود والتمدد تسير تبغي العلا والعز للامة وقد ظهرتع جميع مخالفيها فلاداعي اظن لاخراج ماف القدر,1,Fraiwan,Unknown,0,Toxic,Safe
+يلعن ام الهبل ليش هيك والله ظايقني الخبر,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+نحن في زمن الحرب على الاسلام ولكن باسلوب ووجه اخر مزيف وبمساعدت بعض طواغيت العرب بتغييرالمفهوم والعقيده في نفوس البشر,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اسراييل وجدت بالسيف فاذا سقط من يدها انتهت والى الابد,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+ان تقوم تصلي الفجر ويطير النوم من عينيك ذلك خيرا من ان تطير روحك لخالقها وانت لم تصلها، اللهم ثبتنا على اداء صلاة الفجر في وقتها,1,HateDay,Multi-dialect,0,Toxic,Safe
+لاتجعلوا من الحمقى مشااهيرر,0,ArabicCyberbullying,Unknown,1,Safe,Toxic
+بين سيسينياهو مصرو بين الصحاف قام حقا قام في سوريا وحفل نصب الاسد المسعورة في بقايا حقل سوريا وطن عربي مفتت بل مايكرو وطن,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ما رايكم بهاشتاغ تحت عنوان ديمفضوحا لا ديمستورا ديشرموطا,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+لو تستحو على حالكم ما تخلوها تشتغل غير بتخصصها,0,NUHA,Unknown,1,Safe,Toxic
+الله ياخذ اسراييلو ما اطلعت,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اللي يروح النار اللي يسرق جاجه ولابيضه ولاحبتين ليمون ولاقطف عنب عن داليه اما الملايين بيروحوا سويسرا ورومانيا وتركيا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اة يا ابن المرة,0,ArabicAbusiveCollection,Unknown,1,Safe,Toxic
+والله انك خنيث يا بشار تففبففوه عليك يابشار,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هه انت شرير وشركة الكهرباء شريرة اكتر منك انه مجتمع من الاشرار الكهرباء انا مش حتجوز علشان,0,Arabic_Superset|OSACT5,MSA + mixed dialects|Multi-dialect,1,Safe,Toxic
+وخا نعاودوه مره مايطلعش لينا فالراس,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+الله يريحنا من الحراميه ومجاهدين الفيس قلم قايم,0,NUHA,Unknown,1,Safe,Toxic
+خبر يخزي والله,0,NUHA,Unknown,1,Safe,Toxic
+العديد منا هنا يتوقون ويعتقدون النشوة المثيرة كانت لديها اكثر من واحدة تليها مص الديكدو ساختار امراة مثيرة او ثقيلة اذا كانت من النوع المتحمس على سمكة ساخنة ساخنة من اي يوم,1,PolyGuardMix,Unknown,0,Toxic,Safe
+انا زمان شفتهم الله يحرق كل من حرق شجرة او حتى عشبه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ما عنديش مشكلة مع الجينز الممزوع بصراحه، عندي مشكلة مع ركبتها نفسها,1,NUHA,Unknown,0,Toxic,Safe
+اهو الكلام دا الي بيخليهم يقولوا البنات ملهاشف الكوره,1,FemaleSportHate,Unknown,0,Toxic,Safe
+تقدر تقنع يهودي بالاسلام بس ما تقدر تقنع راعي السامسونغ انه تيليفونه زباله,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+شبكتو الزول قم يا عبد الحي قم يا عبد الحي اها قام يلخبط اقدرو قعدوهو خلاص كفاية اقعد يا عبد الحي مزمل فقيري برضو خلي يقعد واداب ومنو كده داك قربت تسقط,1,OSACT4|OffensEval2020_AR,MSA + mixed dialects|MSA/Mixed,0,Toxic,Safe
+الي يتابع حساب النسويات الذليلات اكثرهم مب سعوديات يحاولون يتكلمون باسماء السعوديات من حسابات وهميه لا,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+عبيد قردوغان هولاء,0,AraTox,Unknown,1,Safe,Toxic
+الله ياخد فيه الحق,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+يا نجم كندا يا نجم لست النجم الطارق ولا تلمع بالذكاء,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+ايفون تستطيع ان تقلب الصفحات بحركة العين الامريكي تقنية مفيدة الياباني ساسعى لتطويرها السعودي طيب كيف اذا الواحد احول؟شعب لازم يستقعد,0,AbusiveAccounts,Unknown,1,Safe,Toxic
+واقسم بالله سناتيك الى ضاحيتك واحيايك عاجلا غير اجلا,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+شاهدوا عمتي تحتاجني مجددا لاضاجعها بقوة,0,PolyGuardMix,Unknown,1,Safe,Toxic
+اول حاجة نتحرر ونستعيد دولتنا وسيادتنا، واذا اقتشع نظام ال سعود الداعم للماسونية واخص بالذكر مبس، خلاص اليمن بامانو نحن مع الدول الاسلامية كلها عدوتنا هي اسراييل فقط، ماعدا ذلك يفترض ان نكون كلنا ويد وحدة، زرعوا الفتن بين المسلمين هذا شيعي وهذا سني وراحوا يطبعوا مع اليهود,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+ضحكاتكم عار لنا ،هذا،ما رفعه الجماهير اليوم امام الفالديباس اشاره لمن تواجد في حفل الدون,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+كل المهابيل اللي عم بتعلق ببلد متل لبنان الكل ساحب سكاكينو عالكل سكينة مطبخ ما بسلم لو عندي,0,Arabic_Superset|AwaneArabizi|L-HSAB|MultiDialect_NabilBadri|arHateDataset,Levantine|Multi-dialect|Unknown,1,Safe,Toxic
+هالله هالله تعال شوف اشصار بالرمادي ياولد جيبلنا شاي سنكين من راس القوري ياولد,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+اذا الك اعداء كثير مش ضروري تكون انسان ناجح يمكن تكون انت بتقرف حتى امك بدعي عليك وانت طالع من البيت لانك خام وسخ حيوان,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ابي وحده بس تيي تشفني الحين ولها الي تبي ؟؟,1,AbusiveAccounts,Unknown,0,Toxic,Safe
+نعم ابن تيمية تكلم باصول علمية سنية بخلاف قرن الخوارج محمد بن عبد الوهاب الذي تكلم باصول الخوارج ولذلك لم يفقه التوحيد قط,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+قله الوازع الديني والرقابه علي مثل هاذي المواضيع محد يتطرق لها ليش من زمان وفيه اغتصاب وماخفي كان اعظم بس الله يرحم الحال لازم قوانين جازمه لهاذي الظاهر لكي لاتتكرر مانبي اعلام وكلامع الهواء هروب الفتيات مع داود,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+تغطي يابنت استحي يامره هه والله ان سويتيها وطلعتي ان الهييه تسوي عليك حفله تايم,0,AbusiveAccounts,Unknown,1,Safe,Toxic
+بكرا بتحرد من بلدهاو بتروح على بلد العزو الرخاء بنظرهم دبي حاوية المواهب,0,NUHA,Unknown,1,Safe,Toxic
+الله لي وفجك يا رب الله ياخذ خيرك,0,ArabicCyberbullying,Unknown,1,Safe,Toxic
+بخرب بيتك,0,NUHA,Unknown,1,Safe,Toxic
+كنا نفخر كثيرا في فترة رياستك السابقة وفرحنا برياستك السنة ذي لكن حينما تصمت عن حقوق ناديك فانت لاتستحق ان تبقى رييس لاعظم نادي في اكبر قارة بالعالم دافع وهاجم وافعل كل ماتستطيع من اجل الهلال او فاستقل مشكورا,0,AntiFanatic,Unknown,1,Safe,Toxic
+اعلنت استرازينيكا واوكسفورد ان فعالية اللقاح ضد فيروس كورونا اظهر متوسط الفعالية للحماية من الفيروس في شريحتين دراسيتين لكن هذا اللقاح يبقى اقل اقناعا من لقاحي فايزر بايونتيك، ومودرينا اللذين تتجاوز فعاليتهما، ما دفع الشركتين الاولتين الى التجهيز لطلب التسويق اللقاح,1,Arabic_Superset|arHateDataset,Multi-dialect,0,Toxic,Safe
+اصدق من شكلك انا حميدي اردني من بني حميدة وبعدين الفلسطينية تاج راسك ما يشرفني اتناقش مع واحد حمار مثلك انقلع اقلب وجهك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+نتيجة طبيعية لمن اداروا ظهورهم لامتهم، ودمروا احلام شعوبها، وركنوا للثعالب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+كلامد الحروب غير مقنع وتدرس السم في الدسم نحن لسنا مع رايك,1,NUHA,Unknown,0,Toxic,Safe
+يزم واحد يظب هالعايبات بس عبيل ما ارجعع الاردن,1,NUHA,Unknown,0,Toxic,Safe
+كان متفق معها هو ياسس الحلقه هاي وهي تختمها,1,NUHA,Unknown,0,Toxic,Safe
+مشجعي القدم زبالة,0,HateCheck_Arabic,Unknown,1,Safe,Toxic
+لي كذا ياعبير لي,0,NUHA,Unknown,1,Safe,Toxic
+القاضي يعجز عن النطق ببعض الكلمات وكان الله ينتقم منه لفضحه التلعثم والارباك كان بادي على محياه وكان الرجل كتبت له الورقة دون قراءتها,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+البنات الدخلاء على الكوره,0,FemaleSportHate,Unknown,1,Safe,Toxic
+والله العرب لو يموتوا ويعيشوا مليون مرة ما منصير بشر,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+طرش بحر وله وجه يتكلم انتبه تري النصر خط احمر ياشبيه,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+شبان في عمر الزهور ماشافو والو من الدنيا يقلك البلاد ما فيها والو ويتبعو في الوهم ناسيين ربيو بعاد عليه كيما الشاب الثاني قولولي قداه عمروو واش عاش باه يحرق في الفلوكةو مباعد يقل لامو اسمحيلي ياو ربي ما يسمحلكش تعذب روحك فما بالك والديك,0,Algerian_Offensive,Unknown,1,Safe,Toxic
+وايد محلاات مو او ليش اول مره اتدشي الستي,1,AbusiveAccounts,Unknown,0,Toxic,Safe
+لاو اقزام بعد,0,AraTox,Unknown,1,Safe,Toxic
+الا لعنة الله على بني سعود وبني زايد وعلى عباس وزمرته,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+شقيفة تحت شقيف للكواسر,0,NUHA,Unknown,1,Safe,Toxic
+يخي كنت احب اسمع كل الاغاني لحد ما وقفت بالازمة بين الافانتي والسيفيا قرفت العراقي والمصري والمغربي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+معن مارضا يعني ممكن فجايه وانتي معها اطعنك,1,ArabicDangerous,Unknown,0,Toxic,Safe
+انتي ليش اصيرين ملطلط شعليج اذا ترحمو على صدام يعني انكلبت الدنيا والمسلم الحقيقي مايتلعن على احد وخصوصن اذا كان مسلم النبي محمد كان يبكي اذا شاف جنازت واحد يهودي يبكلي لين مالحك يدخله للاسلام وانتي جاي تتلعنين عليه وانتم يعني مافكرتو من بعد صدام العراق اصار بيه ولا دوله تحترمنه الكل محتقرتنه حته العرب,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+وش الشفاحه هاذي؟ حتى لو حلو صدق اول مره تشوفين شخص وسيم؟ المصوره مستفزه الله يعين اللي بيرتبط فيها ذي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هه والعبيد كملوها بوس,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ان الصمود الاسطوري لرجال دولة الاسلام في وجه الترسانة والاعلام والحصار الصهيوصليبومجوسي بشمركي يوطد دعايم دولة الاسلام باذن الله لتبنى على قاعدة متينة,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+انت طايق نفسك ازاي يابني شليت ديك امي,0,Egyptian_HateSpeech,Unknown,1,Safe,Toxic
+ايا لابوبال,0,DziriOFN,Unknown,1,Safe,Toxic
+السبب الاول لهذه المشكله هو رييس مجلس النواب انفعالاته غير مبرره,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لا احب النظام الايراني لانه سبب الماسي التي اصابت الامة العربية ولكن الحجاب هو فرض من اللهو الشمس لا تغطى بغربال,0,HijabYT,Unknown,1,Safe,Toxic
+عجوز تنصح داعش ويمكرون ويمكر الله والله خير الماكرين خبتم وخاب مسعاكم يا كاذبين,0,Fraiwan,Unknown,1,Safe,Toxic
+السلام عليكم ورحمه لله وبركاته من الرقه ارض الخلافه,1,Fraiwan,Unknown,0,Toxic,Safe
+طب هاي لاعبه اولا وثانيه يعني يشوفو المذيعات الي عندهم,1,NUHA,Unknown,0,Toxic,Safe
+فاشله بمعنى الكلمه,0,NUHA,Unknown,1,Safe,Toxic
+تقرير الامم المتحدة ذكر ان من القتلى مدنيون ولكنكم دايما تذكرون عشرات القتلى من الحوثيين يوميا المفروض قتلى الحوثيين شارف الاف او اكثر؟,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+خصوصا اذا كانت مسترجله,0,NUHA,Unknown,1,Safe,Toxic
+انكنت راجل يزعطوط الكلب ادخل للبلاد,0,DziriOFN,Unknown,1,Safe,Toxic
+التربيع بالخلفاء الاربعة وان ترتيبهم فيها على ترتيبهم في الفضل،وينصون على ان الخلافة في قريش لا يعاديهم احد الا كبه الله في النار،وينصون,1,Fraiwan,Unknown,0,Toxic,Safe
+كاس العالم حيوحشنا قبل تفكر تعاقب الاهلي فكر فيما سيفعله المدرج بك ان عاقبت معشوقهم انتبه تقرب انتبه بركان راكد ان ثار احرقك,0,ArabicDangerous,Unknown,1,Safe,Toxic
+بيض الله وجهه حتى المراة الاخرى التي كانت تدافع القمتها حجر اذهبي لليونان,1,HijabYT,Unknown,0,Toxic,Safe
+شعب قمة انحطاط مش طبيعية اخص على شارب يلي ما يغار يفضح عرض كل واحد قبل على مرته او اخته تطلع مع الحضور، شعب عايب الا من رحم ربي,0,NUHA,Unknown,1,Safe,Toxic
+روحي اتعلمي ديري فيديو او من بعد نخممو نشوفو فيديوهاتك ولى لالا الصوت ضعييف جدا,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+اقتلك مو لدي الدرجة,0,ArabicDangerous,Unknown,1,Safe,Toxic
+قال برد عل ابراهيم سعيدو في منشن دخلو شتمني اناو هوا عيل سيس صغير هزقتوا بالادبو رزعتوا بلوك عيال هيعلمونا حب الزمالك يا هوبي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+البركه فيكم انتو اهل الشر والفتن,0,ArabicOffensive_Taxonomy|MPOLD|TextDetox,Multi-dialect|Unknown,1,Safe,Toxic
+الاعدام هو الحل الوحيد لاليهود دول,0,HateCheck_Arabic,Unknown,1,Safe,Toxic
+لا يختي انتي مزبوطة هاي بلد حرمنة وسرقة وولاد حرام الي دايرينها,0,NUHA,Unknown,1,Safe,Toxic
+فك لحسد صافي مابغاتوش الف واحد يتمناها الي دارت جا عليها بصحتها ورحتها نت واش رجل بعدا ولا مراة فين حاسة بك اجلوف,1,MAOffens,Unknown,0,Toxic,Safe
+ي ليل واضح عليك تحب المظاهر للعلم انا اتحدث عن اخلاقي وتسذا مااقصد مناصب وفلوس وخرابيط ولو كنت وحده منهمي ذكي وش ابي فيك,0,Arabic_Superset|OSACT5,MSA + mixed dialects|Multi-dialect,1,Safe,Toxic
+التعليقات مرض حسبي الله ونعم الوكيل,0,NUHA,Unknown,1,Safe,Toxic
+اهم شيء عندي الاحترام والنضافه اشطح خاص لاتستحي,1,AdultContent,MSA/Mixed,0,Toxic,Safe
+اضرب يا مصري في المضمون يا عميق,0,OSACT4|OffensEval2020_AR,MSA + mixed dialects|MSA/Mixed,1,Safe,Toxic
+شوف من النجوم الذي سيعلق لكع الفيسبوك ليش هيك بتعملوا بحالكوا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+كلامك صحيح بدون نقاش ولكن طريقة كلامك فيها شك,0,MAOffens,Unknown,1,Safe,Toxic
+اياك ان تقرا حرفا من كتابات العرب فحربهم اشاعة وسيفهم خشب وعشقهم خيانة ووعدهم كذب لعنة الله عليه خاين,1,ArCybC,Unknown,0,Toxic,Safe
+الله ياخذكم من مبزرة,0,ArabicCyberbullying,Unknown,1,Safe,Toxic
+معناها يفترض انه نشجع ايران كونها العدو اللدود بنظر اليهود,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الناس طلعت عالمريخ واحنا ماكلين هوا وبعدنا منسولف عن المساواة والعدل بين الرجل والمراةزغرتيله ياهلاله,0,NUHA,Unknown,1,Safe,Toxic
+زعلان علي البنات اللي ملهاشف الكورة,0,FemaleSportHate,Unknown,1,Safe,Toxic
+فتاة بيضاء تنحني لتضاجع احد معلميها,0,PolyGuardMix,Unknown,1,Safe,Toxic
+مجلة دابق العدد الخامس الدولة الاسلامية حماة حمص,1,Fraiwan,Unknown,0,Toxic,Safe
+مصر لا هي جبهه ولا حزب ولا ايتلاف مصر وطن نحبه جميعا من غير خلاف تغريداتي في يونس,1,AdultContent,MSA/Mixed,0,Toxic,Safe
+لطفي منحط الناس عملولك قيمه وقدر وانت متسحقوش منحملكش وتو كرهتك يقليل التربيه,0,Arabic_Superset|MultiDialect_NabilBadri|T-HSAB,Multi-dialect|Tunisian|Unknown,1,Safe,Toxic
+بلعافيه يا دبه,0,AraTox,Unknown,1,Safe,Toxic
+اقول اقضبي ارضك مافي اسقاط ولاية ولا تعدد,0,Arabic_Superset|OSACT5,MSA + mixed dialects|Multi-dialect,1,Safe,Toxic
+كاسره خشومنا وقطر تبيع وتشتري فيكم بجوال ولا مبلغ مايجيب علبة منديل اذا كنت رجل من ظهر رجال قول الحق ليش خاين ولده سلطانكم منع اهل السنه من صلاة عيد الاضحى بمايرونه وليس بما يرونه اهل البدع والخرفات الاباظية,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+طعنوا كويتي صاحب شركه واقتلوه اقتحموا شركة الوعلان واقتلوه اخطفوا محامي ووضعوه في دبة السياره محاولين قتله زورو,1,AraTox,Unknown,0,Toxic,Safe
+لا والله ليس مسكين اقراي اخبار نساء العالمين حتى تعرفين ان هذا المهر اللذي يقدمه لا يسوى الا وسخ اظفارها,0,ArabicOffensive_Taxonomy|Arabic_Superset|MLMA|MultiDialect_NabilBadri,Multi-dialect|Unknown,1,Safe,Toxic
+اي مشجع تم اعتقاله في مصر سيردب مصريين في الاردن ساعه من الزمن انتو مش،,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+والله لو القرود السود وبيكرهوههم اليهود غير احبهم بس ناجحين اليهودع فكرة يلي عرفو يبرمجو مخ العرب ويخلوهم يعتبرو ايران عدوهم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+في وقت العصابة علاش ماكناش نشوفو مقاطعة ؟؟ مارانيش مع بوصبع ومارانيش مع الاحرار مجرد سوال,0,DziriOFN,Unknown,1,Safe,Toxic
+هاردلك يا خسرتو شرف مقابله ريال مدريدب مونديال الانديه,0,AntiFanatic,Unknown,1,Safe,Toxic
+احمد جاموسة جزمة ناطقة,0,ArabicAbusiveCollection,Unknown,1,Safe,Toxic
+د جوادي السجن خلوة والنفي سياحة والاعدام شهادة كلها جوايز والمساكين اتباع هبل انتفاش وغرور وغطرسةوسفاهة ان لم يتوبوافمالهم كابي جهل,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+طاح حضكم هاي خليجيه,0,ArabicCyberbullying,Unknown,1,Safe,Toxic
+كيف كل زمن واله اتباعه الزقيفة بايام الاحتلال السوري للبنان، كان اشهرهم ناصر قنديل زال الوجود العسكري وتبخ,0,Arabic_Superset|AwaneArabizi|L-HSAB|MultiDialect_NabilBadri|arHateDataset,Levantine|Multi-dialect|Unknown,1,Safe,Toxic
+انا والله مافهمت والو تيكونو مزوجين واطلقو وارجعو اتصاحبو اش داها تمشي معاه او تلاقى بيه انا منها انهز راسي او نخويارض الله واسعة هو خايب او حتى هي ماشي حسن منو بغى الحب لوالفلوس مزوجة بشمكار شحال من وحدة ضرب او سرق باش اجيب ليها انا بغيت نعرف علاس الي بغى ادير فيديو كيحيد حوايجو واتكرفس على البنات الله انعلها رجلة انا بغيت هدا مع قاتل حنان اطلاقاو كيداير نوع التعامل,1,MAOffens,Unknown,0,Toxic,Safe
+مر من امامي البارحة اجمل خبر دون لون احمر او غبن سياسي,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+احقر شعب على مر التاريخ هم الروس والمجوس الايرانيين والنصيرية العلوية هم اخطر شيء على الاسلام والمسلمين,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+عطي السيدة رزقها طلعتي نصاب,0,MAOffens,Unknown,1,Safe,Toxic
+انتي واحد مش محترم ما عندك اي نوع من الاخلاق ما بدي ارد عليك باسلوبك التافه زيك باي روح نام وانتي مرتاح,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انا ما بزاود بس احترام القانون والدستور لا يكون مجتزا لا تنسى تزوير الانتخابات وخصوصا يعني تزوير الركن الاول بالدستور,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+المجاهد انتقل الى جنات الخلد ولا يخاف لومة لايم ابشروا يا سنة، الان نحن في مرحلة عدم الخوف من لومة لايم,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+وله صفاء ان اصرت واصلك على مادبا بمردغك بعدين دعاء سيبك منها هاي عيرانة مني مش اكتر,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الناس تكبر تعقل وهي زادت اهبال,0,NUHA,Unknown,1,Safe,Toxic
+سمعت ان كثير من شاب حزب التحرير بايعوا الدولة بعد انعقادها,1,Fraiwan,Unknown,0,Toxic,Safe
+كمية القرفف التعليقات شعب البين سامطه,0,NUHA,Unknown,1,Safe,Toxic
+اسم على مسمى الله يشفيهاو تقوم بالسلامه جيل كامل بستنى فيها,1,NUHA,Unknown,0,Toxic,Safe
+مستخدم بتضلك ديما الواطيه يا واطيه,0,ArMI,Levantine/Mixed,1,Safe,Toxic
+الشاعر قال ليت السماء تمطر شراميط وقحاب والبلاد تنبت قوارير وسكي,1,NUHA,Unknown,0,Toxic,Safe
+رد السيدة فلوسها ولد الحرام,0,MAOffens,Unknown,1,Safe,Toxic
+من شروط استكمال الاتعدادللمعركة البرية وصول غلابى مصر ليزج بهم في المقدمة,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+هل من كتاب او مقال نقرا فيه عن هذه التكنولوجيا ام انها سرية لا يعرفها الا خاصة من الناسو من ضمنهم انت؟,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+بشار الاسد انسان وقح جدا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+والظاهر من دفاعك عن الصهاينه والطعن في الفلسطينيون انك من اتباع ال سلول ويبقى الشعب الفلسطيني تاج راس كل من يطعن فيهم وللعلم من كان له خوار هم المدافعين عن الصهاينة امثالك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+التهنية بالمولد مش بالكفر يا مسلم يا ذكي يا مومن يا ورع يا تقي يا نقي,1,AraTox,Unknown,0,Toxic,Safe
+لا حول ولا قوة الا بالله منتهى التخلف من ينظر للمطلقه بانها انسانه فاشله,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انتا كول هوا وما خصك بسوريا,0,MultiDialect_NabilBadri,Unknown,1,Safe,Toxic
+الناقه ياسليطين من تراث العرب وكانو يتنقلون عليها بما فيهم الرسول صلي اله,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+هه صرتي تحكي زي وزير الصناعة والتجارة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هاي راح تقول قومي يا صبيه قعدي الشب,0,NUHA,Unknown,1,Safe,Toxic
+هي هي علامك بجقم ثمك,0,NUHA,Unknown,1,Safe,Toxic
+الله يعين الشعب المصريع هيك رييس بفكر الصواريخ العاب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ارحل يا شوال تركي ال الشيخ,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+مستحيل والف الف مستحيل ان ننهض فكريا وحضاريا مادام كل بلد عربي يحكمه عايلة واحده تقيل وتعين من ضمن افراجها ولا تعير اهتماما لشعوبها,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+انت والله ماتحشم,0,DziriOFN,Unknown,1,Safe,Toxic
+شاي باركر لديها وجه ملاك وجسم محشو بالحبر يجعلك ترغب في القاء الكثير من البراز على كل وكل وشم,1,PolyGuardMix,Unknown,0,Toxic,Safe
+انه الحرس الثوري وليس ايران؟ حكومة ايران مختطفه وشعب ايران مغتصب مثلها,1,ArCybC,Unknown,0,Toxic,Safe
+الحوثي اليماني يقهر فذي القطه شوت عسي رجلك الكسر,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+السيسي لن يسمح هه خليكو في تكنولوجيا الكفتةو دع السماح من عدمه لاسراييلو امريكا,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+كله بسبب الديك السامي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الانسانية كلمة اليوم تفككت حلقاتها وتباع على موايد السلاطين كما يباع لحم البورمين المسلمين في الشوارع,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الله اكبر ولله الحمدوالمنة الى جهنم وبيس المصير,0,Fraiwan,Unknown,1,Safe,Toxic
+الله ريت الشلل بشفايفك مثل حفاف الطشت,0,NUHA,Unknown,1,Safe,Toxic
+انتا وانتي ايوه عمرك لا تفكر تدور على ممثلة او حد مشهور بشبهك اساسا انت بالذات لما امك خلفتك قعد الدكتور يحلفلها يمين انه ما فيك شي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مافي فايده لوتحط كيلو معجونه الشنعه شنعه,1,NUHA,Unknown,0,Toxic,Safe
+رهف حرام,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+جاد وادورع جاده تجي خاص ادلعها شوقر دادي,0,HateDay,Multi-dialect,1,Safe,Toxic
+هذا الحكومه كما طلعها المغرب غدين يهبطوها شعب انشاء الله,1,Moroccan_Darija_v2,Moroccan,0,Toxic,Safe
+ساخرج عن صمتي في نسوان المصيبة انهم امهات عيال قد الحيطان، بيعلقوا تعليقات زبالة زي وجوههنع تغريدات زلام، انداري اشي مقرف الله لا يبتليناو هاي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مش منك من الي لابسيته عراسك بنات البسو احجاب او اخلعوه غير هيك غير مقبول رجايي الحار,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هي يبدو انو صفحته سوده عند زوجته اكلها المسكين صباحك ورد,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لاتتكلم في العقيدة فاصل خلاف اهل السنةو الجماعة مع الصوفية في العقيدة اليست من عقيدة الصوفية ان الله يحل في كل مكان ثم ان الله يتحد في مخلوقاته يعني عقيدتين فاسدتين الحلولية والاتحاد واما,0,Algerian_Offensive,Unknown,1,Safe,Toxic
+البرازيلي التون لاعب القادسية بعد اقتراب عقده من نهايته وده يعرف وش تفكر فيه ادارة النادي,1,AntiFanatic,Unknown,0,Toxic,Safe
+اللاجيين مثلك بيثيرو الشففققة,0,HateCheck_Arabic,Unknown,1,Safe,Toxic
+بكره بعد بدك السامر هوو نايبه الرييس اليوم وبكره عذريتهم ماخذين الفلوس الفيسبوك وكل شيء العالم كلها مصاري عشان اليوم وبكره اليوم وبكره اليوم وبكره شو هالحكي هذا الموديل مصارينا من زباله لا دافع ولا اشي ولا اشي الحلويات من شان نكته غصبن عنك لجيبك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+وع لحجيه,0,AraTox,Unknown,1,Safe,Toxic
+انتبهي للي بالخاص لا اقتلك,0,ArabicDangerous,Unknown,1,Safe,Toxic
+السماوي طقل من منكم اشرف مني وهو اعترف بانه ذو حياة خاصه,0,HateDay,Multi-dialect,1,Safe,Toxic
+وهكذا تخلى العرب عن عروبتهمو صار الشاطر اللي بسب العربو العروبة اكثر طيب لما ما بدك تكون عربي شو بتحب تكون اسبارطي مثلا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انت البقرة بتحترم حالك يا راعي يا شارب بول الابل شعوب متخلفة مغرر بها قال اكتشف امريكا قال فعلا انك جاهل,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+كلهم مغطيين وجوهم بطلنا رافع راسه بشرف وعزه نفس,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+يا قلة القيمة استغفر الله العظيم,0,NUHA,Unknown,1,Safe,Toxic
+كلي تبن انتي وهي,0,NUHA,Unknown,1,Safe,Toxic
+اللهم احفظ المجاهدين الموحدين وسدد رميهم وقوي عزيمتهم واحفظهم من كل شر يتربص بهم,1,Fraiwan,Unknown,0,Toxic,Safe
+خير انتبهي لمحاضرتك غاده لا اضربك,1,ArabicDangerous,Unknown,0,Toxic,Safe
+مبرووك اهلا بك في عالم البطالة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+احيانا افضل ان اتبادل العناق والحديث طوال الليل بدلا من ممارسة الجنس انا رجل,1,PolyGuardMix,Unknown,0,Toxic,Safe
+هه وهنالك شي مهم لا تقومه الا النساء اى هو فيه شي ماا يقوم على النساء هه يسعد رب النساء محناا بخير لولا النساء,1,NUHA,Unknown,0,Toxic,Safe
+على راي النايب الرواشده حكومتنا خرفت وعجزت والخيل لما تعجز وجب اتخاذ اجراء بحقها بلاش طخ ممكن نرسلها على دار العجزة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+عادي ما بستغرب كثير ناس هون سايقه فيها التشكيل العرط يعني يا عمي شو اللي جابرك ما حدا رح يحبكع مظهرك ولا حدا رح يحبكع حكيك اللي مش من واقعك خليك انته والله الواحد شبع يكون شايفك فوق بعدين ولا انته عباره عن شخصيه تافهه قله النوم هيك بتعمل عادي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+معناها رحنا بحوض نعنع من الحجم العايلي احنا بنشوفكو بسيارات زغيره وبتعملو كوارث لا بتعرفو تصفو ولا ترجعو ولاسيطره وبتفكرن دعسه البنزين بريك كيف باصات اكلنا كنادر وضاع مستقبلنا هدر,1,NUHA,Unknown,0,Toxic,Safe
+بلا مواخذه تفوو على هيك رد وهيك كلام الله ينتقم من هيك حكومه والي فيها قال جمانعه غنيمات يا عيب العيب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+حنا كشعب منتحتاجوهمش وادا احتاجتهم حكومة الجزاير نقول لهيفة وهبي ومحمد رمضان شعب الجزاير ما يحبوكمش وما يسمعش لكم سيرو في حالكم لهلا يسهل لكم,0,Algerian_Offensive,Unknown,1,Safe,Toxic
+ينصح ويلقن دروس ادب العصملي في البر ليبيا وفي البحر مع اليونان وقبرص,1,AraTox,Unknown,0,Toxic,Safe
+البق مايزهق الكذب حبلو قصير وهاد الجيران الله يهديهم الكذوب عندهم بحال شريب الما تلاقاو معانا حنا ماكانزكلو والو هه,0,AfriHate,Unknown,1,Safe,Toxic
+اراء انا هاولاء الايمة حملوا علي بالحاج المسوليةو براو خالد نزار المجرم الذي اطلق الرصاص على شعب اعزل,0,Algerian_Offensive,Unknown,1,Safe,Toxic
+مادريت ان مقطع غبي بيخليني هورني,1,AraTox,Unknown,0,Toxic,Safe
+مستخدم ديما الثورة تسير على خط مستقيم وكلاب فارس تنبح,0,ArMI,Levantine/Mixed,1,Safe,Toxic
+ونا بقول عنكي عاقله من عيله عريقه ومحترمه ولويه لودتي,1,NUHA,Unknown,0,Toxic,Safe
+هه تقول طفلة خليها تعيش طفولتها ليش تخليها تغني يا نوري,1,ArabicCyberbullying,Unknown,0,Toxic,Safe
+وقتما كان يتم ذبح المسلمين على الاسفلت امام دار الحرس الجمهوري كانت ذياب يونيو ترقص فرحا على دمايهمو اشلايهم,0,Fraiwan,Unknown,1,Safe,Toxic
+يقول ابن القيم والله ان العبد ليصعب عليه معرفة نيته في عمله فكيف يتسلط على نيات الخلق؟,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+ايوا احنا مننوع نخق وهم عادي ان خقينا تكلموف الدين والاخلاق وهم نسسيوه لما جات بنت ترامب وغيرها,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+بدا طلاء قبابه باللون القرمزي المميز للفرس وترميمه ليصير مكانا لحرب الله ورسوله بدل طاعنهما,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+كون امراة خطرةة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لن يكون الا وبالا عليكم ايها السفلة,0,NUHA,Unknown,1,Safe,Toxic
+مره وحدةي كذاب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هه ذول شيتكلمون مجانين شجابكم الكاظم,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+ويستحق يكون الزعيم بعد ما صطيف قتلة للزعيم ابو صالح غدر,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+طيب اخررس واطلع من حسابي ماحد لم العراقيين والسوريين غير الاردن وبتتشمتوا فينا حسبي الله فيكم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+محمد الزواهرههۦ،,0,NUHA,Unknown,1,Safe,Toxic
+عشان مهزءة,0,HateDay,Multi-dialect,1,Safe,Toxic
+اهل مكه ادرى بشعابها,1,NUHA,Unknown,0,Toxic,Safe
+كم بقي لك من العمر عودي الى الله فان القبر لا يعلم به الا الله ربنا يهديك,1,NUHA,Unknown,0,Toxic,Safe
+انجيلا وايت اريدك ان تغطي وجهي بالبراز اضاف فبراير,1,PolyGuardMix,Unknown,0,Toxic,Safe
+التعليمات انتاعك وانتاع سي فرحات كيف كيف هه بابابابا بابا ميستر بن الجزاير,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+شكون هاد خينا ولا معمر اليوتيوبو لكن الحركات ديال ادومةو الراقصة نور سبحان الله,1,MAOffens,Unknown,0,Toxic,Safe
+السيسي لا يحتاج الى دعمكمو هو قد رضي عنه النبي ابن عبد الوهاب الذي ظهر في نجد واتباعهو اليوم يرضى عنه نبيا اخر خرج في مصر الله اكبر مبروك عليكم,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+هل انا الوحيد هنا الذي يعتقد ان معظم التيلز مبالغ فيها ان لم تكن هراء كاملا؟,1,PolyGuardMix,Unknown,0,Toxic,Safe
+فوضي اداريه مدربين في سنهو نصف قضايا لاتنتهي ماذا قدمت غير وجع القلب لجماهير ارحل غير ماسوف عليك ارحليامسلي,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+افترو,0,NUHA,Unknown,1,Safe,Toxic
+انتو كاتبين مدرسة بنات مش مرجلات اش المصخره هاي فش فيهن ولا بنت,0,NUHA,Unknown,1,Safe,Toxic
+مستخدم خلاص دورو لكم سالفة ثانيه تشغلون انفسكم فيها يامرتزقة,0,ArMI,Levantine/Mixed,1,Safe,Toxic
+يمانيه انثى يا جاهل,0,AraTox,Unknown,1,Safe,Toxic
+اسوء شيء ان تعزم اشخاص وبعد ان يذهبو تبداء بالجلي الخلاصة تقول ان الاوان للمراة ان تثور وترفع شعار احمل صحنك واغسله للتتحر غير ذلك كلام فاضي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+انا محجبة وما مقتنعة بالحجاب وحتى لما لبشته ما كنت مقتنعة اهلي جبرونيع كلشي ولما اكبر راح اخلعه ولو كان اخر شيء راح اسويه بحياتي,1,HijabYT,Unknown,0,Toxic,Safe
+اللهم دمر كل من تامرووتحالفوعلى اليمن واهل اليمن,0,AdultContent,MSA/Mixed,1,Safe,Toxic
+لما قلنا برنس الكون بتاع كوريا يجي يمسك البلد شهور الكل حيشتغل ومش حيكون فيه فساد ولا رشاوي ولا حد يسيب شغله وينط من فوق السور الناس زعلت وقالت لا عايزين الحكومه الحونينه الطريه دي,0,HateDay,Multi-dialect,1,Safe,Toxic
+مسكينة تسخف ارحموا من في الارض الانسان هذا تولد خنثي محتاج مساعدة طبيةو نفسية,0,NUHA,Unknown,1,Safe,Toxic
+اخس خدمة سنونو احسن منهمب كثير خلهمع دعايتهم ويزعمب يضربون سنونو عشم ابليس بالجنة سنونو واثق الخطوة يمشي ملكا وداعسينع راسهم,1,HateDay,Multi-dialect,0,Toxic,Safe
+ليش عامله بحالها هيك عزره والله,0,NUHA,Unknown,1,Safe,Toxic
+الله عليك ياملك عبدالله انت تخاوي شعبك وبشار السفاح نازل مجازر بشعبو ماقول غير حسبنا الله ونعم الوكيل والله واكبر عليك يا ظالم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+شبيحة رونالدو خلاص يرحم امكم عرفنا انه اكبر من النادي وبيية اليوفي صحية وافضل وهو احسن شي في الحياة والنادي ولا شي بدونه خلااص,1,AntiFanatic,Unknown,0,Toxic,Safe
+ياعيب الشومع عمرك انجنيتي للاسف مفكره انه الي بتشلح اكتر بتكون وهي للاسف خسرانه,0,NUHA,Unknown,1,Safe,Toxic
+اثنين تعلقش معهم بحياتك تاعيين البنقو بالسواقة وجراح بنقاش,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اه لذه زنجي,0,AraTox,Unknown,1,Safe,Toxic
+دول كفار,0,AraTox,Unknown,1,Safe,Toxic
+حرق بجهنم,0,NUHA,Unknown,1,Safe,Toxic
+هالايام البدو يطلع ترند يقص شعراتو شفتو شلون هالشي سهل مابدو تعب,1,NUHA,Unknown,0,Toxic,Safe
+لانها ملك ابوك ياخنزير اللهم الحق الخام يني بالهالك الخميني كلهم خامات الخنازير تتقاطر على بعضها وكان الارض العربية ملكهم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+نرى ان الجزيره تنحاز للتعليقات الموءيده للعرب والدواعش ولاتنشر ردود وتعليقات الاكراد وذلك بعيد كل البعد عن الحياديه ،،شكرا,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+ازنح اعلاميه بالكوون,0,NUHA,Unknown,1,Safe,Toxic
+شوفو لا عاد تجلدون رهف كل مره,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+هاذي شغلتكم انتو بس عبيد وعبيد سواء كانت سعودية ولاا اجنبية الادميا عايشة حياتها والحمدلله وخليك في حالك ترى جنبك ملايكة تكتب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مموجب ججاد عمري نحيفف مشعر خفيف,0,AdultContent,MSA/Mixed,1,Safe,Toxic
+قزح مكروه للرجال فما بالك للنساء,0,NUHA,Unknown,1,Safe,Toxic
+حكم مصري مجنون الكروت عنده اسهل من شرب الماء,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+بشرب من الدله لوكان بها سم مااهز فنجالي ولا اقول كافي مادامه بيمناك وتقولي سم بسم الله اشرب كل سم عوافيمم,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+اوليس الاولى ان نتوجه لحصص الرقص والغناء والفسق ننتقدها وندعوا الناس الى معرفة الحقيقة والابتعاد عنها؟,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+تويت فى حب البغدادى ارى ان الدعاء له في ظهر الغيب افضل,1,Fraiwan,Unknown,0,Toxic,Safe
+المستحيلات سبعة وثامهن سرتكي تقول مقر ضبيها وانضبي فضحتنا بين العربان البين يشبحكن,0,NUHA,Unknown,1,Safe,Toxic
+ايوه شغل كفار يعني,0,AraTox,Unknown,1,Safe,Toxic
+باغي نفهم غي حاجة وحدة والله اي هدي راهي من نيتها راهي مامنا بلي هيا شابة اي لي كدب عليها وقالها نتيا شابة قولولو يجي يصارحهت وانا نرجعله الدراهم لي عطاتهمله,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+صاحبي توجد ان لا يمكن ان يمر الرهابيون مرور الكرام وهو شردمة امام الانظار في الرض وفي السماء ولم ينتبه له احد ولهم مقدورات القتال متفوقة على الارهابيين بالف مرة ارض جو لا يمكن ان تكون لدي طايرات حربية وسيارات مدججة بالسلاح والرصد ارضي وجوي وتكون هناك مرتزقة ارهابية لا ولا ولا ولا وغير ممكن انها لعبة يلعبون بها الفرنسيين ومن معهم,0,DziriOFN,Unknown,1,Safe,Toxic
+كنتو تعطو عبر مواعظ ياخوفي يجي يوم نشوفكون عبرة لمن اعتبر عملو وكترو ماحدا خسران من كيسو شي,0,NUHA,Unknown,1,Safe,Toxic
+تذكرت ان نووي طوقان لن ياتي للوطن سوى بمزيد من الخراب والدمار وزيادة المديونيه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مع اني حاقدةع كتير بنات اليومو طريقة تفكيرهم بس,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+دعواتكم النا حتى تكبر هاي الكلمة ونقدر نساعد كل محتاج ونرسم البسمه على وجه المسكين واليتيم وغيرهم من كبار السن ياارب,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+الله يكون بعون اهل درعاو يخزيك يا بشار القصف ما وقف ساعة كاملة متواصلة وراجمات الصواريخ ورا بعض بتطلق,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هو الواحد شو بده من هالحياة غير انه يطلع من الاردن الله لا يصبحكم بالخير وصلنا لمرحلة اذا انتقدنا منكون واذا مع منكون من يزم عيب وحرام وقلة حياء والله شرت وتيشيرت لاعبين كرة القدم اطول منهم واستر للصبح بطلعنا تبع ركبة روبي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لا يوجد دولة بلبنان توجد لغة المصالح والشاطر من يمص دماء اللبنانيين اكثر عصابات مصاصي الدماء,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+هل هذي تعتبر حركة لا اخلاقية؟ اعوذ بالله من النفاقو الكذب خلا منهم يبون ينبطون من القهر,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اليوم الاثنين مازلت في دورة الغثا وثقالة الدم والهياط,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الناس تعذب اشد العذاب والبعض لازال يندد,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+الي بحكو بالسياسة كثار والي بفهموها قلال,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+شركات السلاح الكبرى تفتعل وتوجج الصراعات في العالم لتبيع السلاح شركات الدواء الكبرى تحارب اي علاجات طبيعية وعشبية حتى تبيع ادويتها الكيماوية,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الضعفاء تزوجهم امهاتهم الرجال بتزوجوش اصلا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+عندما تتضخم ال انا عند الجاهل المكابر فيرعد ويزبد بانه هو الفاهم ويطبق المبدا الفرعوني لا اريكم الا ما ارى دل هذا على سطيحة الطرح وتفاهة الفكر وضعف الحجةوتلوميني لما اسميج رويبضةولكن تاكدي انه سينطبق عليك قول الله تعالى بتحريفج لدين الله الحق هذا كتابنا,0,NUHA,Unknown,1,Safe,Toxic
+لاصحاب العقول اقول اللهم العن من جعل من بيوت الله مهازل تقام فيه الدعوات للشهوات ولتعزيز القبليات والعصبيات,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+عزراييل يشيلكم التنتين,0,NUHA,Unknown,1,Safe,Toxic
+ما اصك ولا ما انصك لاحول لازم بدليات,0,AraTox,Unknown,1,Safe,Toxic
+الرزق على ربيو ماكانش لازم تعتذري لان كلامك صحيح بنسبة كبيرة دايما نقول حاشى البعض لاا لبنات ملايكات ولاالشبان ملايكة وردود الفعل مبالغ فيها من الشعب والله شفت بنات متحجبات وغير محتجبات وشبان اقبح من الشيطانو من الشر الله يهدي الجميع,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+يا حرقة قلبي عليك يا كويت قاعدين نشوف البلد جدامنا يتناتفونها خانوا الامانهو احنا اللي حطيناهمو باعوا ضمايرهمو وطنهم,0,OSACT4|OffensEval2020_AR,MSA + mixed dialects|MSA/Mixed,1,Safe,Toxic
+شكل خلصت حواله موزه وطفروا اخوها وابوها وصاروا يطالبون باختهم عشان تدعمهم ماديا من قطر حواله مليونر,1,SaudiCodeMixing,Unknown,0,Toxic,Safe
+بس سبحان الله فعلا ما تخاف الا من اللي بعمل حاله منيحو هو احقر خلق ربنا,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+ناس الخمسة ريال مو لاقينهاو انت تشتري بيتزاب ريال احش التربيةو احش ام الوالدين اولاد الحرام مبذرين,0,ArabicCyberbullying,Unknown,1,Safe,Toxic
+لم نرى اعلامكم ينشر ماقام بها العرب في الرقة بتهجير ميات العوايل الكردية وقتلهم,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+هل ادرك السفهاء بعد توهم ان السعودين سيف الملهم فيهم محمد يرتقي بلاده وبه منازلهم وراء الانجم ماج البغاه بقضهم,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+قدام الناس مودبه شريفه طاهره متربيه الحقيقه بقرهه للركوب والاهانه معصيتيى راحتي ديرتي ديرتية,1,AraTox,Unknown,0,Toxic,Safe
+انت دب كيوت تجلس في المسبح اللي ما يوسعكو بنجيب عصيرو حركات لاه,1,AraTox,Unknown,0,Toxic,Safe
+الغريب في الامر اننا لا نسمع عن قتلى الجانب الاخر هل هذه هي الحيادية والاحترافية؟ انا اعدها انحياز والمعلومات من مواقع اخبارية اخرى تبرز بوضوح ما يجهري هناك,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+مسامح كاع الدود لي غاياكلوني من غير هاد دودة لي كلاتني باش نشوف هاد الفيديو,1,OMCD,Moroccan,0,Toxic,Safe
+وزارة الاقتصاد الوطني احالة خمسة تجار للنيابة العامة لمكافحة الجرايم الاقتصادية على خلفية عدم اشهار الاسعار على السلع المعروضة في المحلات التجارية في محافظة رام الله والبيرة,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+رييس ال لن يسمح بانهيار الحكومة السورية للمحافظه على موسسات الدوله وما ذا بقي منها بل هو محافظه على نظام المجرم بشار حليف ايران,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+من هلعيشه جعدنا وشيبنا واحنا بلعشرينات منيح منهم بنات الاردن الي جابو المركز الثامن اذا شباب الاردن ختايره,1,NUHA,Unknown,0,Toxic,Safe
+لا حول ولا قوة الا بالله العلي العظيم خسارتها,1,NUHA,Unknown,0,Toxic,Safe
+من الريتويتس تاعة الدواعش اشكالك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لان التوحد تحت راية الخلافة قد تعين ولا يوجد عذر في البعد عن تحقيق هذه العبودية التي تعينت,1,Fraiwan,Unknown,0,Toxic,Safe
+لا مقبوله ياطاهره,0,NUHA,Unknown,1,Safe,Toxic
+استبعدوا روسيا لاكن المجازر ال بتحصل في فلسطين من ال ميتسموش لا اسمع لا اري لا اتكلم,0,HateDay,Multi-dialect,1,Safe,Toxic
+هادي خاصها اعدام اما لحبس بزاف علي مها,0,Moroccan_Darija_v2,Moroccan,1,Safe,Toxic
+للاسف حتى الدجاج والديك عندنا مات من الحر حرام تسجنوا الطيور في اقفاص ولا تضعوا لها ماء في الحر الشديد,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+قرافة الي تقرف وجهك هاد ناقصو حنان اخرتو بسة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مستخدم شعب اسقط صرماية لي هي انت,0,ArMI,Levantine/Mixed,1,Safe,Toxic
+ما هو مستوى الاجرام المطلوب ان يرتكبه الكيان الصهيوني حتى يقطع الخونة المطبعون علاقتهم معه؟ قاتل الله الذلة لغيره سبحانه افيقوا ايها الجبناءد طارق السويدان,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+راك تزيد تنحلنا الامل كي تقارنا بالبلاد الاخرا وتقعد تشكي على اموال وبترول معناها ياشعب ريح عاقل مناش راح ننفعوك كما راك حاب,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+لويش يعني شو استفدت يا ابو الخرا؟ خليتها تغار؟ وحش,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+اييه وابسوى مباراه ملاكمه معك وافقع وجهك,0,ArabicDangerous,Unknown,1,Safe,Toxic
+مخشيين هذا فهذا فحال لحوالا وكتشكاو الكلاخ خليو المسافه بناتكم,1,Moroccan_Darija_v2,Moroccan,0,Toxic,Safe
+انتم تعتبرون الفوز عالنصر بطوله واي لاعب يسجل بالنصر مخلينه اسطوره للدرجه النصر مرعبكم,1,AntiFanatic,Unknown,0,Toxic,Safe
+بما ان الرسول محمد من سلالة زكريا وزكريا من ذرية ابراهيم الخليل اذا الرسول محمد هو كوردي الاصل ابا عن جد وليس بالنبي العربي كما تدعون,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+السيسي يقول انه لن يعدم الاحوان بعدما ثبت له ان سلميتكم اقوي من الخيار هي افضل طريقة لبقايه سيدا عليكم,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+نحن في مجتمع عبارة عن مكان فيه بشر يكرهون بعض بس مسوين نفسهم حبايب,1,Arabic_Superset,Multi-dialect,0,Toxic,Safe
+في تقديري ان التحرش في واقعنا يقع بالتالي,1,ArabicOffensive_Taxonomy|Arabic_Superset|MLMA|MultiDialect_NabilBadri|arHateDataset,Multi-dialect|Unknown,0,Toxic,Safe
+اسم الله قمر كل اغانيك جميله جدا لكن اغنيتك الخليجيه بصوتك بتهبل اسم الله عليكي قمر ربنا يجعلك دايما ورده وتقومي بالسلامه انتي البيبي,1,NUHA,Unknown,0,Toxic,Safe
+النصر لليمانيينو الخزيو العار للعدوان,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+والله في هاذي الدنيا ما تفهم شي هه تشوف انسان تقول محترم تسمع عنها تقول العكس هه,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+لا مع الاسف، علموها عرب الخلبج على الحلب فصارت مدمنة الان وتبحث ليس عن افراد فقط بل وفود,1,Arabic_Superset|OSACT5,MSA + mixed dialects|Multi-dialect,0,Toxic,Safe
+الزوج يتعامل زوجته بالقهر يستطيع كسب قلبها ولايها وسيفقد محبتها ومرحمتها ومودتها وكونها سكن ننسى نساء متمردات يصونن النعم يعشن فيتعمدن خراب بيوتهن بايديهن,0,ArMIS,MSA + dialects,1,Safe,Toxic
+مستخدم يا ديما حللي عن جبران صار مليون مرة قايلك انا مجوز وبحب مرتي شانتال حللي عني يا,1,ArMI,Levantine/Mixed,0,Toxic,Safe
+هه يموتوا على الانحلالوالمنتحر درب جدي؟؟,0,NUHA,Unknown,1,Safe,Toxic
+بالروح بالدم نفديك يا جنوب في عدن شعار مناطقي بينما لبيك يا حسين في صنعاء شعار وطني تثبيت السنة في الجنوب مناطقية لكن غزو الشيعة للشمال وطنية بلادي بلادي بلاد الجنوب عاصمتها عدن نشيد مناطقي بينما الموت لامريكا الموت لاسراييل نشيد وطني هذا لسان حال كل اخونجي خبيث,0,ArabicOffensive_Taxonomy,Unknown,1,Safe,Toxic
+اكره ما عليه اتعامل مع انسان فوضوي,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الى كل مغرد سعودي بالمنشن انا عماني واقول هاذي الذبابه ليست عمانيه ومعروف هدفها ومن اين تغرد والنعم فيكم اخواننا والذباب المنحط لايمثلنا للعلم,0,Arabic_Superset|arHateDataset,Multi-dialect,1,Safe,Toxic
+نسويات وةحاب هه,0,ArMIS,MSA + dialects,1,Safe,Toxic
+ماذا عن هضامتك,0,Arabic_Superset|Let-Mi,Levantine|Multi-dialect,1,Safe,Toxic
+انا معلوماتي من ناس لو شافوا بعينهم يحطوا الحقع الامن هه الله اعلم,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+مساج كاش وعندي مكان ابحر المحمدية البساتين الحمدانية,1,AdultContent,MSA/Mixed,0,Toxic,Safe
+الحلف انك لست بيمني,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+البدو ولاد الكلب ملو البلد,0,Egyptian_HateSpeech,Unknown,1,Safe,Toxic
+تسالنيش شو يعني تقريبا من الهطلو هو الغباء,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الالحاد هو الحل,0,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,1,Safe,Toxic
+حملة لتوثيق قتل عرب اهل السنه من قبل الشيعه,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+كذابات بدهم لجو سياسي,0,NUHA,Unknown,1,Safe,Toxic
+لماذا القتل في سوريا لماذا اقتل في العراق ولان في اليمن وتقول الاسلام انتم من صنع داعش ولارهاب,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+يستعزوون بكتاب لعنة,1,Arabic_Superset|MultiDialect_NabilBadri|T-HSAB,Multi-dialect|Tunisian|Unknown,0,Toxic,Safe
+بدل الجدل الفاضي ابحثو عن مخرم البلد من زمت الماء ساده يتكرم,0,NUHA,Unknown,1,Safe,Toxic
+الله لا يسامح الفيزون هو سبب كل المشاكل,0,NUHA,Unknown,1,Safe,Toxic
+الاشوري قومية وعرق الاثوري مذهب من مذاهب المسيحين على ما اضن,0,HateDay,Multi-dialect,1,Safe,Toxic
+الخطا لايستحق الا وقف مباراة واحدة بما ان لاعب النصر كان ممسك باللاعب والخطا عليه بالبداية يبد ان الدفع الرباعي اشتغل الان,1,AntiFanatic,Unknown,0,Toxic,Safe
+نحن نسب من يدعم خيام تندوف بالمال والسلاح ويهرول في المحافل الولية وشعبه يصطف في الطوابير لنيل شكارة حليب او السميد اوالسردين او الدينار المفقود في مراكز البريد والانترنيت رديءة والغلاء والغضب الشعبي,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+في الصورة يشبة صور النتن ياهو لكن الاختلاف بلون الشعر,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+جاهلو مفسد شبيبه,0,MultiDialect_NabilBadri,Unknown,1,Safe,Toxic
+اصلا فرنسا وبريطانيا والمانيا تزوجوا حتى الحيوانات حريه حريه حتى الكلاب زوجوها نسايهم وهم كالانعام بل هم اضل,0,HijabYT,Unknown,1,Safe,Toxic
+كل البنات خاقين على نيمار بس محد تكلم عن كانتي اشك انهم يعرفونه اجمل وسط بتاريخ الكوره,1,FemaleSportHate,Unknown,0,Toxic,Safe
+باقي الشبيحة يخضعون,0,AraTox,Unknown,1,Safe,Toxic
+وبعد الدومينيكان زار السلفادور امس السبت وهي بدورها تويد المطلب الفلسطيني,1,AraTox,Unknown,0,Toxic,Safe
+هاي مش فنانه هاي دونجيه جاي اديون,0,NUHA,Unknown,1,Safe,Toxic
+طب ما مراتك بنت حبه قليله الاصل,0,SaudiCodeMixing,Unknown,1,Safe,Toxic
+الله يلعن الدوام تكفه خل يخلص ابي ارد اناام,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+يفعل الجاهل بنفسه مالا يفعل العدو بعدوه,0,NUHA,Unknown,1,Safe,Toxic
+قال الحق لكونه يعلم من هن الفريزات هه والفاهم يفهم اي مترشحة باين واش تكون,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+الله ياخدك لازم الشعب يتبرى منك,0,NUHA,Unknown,1,Safe,Toxic
+والله ما هو هامكم عنف ولا شيء لانه في كتير شعوب معنفه ومتطهده انتوا همكم مجتمع فاسد ودعاره وابناء شوارع ومسننين بالملاجي كما هي اوروبا,0,NUHA,Unknown,1,Safe,Toxic
+عاجل وهام ايها الاخوة المناصرون هذا الحساب المسمى اخبار ثوار العراق لا يتوقف عن نقل الاخبار الكاذبة وانتصارات وهمية للدولة,1,Fraiwan,Unknown,0,Toxic,Safe
+ابناء النبلاء الوطن والله ما ندري شو قدمتي انتيو جدك الي البلد كل يوم في منصب حسبنا الله ونعم الوكيل,1,NUHA,Unknown,0,Toxic,Safe
+الاسك والصراحة بيجيش من وراهم غير وجع الراس والمشاكل,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+الجبان يقصف الاطفال هذا ما يفعلة الجبان,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لا تخافي عليها لسانها اطول منها ومن ابنها ومن وليه,1,NUHA,Unknown,0,Toxic,Safe
+خاصنا نقاطعو هاذ لقناة ديال لقلاوي,0,OMCD,Moroccan,1,Safe,Toxic
+مستخدم مستخدم مستخدم مستخدم مذيعة ديكتاتورية يعنى غصب نصورو نكذب مذيعة فر عون,1,ArMI,Levantine/Mixed,0,Toxic,Safe
+قال تبون الجيش ما يخرجش لمالي بامر من ماكرون ااو طبطب,0,DziriOFN,Unknown,1,Safe,Toxic
+شو الجديد مهيا مشطوبه بس الكلبه حلوه,0,NUHA,Unknown,1,Safe,Toxic
+هه اضحكتني يا تكريتي ذبحتما المسلمين في العراق وهربتم الى لندن ثم تعتبر نفسك من عباد الرحمن,0,Fraiwan,Unknown,1,Safe,Toxic
+البهلوان ودحلان وجهان لعملة واحدة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+وهم ايه امال قطر كانت حتنفذة ايام مرسي ليه وياريت تنشروا تعليقى مش زى العاده ميكونش على هواكم,1,AwaneArabizi|Mubarak_AlJazeera,MSA/Mixed|Unknown,0,Toxic,Safe
+اخرتها زي اولها عروب حظر تجول وقعده في البيوت واستغابه ونميمة وحكومة وجدت اسهل طريق تعطل الدولة,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+البنت الاسبانية بتهبل عرضنا اسالوني عالو اول ما حد يبعتلها سوال بتجاوب ما دخلك,0,Arabic_Superset,Multi-dialect,1,Safe,Toxic
+لا حول ولا قوة الا بالله كل بدعة ظلالةو كل ظلالة في النار,1,Algerian_Offensive,Unknown,0,Toxic,Safe
+شتان بين الستر والفلتان وهل المحجبة التي تظهر على وسايل التواصل فعلا محجبة، ماهن الا سلع جنسية يتاجر بهن اللهم يا مثبت القلوب ثبت قلبي على دينك وقلب كل موحد,1,HijabYT,Unknown,0,Toxic,Safe
+مايحررها غير اشكالك مزع يمزعك,0,NUHA,Unknown,1,Safe,Toxic
+ارواحنا تفدي الطيارين السعوديين الابطال الطايرات عربيه لكن التحكم امريكي حاربو الاسلام بها وغدا سوف يقصفونكم بها,1,Fraiwan,Unknown,0,Toxic,Safe

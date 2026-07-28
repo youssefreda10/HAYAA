@@ -20,9 +20,14 @@ training/checkpoints/
 
 # Best model weights (624MB — too large for git, use HuggingFace Hub)
 training/best_model/
+training/best_model_v2/
+
+# Final combined dataset
+data/final_dataset/
 
 # Training logs
 training/logs/
+training/logs_v2/
 
 # OS files
 .DS_Store
@@ -36,6 +41,7 @@ desktop.ini
 # Environment
 .env
 *.env
+venv/
 
 # Jupyter
 .ipynb_checkpoints/

@@ -59,8 +59,8 @@ The hardest part of the project was the data, not the model.
   5-class …), with duplicates and mislabeled examples.
 - Standardized conflicting schemes into a single **binary** standard (Safe / Toxic),
   de-duplicated, removed flawed/duplicate sources, and cleaned annotations.
-- Result: a clean corpus of **nearly 1 million comments, posts, and tweets** across
-  social platforms and every dialect, split into train / validation / test.
+- Result: a clean corpus of **nearly 1 million comments, posts, and tweets** (997,589 rows) across
+  social platforms and every dialect, split into train (80%) / validation (10%) / test (10%).
 
 See `data/Haya'_Dataset_Registry.*` for the full source registry and per-dataset notes.
 
@@ -72,15 +72,16 @@ Fine-tuned **UBC-NLP/MARBERTv2** for binary classification (Safe / Toxic):
 
 - **~1M sentences**, `max_length=128`, weighted cross-entropy loss to handle class
   imbalance, warmup + weight decay, `fp16`, early stopping.
-- Trained 4 epochs (early-stopped) on the curated corpus.
+- Trained in two stages: an initial 4 epochs on the base corpus, followed by continued 
+  fine-tuning (v2) on 34K highly-curated, edge-case heavy examples to conquer implicit hate.
 
-### Performance (held-out test set, 96,319 sentences)
+### Performance (held-out test set, 99,759 sentences)
 
 | Metric | Score |
 |--------|-------|
-| Accuracy | **96.52%** |
-| F1 (Toxic class) | **91.01%** |
-| F1 (Safe class) | 97.28% |
+| Accuracy | **97.84%** |
+| F1 (Toxic class) | **94.12%** |
+| F1 (Safe class) | 98.45% |
 
 > **Note on the numbers:** manual error analysis showed the model frequently
 > *outperformed the original human annotations* — many counted "errors" were actually
